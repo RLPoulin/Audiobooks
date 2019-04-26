@@ -9,6 +9,8 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from models import Base, MODELS, ModelUnique
 
+__version__ = "0.1"
+
 
 class CachedSession(Session):
     """Database session with an object cache."""

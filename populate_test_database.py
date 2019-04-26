@@ -7,6 +7,8 @@ from datetime import date
 from database import LibraryDatabase
 from models import Author, Book, Genre, Series
 
+__version__ = "0.1"
+
 
 def main(clear: t.Optional[bool] = False) -> None:
     """Execute the program."""
