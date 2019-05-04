@@ -1,9 +1,28 @@
 # Audiobooks
 My audiobook collection manager.
 
-#### Description
-This is a personal project to learn databases and UI creation while practicing Python out of the workplace. I'm using SQLAlchemy for the database and I'll probably try to learn Flask for the UI.
+## Description
+This is a personal project to learn to work with databases, create a UI, use web APIs, and use git while practicing 
+Python out of the workplace.
 
-#### Note
-If anybody randomly stumbles upon this project, please feel free to contact me with any suggestions, criticisms, or tips!
+### Planned features
+- A database of books with information on the book, author, series, and genre.
+- Managing local audiobooks: adding, deleting, renaming, and organizing.
+- Linking to my [Audible](https://audible.com) books.
+- Fetching book information from the [Goodreads](https://goodreads.com) API.
+- Syncing information between the database and my Goodreads collection.
+- A UI to do all of the above.
+
+### Using
+- Python 3.7
+- Flask
+- SQLAlchemy
+- Typing
+- Black
+- Conda
+- PyCharm
+- GitHub
+
+## Hi!
+If anybody randomly stumbles upon this project, please feel free to contact me with any suggestion, criticism, or tip!
 

@@ -1,4 +1,4 @@
-"""Database control for the audiobook library."""
+"""Database interactions for the audiobook library."""
 
 import logging
 import typing as t
@@ -9,11 +9,11 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from models import Base, MODELS, ModelUnique
 
-__version__ = "0.1"
+__version__ = "0.1.0"
 
 
 class CachedSession(Session):
-    """Database session with an object cache."""
+    """Database session with added instance cache."""
 
     def __init__(self, *args: t.Any, **kwargs: t.Any) -> None:
         """Constructs a cached session instance."""
@@ -38,7 +38,7 @@ class CachedSession(Session):
     def create(
             self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any
     ) -> ModelUnique:
-        """Create an instance with a name and a model, or get it if it already exists."""
+        """Create a model instance or get it if it already exists."""
         name = model.clean_name(name)
         instance: ModelUnique = self.get(name=name, model=model)
         if instance:
@@ -62,19 +62,19 @@ class CachedSession(Session):
             self.add(item)
 
     def delete(self, instance: ModelUnique) -> None:
-        """Delete a an instance from the database."""
+        """Delete an instance from the database."""
         super().delete(instance)
         logging.info(f"Deleted: {instance!r}")
 
     def commit(self) -> None:
         """Commit the current transaction to the database."""
-        super().commit()
         self.cache = {}
+        super().commit()
 
     def rollback(self) -> None:
         """Rollback the current transaction."""
-        super().rollback()
         self.cache = {}
+        super().rollback()
 
     def get_index(self, model: t.Type[ModelUnique]) -> t.Dict[str, str]:
         """Return an index dictionary from a table in the database."""
@@ -89,7 +89,7 @@ class LibraryDatabase:
         """Initialize the database."""
         self._filename: str = filename
         self._engine = create_engine(f"sqlite:///{filename}")
-        self._session: sessionmaker = sessionmaker(
+        self._session_maker: sessionmaker = sessionmaker(
             bind=self._engine, class_=CachedSession
         )
         Base.metadata.create_all(self._engine)
@@ -107,9 +107,9 @@ class LibraryDatabase:
 
     @contextmanager
     def session_scope(self) -> t.ContextManager:
-        """Create a context manager for a new database session."""
+        """Create a context manager for a database session."""
+        session: CachedSession = self._session_maker()
         logging.info("Database session started.")
-        session: CachedSession = self._session()
         try:
             yield session
             session.commit()

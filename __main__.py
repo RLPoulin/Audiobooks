@@ -2,7 +2,7 @@
 
 __author__ = "Robert Poulin"
 __license__ = "MIT"
-__version__ = "0.1"
+__version__ = "0.1.0"
 
 
 def main():
