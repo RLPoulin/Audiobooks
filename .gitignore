@@ -75,3 +75,6 @@ venv.bak/
 
 # Pycharm
 .idea/
+
+# My Stuff!
+test.sqlite

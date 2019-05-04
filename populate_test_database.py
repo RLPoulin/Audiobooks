@@ -1,4 +1,4 @@
-"""Creates database structure in SQLite file."""
+"""Creates a database in an SQLite file and does some tests."""
 
 import logging
 import typing as t
@@ -7,7 +7,7 @@ from datetime import date
 from database import LibraryDatabase
 from models import Author, Book, Genre, Series
 
-__version__ = "0.1"
+__version__ = "0.1.0"
 
 
 def main(clear: t.Optional[bool] = False) -> None:

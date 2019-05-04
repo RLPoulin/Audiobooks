@@ -1,4 +1,4 @@
-"""Database control for the audiobook library."""
+"""Database table models for the audiobook library."""
 
 import typing as t
 from datetime import date
@@ -8,19 +8,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
-__version__ = "0.1"
+__version__ = "0.1.0"
 
 Base = declarative_base()
 
 
 class ModelUnique:
-    """Base class for model tables containing unique items."""
+    """Base class for a model containing only uniquely named items."""
 
     key = Column(Integer, primary_key=True, autoincrement=True)
     _name = Column("name", String, unique=True, nullable=False)
 
     def __init__(self, name: str, **kwargs: t.Any) -> None:
-        """Construct an object."""
+        """Construct a model."""
         self.name = name
 
     def __repr__(self) -> str:
@@ -39,41 +39,41 @@ class ModelUnique:
 
     @staticmethod
     def clean_name(name: str) -> str:
-        return " ".join(name.strip().split())
+        return " ".join(name.strip().split()).title()
 
 
 class Author(ModelUnique, Base):
-    """Defines the ``authors`` table in the database."""
+    """Defines the model for the ``authors`` table in the database."""
 
     __tablename__ = "authors"
 
     def __init__(self, name: str) -> None:
-        """Construct an Author object."""
+        """Construct an Author instance."""
         super().__init__(name)
 
 
 class Series(ModelUnique, Base):
-    """Defines the ``series`` table in the database."""
+    """Defines the model for the ``series`` table in the database."""
 
     __tablename__ = "series"
 
     def __init__(self, name: str) -> None:
-        """Construct a Series object."""
+        """Construct a Series instance."""
         super().__init__(name)
 
 
 class Genre(ModelUnique, Base):
-    """Defines the ``genres`` table in the database."""
+    """Defines the model for the ``genres`` table in the database."""
 
     __tablename__ = "genres"
 
     def __init__(self, name: str) -> None:
-        """Construct a Genre object."""
+        """Construct a Genre instance."""
         super().__init__(name)
 
 
 class Book(ModelUnique, Base):
-    """Model for the ``books`` table in the database."""
+    """Model for the for the ``books`` table in the database."""
 
     __tablename__ = "books"
     author_key = Column(Integer, ForeignKey("authors.key"), nullable=False)
@@ -94,7 +94,7 @@ class Book(ModelUnique, Base):
             series: t.Optional[Series] = None,
             release_date: t.Optional[date] = None,
     ) -> None:
-        """Construct a ``Book`` instance."""
+        """Construct a Book instance."""
         super().__init__(name)
         self.author = author
         self.genre = genre
@@ -106,5 +106,5 @@ class Book(ModelUnique, Base):
         return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"
 
 
-# dictionary associating the Book property name with the correct model.
+# Dictionary associating the Book properties with the correct model.
 MODELS: t.Dict[str, t.Type[ModelUnique]] = {"author": Author, "genre": Genre, "series": Series}
