@@ -43,7 +43,9 @@ def get_logger(
     if file:
         logger.setLevel(logging.DEBUG)
     else:
-        logger.setLevel(min(level, logger.level))
+        if logger.level:
+            level = min(level, logger.level)
+        logger.setLevel(level)
 
     for handler in logger.handlers:
         if isinstance(handler, logging.StreamHandler):

@@ -11,7 +11,7 @@ from models import Base, MODELS, ModelUnique
 
 __version__ = "0.1.1"
 
-log = logger.get_logger(__name__)
+log = logger.get_logger(__name__, "info")
 
 
 class CachedSession(Session):

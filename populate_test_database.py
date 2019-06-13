@@ -9,7 +9,7 @@ from models import Author, Book, Genre, Series
 
 __version__ = "0.1.1"
 
-log = logger.get_logger(__name__, "debug")
+log = logger.get_logger(__name__, "info")
 
 
 def main(clear: t.Optional[bool] = False) -> None:
@@ -54,6 +54,7 @@ def main(clear: t.Optional[bool] = False) -> None:
         )
         books = session.get_index(Book)
 
+    logger.flush_logger(log)
     print("\nEnd state list of books:")
     for key, value in books.items():
         print(f"{key:-4d}: {value}")
