@@ -47,10 +47,7 @@ def main(clear: t.Optional[bool] = False) -> None:
         )
         session.create(model=Series, name="The Expanse")
         session.create(
-            model=Book,
-            name="The Fault in our Stars",
-            author="John Green",
-            genre="Contemporary",
+            model=Book, name="The Fault in our Stars", author="John Green", genre="Contemporary"
         )
         books = session.get_index(Book)
 

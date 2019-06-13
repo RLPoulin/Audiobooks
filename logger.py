@@ -30,10 +30,10 @@ def flush_logger(logger: t.Union[logging.Logger, str, None] = None) -> None:
 
 
 def get_logger(
-        name: t.Optional[str] = None,
-        level: t.Union[str, int] = "WARNING",
-        stream: bool = True,
-        file: t.Union[str, Path, None] = None,
+    name: t.Optional[str] = None,
+    level: t.Union[str, int] = "WARNING",
+    stream: bool = True,
+    file: t.Union[str, Path, None] = None,
 ) -> logging.Logger:
     logger = logging.getLogger(name)
     if isinstance(level, str):
