@@ -1,13 +1,15 @@
 """Creates a database in an SQLite file and does some tests."""
 
-import logging
 import typing as t
 from datetime import date
 
+import logger
 from database import LibraryDatabase
 from models import Author, Book, Genre, Series
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
+
+log = logger.get_logger(__name__, "info")
 
 
 def main(clear: t.Optional[bool] = False) -> None:
@@ -45,23 +47,17 @@ def main(clear: t.Optional[bool] = False) -> None:
         )
         session.create(model=Series, name="The Expanse")
         session.create(
-            model=Book,
-            name="The Fault in our Stars",
-            author="John Green",
-            genre="Contemporary",
+            model=Book, name="The Fault in our Stars", author="John Green", genre="Contemporary"
         )
         books = session.get_index(Book)
 
+    logger.flush_logger(log)
     print("\nEnd state list of books:")
     for key, value in books.items():
         print(f"{key:-4d}: {value}")
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s %(levelname)-8s %(message)s",
-        datefmt="%H:%M:%S",
-    )
     main(clear=True)
     main(clear=False)
+    logger.close_logger()

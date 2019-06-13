@@ -1,15 +1,17 @@
 """Database interactions for the audiobook library."""
 
-import logging
 import typing as t
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
+import logger
 from models import Base, MODELS, ModelUnique
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
+
+log = logger.get_logger(__name__, "info")
 
 
 class CachedSession(Session):
@@ -25,19 +27,17 @@ class CachedSession(Session):
         name = model.clean_name(name=name)
         if (model, name) in self.cache:
             instance: ModelUnique = self.cache[(model, name)]
-            logging.debug(f"Got from cache: {instance!r}")
+            log.debug(f"Got from cache: {instance!r}")
         else:
             instance: ModelUnique = self.query(model).filter(model.name == name).first()
             if instance:
                 self.cache[(model, name)] = instance
-                logging.debug(f"Got from database: {instance!r}")
+                log.debug(f"Got from database: {instance!r}")
             else:
-                logging.debug(f"Failed to get: <{model.__name__}('{name}')>")
+                log.debug(f"Failed to get: <{model.__name__}('{name}')>")
         return instance
 
-    def create(
-            self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any
-    ) -> ModelUnique:
+    def create(self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any) -> ModelUnique:
         """Create a model instance or get it if it already exists."""
         name = model.clean_name(name)
         instance: ModelUnique = self.get(name=name, model=model)
@@ -54,7 +54,7 @@ class CachedSession(Session):
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
         self.cache[(instance.__class__, instance.name)] = instance
-        logging.info(f"Added: {instance!r}")
+        log.info(f"Added: {instance!r}")
 
     def add_all(self, instances: t.List[ModelUnique]) -> None:
         """Add a list of instances to the database."""
@@ -64,7 +64,7 @@ class CachedSession(Session):
     def delete(self, instance: ModelUnique) -> None:
         """Delete an instance from the database."""
         super().delete(instance)
-        logging.info(f"Deleted: {instance!r}")
+        log.info(f"Deleted: {instance!r}")
 
     def commit(self) -> None:
         """Commit the current transaction to the database."""
@@ -89,11 +89,9 @@ class LibraryDatabase:
         """Initialize the database."""
         self._filename: str = filename
         self._engine = create_engine(f"sqlite:///{filename}")
-        self._session_maker: sessionmaker = sessionmaker(
-            bind=self._engine, class_=CachedSession
-        )
+        self._session_maker: sessionmaker = sessionmaker(bind=self._engine, class_=CachedSession)
         Base.metadata.create_all(self._engine)
-        logging.info(f"Connected: {self!r}")
+        log.info(f"Connected: {self!r}")
 
     def __repr__(self) -> str:
         return f"<LibraryDatabase('{self.filename}')>"
@@ -109,23 +107,22 @@ class LibraryDatabase:
     def session_scope(self) -> t.ContextManager:
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
-        logging.info("Database session started.")
+        log.info("Database session started.")
         try:
             yield session
             session.commit()
         except Exception as exception:
             session.rollback()
-            logging.exception(
-                f"Error while committing transaction: Rolling back changes:\n"
-                f"{exception}"
+            log.exception(
+                f"Error while committing transaction: Rolling back changes:\n" f"{exception}"
             )
             raise
         finally:
             session.close()
-            logging.info("Database session closed.")
+            log.info("Database session closed.")
 
     def clear(self) -> None:
         """Clear the database."""
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
-        logging.warning("Database cleared.")
+        log.warning("Database cleared.")
