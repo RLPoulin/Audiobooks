@@ -6,12 +6,13 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-import logger
+from log_manager import LogManager
 from models import Base, MODELS, ModelUnique
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
-log = logger.get_logger(__name__, "info")
+log_manager = LogManager(stream_level="INFO", file_level="DEBUG")
+log = log_manager.setup_logger(__name__)
 
 
 class CachedSession(Session):

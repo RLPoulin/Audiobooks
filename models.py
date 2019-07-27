@@ -87,12 +87,12 @@ class Book(ModelUnique, Base):
     series = relationship("Series", backref="books")
 
     def __init__(
-        self,
-        name: str,
-        author: Author,
-        genre: Genre,
-        series: t.Optional[Series] = None,
-        release_date: t.Optional[date] = None,
+            self,
+            name: str,
+            author: Author,
+            genre: Genre,
+            series: t.Optional[Series] = None,
+            release_date: t.Optional[date] = None,
     ) -> None:
         """Construct a Book instance."""
         super().__init__(name)

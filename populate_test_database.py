@@ -3,13 +3,12 @@
 import typing as t
 from datetime import date
 
-import logger
-from database import LibraryDatabase
+from database import LibraryDatabase, log_manager
 from models import Author, Book, Genre, Series
 
 __version__ = "0.1.1"
 
-log = logger.get_logger(__name__, "info")
+log = log_manager.setup_logger(__name__)
 
 
 def main(clear: t.Optional[bool] = False) -> None:
@@ -51,7 +50,7 @@ def main(clear: t.Optional[bool] = False) -> None:
         )
         books = session.get_index(Book)
 
-    logger.flush_logger(log)
+    log_manager.flush_logger(log)
     print("\nEnd state list of books:")
     for key, value in books.items():
         print(f"{key:-4d}: {value}")
@@ -60,4 +59,4 @@ def main(clear: t.Optional[bool] = False) -> None:
 if __name__ == "__main__":
     main(clear=True)
     main(clear=False)
-    logger.close_logger()
+    log_manager.shutdown()
