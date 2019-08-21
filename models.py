@@ -87,12 +87,12 @@ class Book(ModelUnique, Base):
     series = relationship("Series", backref="books")
 
     def __init__(
-            self,
-            name: str,
-            author: Author,
-            genre: Genre,
-            series: t.Optional[Series] = None,
-            release_date: t.Optional[date] = None,
+        self,
+        name: str,
+        author: Author,
+        genre: Genre,
+        series: t.Optional[Series] = None,
+        release_date: t.Optional[date] = None,
     ) -> None:
         """Construct a Book instance."""
         super().__init__(name)
@@ -107,4 +107,8 @@ class Book(ModelUnique, Base):
 
 
 # Dictionary associating the Book properties with the correct model.
-MODELS: t.Dict[str, t.Type[ModelUnique]] = {"author": Author, "genre": Genre, "series": Series}
+MODELS: t.Dict[str, t.Type[ModelUnique]] = {
+    "author": Author,
+    "genre": Genre,
+    "series": Series,
+}

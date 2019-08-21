@@ -38,7 +38,9 @@ class CachedSession(Session):
                 log.debug(f"Failed to get: <{model.__name__}('{name}')>")
         return instance
 
-    def create(self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any) -> ModelUnique:
+    def create(
+        self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any
+    ) -> ModelUnique:
         """Create a model instance or get it if it already exists."""
         name = model.clean_name(name)
         instance: ModelUnique = self.get(name=name, model=model)
@@ -90,7 +92,9 @@ class LibraryDatabase:
         """Initialize the database."""
         self._filename: str = filename
         self._engine = create_engine(f"sqlite:///{filename}")
-        self._session_maker: sessionmaker = sessionmaker(bind=self._engine, class_=CachedSession)
+        self._session_maker: sessionmaker = sessionmaker(
+            bind=self._engine, class_=CachedSession
+        )
         Base.metadata.create_all(self._engine)
         log.info(f"Connected: {self!r}")
 
@@ -115,7 +119,8 @@ class LibraryDatabase:
         except Exception as exception:
             session.rollback()
             log.exception(
-                f"Error while committing transaction: Rolling back changes:\n" f"{exception}"
+                f"Error while committing transaction: Rolling back changes:\n"
+                f"{exception}"
             )
             raise
         finally:

@@ -16,9 +16,9 @@ class LogManager:
     file_level = "DEBUG"
 
     def __init__(
-            self,
-            stream_level: t.Union[str, int] = stream_level,
-            file_level: t.Union[str, int] = file_level,
+        self,
+        stream_level: t.Union[str, int] = stream_level,
+        file_level: t.Union[str, int] = file_level,
     ) -> None:
         self.set_default_levels(stream_level, file_level)
         self.loggers: t.Dict[str, Logger] = {}
@@ -26,10 +26,10 @@ class LogManager:
         self.stream_handlers: t.Dict[str, StreamHandler] = {}
 
     def add_file(
-            self,
-            logger: t.Union[Logger, str, None] = None,
-            level: t.Union[str, int, None] = None,
-            file: t.Union[str, Path] = "default.log",
+        self,
+        logger: t.Union[Logger, str, None] = None,
+        level: t.Union[str, int, None] = None,
+        file: t.Union[str, Path] = "default.log",
     ) -> FileHandler:
         """Add file handler to logger."""
         logger: Logger = self.get_logger(logger)
@@ -45,16 +45,22 @@ class LogManager:
         handler.setLevel(level)
         if file.suffix == ".csv":
             handler.setFormatter(
-                Formatter("'%(asctime)s','%(module)s',%(lineno)d,%(levelno)s,'%(message)s'")
+                Formatter(
+                    "'%(asctime)s','%(module)s',%(lineno)d,%(levelno)s,'%(message)s'"
+                )
             )
         else:
             handler.setFormatter(
-                Formatter("%(asctime)s  %(module)s:%(lineno)03d  %(levelname)-8s  %(message)s")
+                Formatter(
+                    "%(asctime)s  %(module)s:%(lineno)03d  %(levelname)-8s  %(message)s"
+                )
             )
         return handler
 
     def add_stream(
-            self, logger: t.Union[Logger, str, None] = None, level: t.Union[str, int, None] = None
+        self,
+        logger: t.Union[Logger, str, None] = None,
+        level: t.Union[str, int, None] = None,
     ) -> StreamHandler:
         """Add stream handler to logger."""
         logger: Logger = self.get_logger(logger)
@@ -92,7 +98,9 @@ class LogManager:
             handler.flush()
 
     def get_level(
-            self, level: t.Union[str, int, None] = None, default: t.Union[str, int, None] = None
+        self,
+        level: t.Union[str, int, None] = None,
+        default: t.Union[str, int, None] = None,
     ) -> int:
         """Get logging level numerical value."""
         if level is None:
@@ -119,8 +127,10 @@ class LogManager:
         return logger
 
     def remove_handlers(
-            self, logger: t.Union[Logger, str, None] = None, files: bool = False,
-            streams: bool = False
+        self,
+        logger: t.Union[Logger, str, None] = None,
+        files: bool = False,
+        streams: bool = False,
     ) -> None:
         """Remove all handlers of the chosen classes from a logger."""
         logger: Logger = self.get_logger(logger)
@@ -137,9 +147,9 @@ class LogManager:
                     del self.stream_handlers[logger.name]
 
     def set_default_levels(
-            self,
-            stream_level: t.Union[str, int, None] = None,
-            file_level: t.Union[str, int, None] = None,
+        self,
+        stream_level: t.Union[str, int, None] = None,
+        file_level: t.Union[str, int, None] = None,
     ):
         if stream_level:
             stream_level: int = self.get_level(stream_level)
@@ -149,11 +159,11 @@ class LogManager:
             self.file_level = logging.getLevelName(file_level)
 
     def setup_logger(
-            self,
-            logger: t.Union[Logger, str, None] = None,
-            level: t.Union[str, int, None] = None,
-            stream: bool = True,
-            file: t.Union[str, Path, None] = None,
+        self,
+        logger: t.Union[Logger, str, None] = None,
+        level: t.Union[str, int, None] = None,
+        stream: bool = True,
+        file: t.Union[str, Path, None] = None,
     ) -> Logger:
         """Get and configure a logger."""
         logger: Logger = self.get_logger(logger)
