@@ -1,15 +1,15 @@
 """Database interactions for the audiobook library."""
 
-import typing as t
+__version__ = "0.2.1"
+
 from contextlib import contextmanager
+from typing import Any, ContextManager, Dict, List, Optional, Tuple, Type
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from log_manager import LogManager
-from models import Base, MODELS, ModelUnique
-
-__version__ = "0.2.0"
+from models import Base, MODELS, ModelUnique, clean_name
 
 log_manager = LogManager(stream_level="INFO", file_level="DEBUG")
 log = log_manager.setup_logger(__name__)
@@ -18,14 +18,14 @@ log = log_manager.setup_logger(__name__)
 class CachedSession(Session):
     """Database session with added instance cache."""
 
-    def __init__(self, *args: t.Any, **kwargs: t.Any) -> None:
-        """Constructs a cached session instance."""
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize a cached session instance."""
         super().__init__(*args, **kwargs)
-        self.cache: t.Dict[t.Tuple[t.Type[ModelUnique], str], ModelUnique] = {}
+        self.cache: Dict[Tuple[Type[ModelUnique], str], ModelUnique] = {}
 
-    def get(self, model: t.Type[ModelUnique], name: str) -> ModelUnique:
+    def get(self, model: Type[ModelUnique], name: str) -> ModelUnique:
         """Get the instance with a name and a model from the cache or database."""
-        name = model.clean_name(name=name)
+        name = clean_name(name=name)
         if (model, name) in self.cache:
             instance: ModelUnique = self.cache[(model, name)]
             log.debug(f"Got from cache: {instance!r}")
@@ -38,31 +38,29 @@ class CachedSession(Session):
                 log.debug(f"Failed to get: <{model.__name__}('{name}')>")
         return instance
 
-    def create(
-        self, model: t.Type[ModelUnique], name: str, **kwargs: t.Any
-    ) -> ModelUnique:
+    def create(self, model: Type[ModelUnique], name: str, **kwargs: Any) -> ModelUnique:
         """Create a model instance or get it if it already exists."""
-        name = model.clean_name(name)
+        name = clean_name(name)
         instance: ModelUnique = self.get(name=name, model=model)
         if instance:
             return instance
-        for key, value in kwargs.items():
-            if key in MODELS and isinstance(value, str):
-                kwargs[key] = self.create(name=value, model=MODELS[key])
+        for key, argument in kwargs.items():
+            if key in MODELS and isinstance(argument, str):
+                kwargs[key] = self.create(name=argument, model=MODELS[key])
         instance: ModelUnique = model(name=name, **kwargs)
         self.add(instance)
         return instance
 
-    def add(self, instance: ModelUnique, warn: t.Optional[bool] = True) -> None:
+    def add(self, instance: ModelUnique, warn: Optional[bool] = True) -> None:
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
         self.cache[(instance.__class__, instance.name)] = instance
         log.info(f"Added: {instance!r}")
 
-    def add_all(self, instances: t.List[ModelUnique]) -> None:
+    def add_all(self, instances: List[ModelUnique]) -> None:
         """Add a list of instances to the database."""
-        for item in instances:
-            self.add(item)
+        for instance in instances:
+            self.add(instance)
 
     def delete(self, instance: ModelUnique) -> None:
         """Delete an instance from the database."""
@@ -79,10 +77,10 @@ class CachedSession(Session):
         self.cache = {}
         super().rollback()
 
-    def get_index(self, model: t.Type[ModelUnique]) -> t.Dict[str, str]:
+    def get_index(self, model: Type[ModelUnique]) -> Dict[str, str]:
         """Return an index dictionary from a table in the database."""
-        items = self.query(model).all()
-        return {item.key: item.name for item in items}
+        index = self.query(model).all()
+        return {entry.key: entry.name for entry in index}
 
 
 class LibraryDatabase:
@@ -109,7 +107,7 @@ class LibraryDatabase:
         return self._filename
 
     @contextmanager
-    def session_scope(self) -> t.ContextManager:
+    def session_scope(self) -> ContextManager:
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
         log.info("Database session started.")

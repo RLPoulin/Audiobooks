@@ -1,23 +1,32 @@
 """Creates a database in an SQLite file and does some tests."""
 
-import typing as t
+__version__ = "0.2.1"
+
 from datetime import date
+from typing import Dict
 
 from database import LibraryDatabase, log_manager
 from models import Author, Book, Genre, Series
 
-__version__ = "0.1.1"
-
 log = log_manager.setup_logger(__name__)
 
 
-def main(clear: t.Optional[bool] = False) -> None:
+def main(clear: bool = False) -> None:
     """Execute the program."""
     library: LibraryDatabase = LibraryDatabase("test.sqlite")
-
     if clear:
         library.clear()
 
+    books: Dict[str, str] = add_to_library(library)
+
+    log_manager.flush_logger(log)
+    print("\nEnd state list of books:")
+    for book, name in books.items():
+        print(f"{book:-4d}: {name}")
+
+
+def add_to_library(library: LibraryDatabase) -> Dict[str, str]:
+    """Add test entries into the database."""
     with library.session_scope() as session:
         session.create(model=Genre, name="Fantasy")
         session.create(
@@ -51,12 +60,7 @@ def main(clear: t.Optional[bool] = False) -> None:
             author="John Green",
             genre="Contemporary",
         )
-        books = session.get_index(Book)
-
-    log_manager.flush_logger(log)
-    print("\nEnd state list of books:")
-    for key, value in books.items():
-        print(f"{key:-4d}: {value}")
+        return session.get_index(Book)
 
 
 if __name__ == "__main__":

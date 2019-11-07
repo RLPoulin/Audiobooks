@@ -1,16 +1,21 @@
 """Database table models for the audiobook library."""
 
-import typing as t
+__version__ = "0.2.1"
+
 from datetime import date
+from typing import Any, Dict, Optional, Type
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
-__version__ = "0.1.0"
-
 Base = declarative_base()
+
+
+def clean_name(name: str) -> str:
+    """Clean a string by capitalizing and removing extra spaces."""
+    return " ".join(name.strip().split()).title()
 
 
 class ModelUnique:
@@ -19,9 +24,9 @@ class ModelUnique:
     key = Column(Integer, primary_key=True, autoincrement=True)
     _name = Column("name", String, unique=True, nullable=False)
 
-    def __init__(self, name: str, **kwargs: t.Any) -> None:
+    def __init__(self, name: str, **kwargs: Any) -> None:
         """Construct a model."""
-        self.name = name
+        self.name: str = name
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}('{self.name}')>"
@@ -34,12 +39,8 @@ class ModelUnique:
         return self._name
 
     @name.setter
-    def name(self, value) -> None:
-        self._name: str = self.clean_name(name=value)
-
-    @staticmethod
-    def clean_name(name: str) -> str:
-        return " ".join(name.strip().split()).title()
+    def name(self, value: str) -> None:
+        self._name: str = clean_name(name=value)
 
 
 class Author(ModelUnique, Base):
@@ -82,24 +83,17 @@ class Book(ModelUnique, Base):
     release_date = Column(Date)
     date_added = Column(Date)
 
-    author = relationship("Author", backref="books")
-    genre = relationship("Genre", backref="books")
-    series = relationship("Series", backref="books")
+    author = relationship("Author", backref=__tablename__)
+    genre = relationship("Genre", backref=__tablename__)
+    series = relationship("Series", backref=__tablename__)
 
-    def __init__(
-        self,
-        name: str,
-        author: Author,
-        genre: Genre,
-        series: t.Optional[Series] = None,
-        release_date: t.Optional[date] = None,
-    ) -> None:
+    def __init__(self, name: str, author: Author, genre: Genre, **kwargs) -> None:
         """Construct a Book instance."""
         super().__init__(name)
-        self.author = author
-        self.genre = genre
-        self.series = series
-        self.release_date = release_date
+        self.author: Author = author
+        self.genre: Genre = genre
+        self.series: Optional[Series] = kwargs.get("series", None)
+        self.release_date: Optional[date] = kwargs.get("release_date", None)
         self.date_added: date = date.today()
 
     def __repr__(self) -> str:
@@ -107,7 +101,7 @@ class Book(ModelUnique, Base):
 
 
 # Dictionary associating the Book properties with the correct model.
-MODELS: t.Dict[str, t.Type[ModelUnique]] = {
+MODELS: Dict[str, Type[ModelUnique]] = {
     "author": Author,
     "genre": Genre,
     "series": Series,

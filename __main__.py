@@ -2,12 +2,12 @@
 
 __author__ = "Robert Poulin"
 __license__ = "MIT"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 
 def main():
     """Execute the entry point of the program."""
-    pass
+    raise NotImplementedError()
 
 
 if __name__ == "__main__":
