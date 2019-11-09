@@ -1,6 +1,6 @@
 """Database table models for the audiobook library."""
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 from datetime import date
 from typing import Any, Dict, Optional, Type
@@ -11,11 +11,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 Base = declarative_base()
-
-
-def clean_name(name: str) -> str:
-    """Clean a string by capitalizing and removing extra spaces."""
-    return " ".join(name.strip().split()).title()
 
 
 class ModelUnique:
@@ -100,9 +95,14 @@ class Book(ModelUnique, Base):
         return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"
 
 
-# Dictionary associating the Book properties with the correct model.
+# Dictionary associating book properties with the correct model.
 MODELS: Dict[str, Type[ModelUnique]] = {
     "author": Author,
     "genre": Genre,
     "series": Series,
 }
+
+
+def clean_name(name: str) -> str:
+    """Clean a string by capitalizing and removing extra spaces."""
+    return " ".join(name.strip().split()).title()

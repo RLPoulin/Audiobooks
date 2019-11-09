@@ -1,28 +1,42 @@
 """Creates a database in an SQLite file and does some tests."""
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
+__all__ = ["do_tests", "populate_database", "add_to_library"]
 
 from datetime import date
+from pathlib import Path
 from typing import Dict
 
-from database import LibraryDatabase, log_manager
-from models import Author, Book, Genre, Series
+from audiobooks.database import LibraryDatabase
+from audiobooks.log import log_manager
+from audiobooks.models import Author, Book, Genre, Series
 
 log = log_manager.setup_logger(__name__)
 
 
-def main(clear: bool = False) -> None:
+def do_tests() -> None:
+    populate_database(clear=True)
+    populate_database(clear=False)
+    log_manager.shutdown()
+
+
+def populate_database(clear: bool = False) -> None:
     """Execute the program."""
-    library: LibraryDatabase = LibraryDatabase("test.sqlite")
+    library: LibraryDatabase = LibraryDatabase(
+        Path(__file__).parent.parent / "data" / "test.sqlite"
+    )
+
     if clear:
         library.clear()
 
     books: Dict[str, str] = add_to_library(library)
 
     log_manager.flush_logger(log)
-    print("\nEnd state list of books:")
+    print()
+    print("End state list of books:")
     for book, name in books.items():
         print(f"{book:-4d}: {name}")
+    print()
 
 
 def add_to_library(library: LibraryDatabase) -> Dict[str, str]:
@@ -64,6 +78,4 @@ def add_to_library(library: LibraryDatabase) -> Dict[str, str]:
 
 
 if __name__ == "__main__":
-    main(clear=True)
-    main(clear=False)
-    log_manager.shutdown()
+    do_tests()

@@ -1,6 +1,7 @@
 """Database interactions for the audiobook library."""
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
+__all__ = ["CachedSession", "LibraryDatabase"]
 
 from contextlib import contextmanager
 from typing import Any, ContextManager, Dict, List, Optional, Tuple, Type
@@ -8,10 +9,10 @@ from typing import Any, ContextManager, Dict, List, Optional, Tuple, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from log_manager import LogManager
-from models import Base, MODELS, ModelUnique, clean_name
+from audiobooks.log import log_manager
+from audiobooks.models import Base, MODELS, ModelUnique, clean_name
 
-log_manager = LogManager(stream_level="INFO", file_level="DEBUG")
+
 log = log_manager.setup_logger(__name__)
 
 

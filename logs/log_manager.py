@@ -1,6 +1,7 @@
 """My preconfigured logger."""
 
-__version__ = "2.0.1-old"
+__version__ = "2.0.2-old"
+__all__ = ["LogManager"]
 
 import logging
 import sys
