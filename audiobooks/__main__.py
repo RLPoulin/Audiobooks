@@ -1,8 +1,8 @@
 """Program entry point."""
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
-from audiobooks.populate_test_database import do_tests
+from audiobooks.db_tests import do_tests
 
 
 def main():

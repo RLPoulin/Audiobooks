@@ -1,6 +1,6 @@
 """Creates a database in an SQLite file and does some tests."""
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __all__ = ["do_tests", "populate_database", "add_to_library"]
 
 from datetime import date
@@ -15,8 +15,15 @@ log = log_manager.setup_logger(__name__)
 
 
 def do_tests() -> None:
+    log_manager.set_default_levels(stream_level="DEBUG", setup=True)
+
+    log.info("Testing adding entries to an empty database")
     populate_database(clear=True)
+
+    log.info("Testing adding entries to an existing database")
     populate_database(clear=False)
+
+    log.info("Done")
     log_manager.shutdown()
 
 

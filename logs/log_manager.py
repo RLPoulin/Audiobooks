@@ -1,10 +1,11 @@
 """My preconfigured logger."""
 
-__version__ = "2.0.2-old"
+__version__ = "2.1.6"
 __all__ = ["LogManager"]
 
 import logging
 import sys
+from copy import copy
 from logging import FileHandler, Formatter, Logger, StreamHandler
 from pathlib import Path
 from time import sleep
@@ -12,6 +13,43 @@ from typing import Dict, List, Union
 
 DEFAULT_STREAM_LEVEL: str = "WARNING"
 DEFAULT_FILE_LEVEL: str = "DEBUG"
+
+
+try:
+    import colorama
+
+    colorama.init(autoreset=True)
+    COLOR: bool = True
+except ModuleNotFoundError:
+    COLOR = False
+
+
+class ColoredFormatter(Formatter):
+    """Formatter for colored screen output."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if COLOR:
+            self.colors: Dict[int, str] = {
+                logging.NOTSET: colorama.Fore.WHITE + colorama.Style.DIM,
+                logging.DEBUG: colorama.Fore.WHITE + colorama.Style.DIM,
+                logging.INFO: colorama.Fore.GREEN + colorama.Style.DIM,
+                logging.WARNING: colorama.Fore.BLUE + colorama.Style.BRIGHT,
+                logging.ERROR: colorama.Fore.RED + colorama.Style.BRIGHT,
+                logging.CRITICAL: colorama.Fore.RED + colorama.Style.BRIGHT,
+            }
+            self.reset_color: str = colorama.Style.RESET_ALL
+        else:
+            self.colors = {}
+            self.reset_color = ""
+
+    def format(self, record):
+        """Format a log record by adding coloring codes."""
+        new_record = copy(record)
+        color = self.colors.get(new_record.levelno, "")
+        new_record.levelname = f"{color}{new_record.levelname:>8}{self.reset_color}"
+        new_record.msg = f"{color}{new_record.msg}{self.reset_color}"
+        return super().format(new_record)
 
 
 class LogManager:
@@ -29,35 +67,36 @@ class LogManager:
         self.loggers: Dict[str, Logger] = {}
         self.file_handlers: Dict[str, FileHandler] = {}
         self.stream_handlers: Dict[str, StreamHandler] = {}
+        logging.captureWarnings(capture=True)
 
     def add_file(
         self,
         logger: Union[Logger, str, None] = None,
         level: Union[str, int, None] = None,
-        filename: Union[str, Path] = "default.log",
+        file: Union[str, Path] = "default.log",
     ) -> FileHandler:
         """Add file handler to logger."""
         logger: Logger = self.get_logger(logger)
         level: int = self.get_level(level, self._file_level)
-        filename: Path = Path(filename)
-        filename.touch()
-        filename = filename.resolve()
+        log_file: Path = Path(file)
+        log_file.touch()
+        log_file = log_file.resolve()
         handler: FileHandler = self.file_handlers.get(
-            str(filename), FileHandler(filename, mode="a", encoding="UTF-8")
+            str(log_file), FileHandler(log_file, mode="a", encoding="UTF-8")
         )
         logger.addHandler(handler)
-        self.file_handlers.update({str(filename): handler})
+        self.file_handlers.update({str(log_file): handler})
         handler.setLevel(level)
-        if filename.suffix == ".csv":
+        if log_file.suffix == ".csv":
             handler.setFormatter(
                 Formatter(
-                    "'%(asctime)s','%(module)s',%(lineno)d,%(levelno)s,'%(message)s'"
+                    "'%(asctime)s','%(name)s',%(lineno)d,%(levelno)s,'%(message)s'"
                 )
             )
         else:
             handler.setFormatter(
                 Formatter(
-                    "%(asctime)s  %(module)s:%(lineno)03d  %(levelname)-8s  %(message)s"
+                    "%(asctime)s  %(name)s:%(lineno)03d  %(levelname)-8s  %(message)s"
                 )
             )
         return handler
@@ -81,15 +120,17 @@ class LogManager:
         self.stream_handlers.update({logger.name: handler})
         handler.setLevel(level)
         handler.setFormatter(
-            Formatter(
-                "%(asctime)s  %(module)s:%(lineno)03d \t%(levelname)-8s ->  %(message)s",
+            ColoredFormatter(
+                fmt=(
+                    "%(asctime)s  %(name)s:%(lineno)03d\t%(levelname)s → %(message)s"
+                ),
                 datefmt="%H:%M:%S",
             )
         )
         return handler
 
     def close_logger(self, logger: Union[Logger, str, None] = None) -> None:
-        """Close logger or all loggers if root logger."""
+        """Remove all handlers from the logger and remove it."""
         logger: Logger = self.get_logger(logger)
         self.remove_handlers(logger, files=True, streams=True)
         self.loggers.pop(logger.name, None)
@@ -138,17 +179,19 @@ class LogManager:
         self.flush_logger(logger)
         for handler in logger.handlers:
             handler.close()
-            if isinstance(handler, FileHandler) and files:
+            if files and isinstance(handler, FileHandler):
                 logger.removeHandler(handler)
                 self.file_handlers.pop(handler.baseFilename, None)
-            elif isinstance(handler, StreamHandler) and streams:
+            elif streams and isinstance(handler, StreamHandler):
                 logger.removeHandler(handler)
                 self.stream_handlers.pop(logger.name, None)
+        self.set_logger_level(logger)
 
     def set_default_levels(
         self,
         stream_level: Union[str, int, None] = None,
         file_level: Union[str, int, None] = None,
+        setup: bool = False,
     ):
         """Set the default level for new handlers."""
         if stream_level:
@@ -157,24 +200,32 @@ class LogManager:
         if file_level:
             file_level: int = self.get_level(file_level)
             self._file_level = logging.getLevelName(file_level)
+        if setup:
+            for logger in self.loggers:
+                self.setup_logger(logger, level=stream_level, stream=True)
+
+    def set_logger_level(self, logger: Union[Logger, str, None] = None) -> None:
+        """Set the logger's log level to the minimum required by its handlers."""
+        logger: Logger = self.get_logger(logger)
+        current_levels: List[int] = [handler.level for handler in logger.handlers]
+        new_level: int = min(current_levels) if current_levels else 0
+        logger.setLevel(new_level)
 
     def setup_logger(
         self,
         logger: Union[Logger, str, None] = None,
         level: Union[str, int, None] = None,
         stream: bool = True,
-        filename: Union[str, Path, None] = None,
+        file: Union[str, Path, None] = None,
     ) -> Logger:
         """Get and configure a logger."""
         logger: Logger = self.get_logger(logger)
         level: int = self.get_level(level)
         if stream:
             self.add_stream(logger=logger, level=level)
-        if filename:
-            self.add_file(logger=logger, filename=filename)
-        current_levels: List[int] = [level]
-        current_levels += [handler.level for handler in logger.handlers]
-        logger.setLevel(min(current_levels))
+        if file:
+            self.add_file(logger=logger, file=file)
+        self.set_logger_level(logger)
         return logger
 
     def shutdown(self):
