@@ -1,8 +1,8 @@
-"""Prepares the log manager."""
+"""Robert's module of small tools."""
 
-__author__ = "Robert Poulin"
+__authors__ = ["Robert Poulin (poulin.robert@gmail.com)"]
 __license__ = "MIT"
-__version__ = "2.0.2-old"
+__version__ = "2.1.3"
 __all__ = ["LogManager"]
 
 from pathlib import Path
@@ -14,4 +14,4 @@ if package_folder not in sys.path:
     sys.path.insert(0, package_folder)
 
 
-from logs.log_manager import LogManager
+from myfunctions.log_manager import LogManager

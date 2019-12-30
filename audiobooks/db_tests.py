@@ -14,7 +14,7 @@ log = log_manager.setup_logger(__name__)
 
 
 def do_tests() -> None:
-    log_manager.set_default_levels(stream_level="DEBUG", setup=True)
+    log_manager.set_default_levels(stream_level="DEBUG", setup_loggers=True)
 
     log.info("Testing adding entries to an empty database")
     populate_database(clear=True)
