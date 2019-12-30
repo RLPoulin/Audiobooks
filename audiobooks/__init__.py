@@ -2,7 +2,7 @@
 
 __author__ = "Robert Poulin"
 __license__ = "MIT"
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 from pathlib import Path
 import sys

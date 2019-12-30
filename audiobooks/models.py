@@ -1,7 +1,5 @@
 """Database table models for the audiobook library."""
 
-__version__ = "0.3.0"
-
 from datetime import date
 from typing import Any, Dict, Optional, Type
 

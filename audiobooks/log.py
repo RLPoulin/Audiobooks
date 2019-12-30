@@ -1,6 +1,5 @@
 """Setup the LogManager."""
 
-__version__ = "0.3.0"
 __all__ = ["log_manager"]
 
 from logs import LogManager

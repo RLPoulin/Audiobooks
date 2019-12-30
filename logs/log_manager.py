@@ -138,8 +138,8 @@ class LogManager:
     def flush_logger(self, logger: Union[Logger, str, None] = None) -> None:
         """Flush logger write buffer."""
         sleep(0.2)
-        log: Logger = self.get_logger(logger)
-        for handler in log.handlers:
+        logger: Logger = self.get_logger(logger)
+        for handler in logger.handlers:
             handler.flush()
 
     def get_level(

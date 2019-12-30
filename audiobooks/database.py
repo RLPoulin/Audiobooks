@@ -1,6 +1,5 @@
 """Database interactions for the audiobook library."""
 
-__version__ = "0.3.0"
 __all__ = ["CachedSession", "LibraryDatabase"]
 
 from contextlib import contextmanager
@@ -11,7 +10,6 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from audiobooks.log import log_manager
 from audiobooks.models import Base, MODELS, ModelUnique, clean_name
-
 
 log = log_manager.setup_logger(__name__)
 
@@ -118,7 +116,7 @@ class LibraryDatabase:
         except Exception as exception:
             session.rollback()
             log.exception(
-                f"Error while committing transaction: Rolling back changes:\n"
+                f"Error while committing transaction, rolling back changes:\n"
                 f"{exception}"
             )
             raise

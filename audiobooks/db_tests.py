@@ -1,6 +1,5 @@
 """Creates a database in an SQLite file and does some tests."""
 
-__version__ = "0.3.1"
 __all__ = ["do_tests", "populate_database", "add_to_library"]
 
 from datetime import date
