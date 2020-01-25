@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "Audiobooks"
+version = "0.4.0"
+description = "My audiobook library program."
+authors = ["Robert Poulin <poulin.robert@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "~3.8"
+sqlalchemy = "^1.3.11"
+flask = "^1.1.1"
+flask-sqlalchemy = "^2.4.1"
+colorama = "^0.4.3"
+
+[tool.poetry.dev-dependencies]
+ipython = "^7.10.2"
+black = "^19.10b0"
+bump2version = "^1.0.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(.+\.egg-info
+    | \.git
+    | \.venv
+    | \.idea
+  )/
+  | __pycache__/
+)
+'''
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
