@@ -5,7 +5,7 @@ My audiobook collection manager.
 If anybody randomly stumbles upon this project, please feel free to contact me with any suggestion, criticism, or tip!
 
 ## Description
-This is a personal project to learn to work with databases, create a UI, use web APIs, and use git while practicing 
+This is a personal project to learn to work with databases, create a UI, use web APIs, and use git while practicing
 Python out of the workplace.
 
 ### Planned features
@@ -17,12 +17,14 @@ Python out of the workplace.
 - A UI to do all of the above.
 
 ### Using
-- Python 3.7
-- Flask
+#### packages
+- Python 3.8
+- Poetry
 - SQLAlchemy
-- Typing
-- Conda
-- PyCharm
-- GitHub
-- Black
+- Flask
 
+#### dev tools
+- GitHub
+- PyCharm
+- Black
+- bump2version
