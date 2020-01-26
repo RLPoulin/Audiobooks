@@ -18,6 +18,14 @@ black = "^19.10b0"
 bump2version = "^1.0.0"
 mypy = "^0.761"
 sqlalchemy-stubs = "^0.3"
+flake8 = "^3.7.9"
+flake8-comprehensions = "^3.2.2"
+flake8-variables-names = "^0.0.3"
+flake8-cognitive-complexity = "^0.0.2"
+flake8-expression-complexity = "^0.0.6"
+flake8-bugbear = "^20.1.2"
+flake8-docstrings = "^1.5.0"
+flakehell = "^0.3.3"
 
 [tool.black]
 line-length = 88
@@ -25,16 +33,30 @@ target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
 (
-  /(.+\.egg-info
-    | \.git
-    | \.venv
-    | \.idea
-  )/
-  | __pycache__/
+  /(.+\.egg-info | \.git | \.venv | \.idea)/
+  | __pycache__
 )
 '''
+
+[tool.flakehell]
+format = "grouped"
+filename = ["*.py"]
+exclude = [".git", ".mypy_cache", ".venv", "__pycache__"]
+max_line_length = 88
+max_doc_length = 88
+max_complexity = 8
+max_cognitive_complexity = 8
+max_expression_complexity = "6"
+convention = "google"
+
+[tool.flakehell.plugins]
+"flake8-*" = ["+*"]
+flake8-docstrings = ["+*", "-D105"]
+mccabe = ["+*"]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
+pylint = ["+*", "-W0611"]
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
-
