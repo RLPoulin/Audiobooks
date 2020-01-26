@@ -27,4 +27,5 @@ Python out of the workplace.
 - GitHub
 - PyCharm
 - Black
+- mypy
 - bump2version

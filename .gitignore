@@ -6,3 +6,4 @@ data/test.sqlite
 .venv/
 *.egg-info/
 __pycache__/
+.mypy_cache/
