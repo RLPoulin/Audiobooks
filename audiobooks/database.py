@@ -3,7 +3,7 @@
 __all__ = ["CachedSession", "LibraryDatabase"]
 
 from contextlib import contextmanager
-from typing import Any, ContextManager, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, Generator, List, Tuple, Type
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -29,7 +29,7 @@ class CachedSession(Session):
             instance: ModelUnique = self.cache[(model, name)]
             log.debug(f"Got from cache: {instance!r}")
         else:
-            instance: ModelUnique = self.query(model).filter(model.name == name).first()
+            instance = self.query(model).filter(model.name == name).first()
             if instance:
                 self.cache[(model, name)] = instance
                 log.debug(f"Got from database: {instance!r}")
@@ -46,11 +46,11 @@ class CachedSession(Session):
         for key, argument in kwargs.items():
             if key in MODELS and isinstance(argument, str):
                 kwargs[key] = self.create(name=argument, model=MODELS[key])
-        instance: ModelUnique = model(name=name, **kwargs)
+        instance = model(name=name, **kwargs)
         self.add(instance)
         return instance
 
-    def add(self, instance: ModelUnique, warn: Optional[bool] = True) -> None:
+    def add(self, instance: ModelUnique, warn: bool = True) -> None:
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
         self.cache[(instance.__class__, instance.name)] = instance
@@ -106,7 +106,7 @@ class LibraryDatabase:
         return self._filename
 
     @contextmanager
-    def session_scope(self) -> ContextManager:
+    def session_scope(self) -> Generator:
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
         log.info("Database session started.")

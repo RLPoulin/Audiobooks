@@ -29,7 +29,7 @@ def do_tests() -> None:
 def populate_database(clear: bool = False) -> None:
     """Execute the program."""
     library: LibraryDatabase = LibraryDatabase(
-        Path(__file__).parent.parent / "data" / "test.sqlite"
+        str(Path(__file__).parent.parent / "data" / "test.sqlite")
     )
 
     if clear:

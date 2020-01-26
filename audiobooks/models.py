@@ -6,7 +6,7 @@ from typing import Any, Dict, Optional, Type
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import RelationshipProperty, relationship
 
 Base = declarative_base()
 
@@ -14,8 +14,8 @@ Base = declarative_base()
 class ModelUnique:
     """Base class for a model containing only uniquely named items."""
 
-    key = Column(Integer, primary_key=True, autoincrement=True)
-    _name = Column("name", String, unique=True, nullable=False)
+    key: Column = Column(Integer, primary_key=True, autoincrement=True)
+    _name: Column = Column("name", String, unique=True, nullable=False)
 
     def __init__(self, name: str, **kwargs: Any) -> None:
         """Construct a model."""
@@ -70,15 +70,15 @@ class Book(ModelUnique, Base):
     """Model for the for the ``books`` table in the database."""
 
     __tablename__ = "books"
-    author_key = Column(Integer, ForeignKey("authors.key"), nullable=False)
-    genre_key = Column(Integer, ForeignKey("genres.key"), nullable=False)
-    series_key = Column(Integer, ForeignKey("series.key"))
-    release_date = Column(Date)
-    date_added = Column(Date)
+    author_key: Column = Column(Integer, ForeignKey("authors.key"), nullable=False)
+    genre_key: Column = Column(Integer, ForeignKey("genres.key"), nullable=False)
+    series_key: Column = Column(Integer, ForeignKey("series.key"))
+    release_date: Column = Column(Date)
+    date_added: Column = Column(Date)
 
-    author = relationship("Author", backref=__tablename__)
-    genre = relationship("Genre", backref=__tablename__)
-    series = relationship("Series", backref=__tablename__)
+    author: RelationshipProperty = relationship("Author", backref=__tablename__)
+    genre: RelationshipProperty = relationship("Genre", backref=__tablename__)
+    series: RelationshipProperty = relationship("Series", backref=__tablename__)
 
     def __init__(self, name: str, author: Author, genre: Genre, **kwargs) -> None:
         """Construct a Book instance."""

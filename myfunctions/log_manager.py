@@ -84,10 +84,10 @@ class LogManager:
     ) -> None:
         """Set the default level for new handlers."""
         if stream_level is not None:
-            stream_level: int = self.get_level(stream_level)
+            stream_level = self.get_level(stream_level)
             self._stream_level = logging.getLevelName(stream_level)
         if file_level is not None:
-            file_level: int = self.get_level(file_level)
+            file_level = self.get_level(file_level)
             self._file_level = logging.getLevelName(file_level)
         if not setup_loggers:
             return
