@@ -1,6 +1,6 @@
 """Creates a database in an SQLite file and does some tests."""
 
-__all__ = ["do_tests", "populate_database", "add_to_library"]
+__all__ = ["do_tests", "test_database", "add_to_library"]
 
 from datetime import date
 from pathlib import Path
@@ -14,23 +14,23 @@ log = log_manager.setup_logger(__name__)
 
 
 def do_tests() -> None:
+    """Start the db tests."""
     log_manager.set_default_levels(stream_level="DEBUG", setup_loggers=True)
 
     log.info("Testing adding entries to an empty database")
-    populate_database(clear=True)
+    test_database(clear=True)
 
     log.info("Testing adding entries to an existing database")
-    populate_database(clear=False)
+    test_database(clear=False)
 
     log.info("Done")
     log_manager.shutdown()
 
 
-def populate_database(clear: bool = False) -> None:
-    """Execute the program."""
-    library: LibraryDatabase = LibraryDatabase(
-        str(Path(__file__).parent.parent / "data" / "test.sqlite")
-    )
+def test_database(clear: bool = False) -> None:
+    """Test the database and print content."""
+    library_file: str = str(Path(__file__).parent.parent) + "/data/test.sqlite"
+    library: LibraryDatabase = LibraryDatabase(library_file)
 
     if clear:
         library.clear()

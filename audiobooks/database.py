@@ -103,6 +103,7 @@ class LibraryDatabase:
 
     @property
     def filename(self) -> str:
+        """Return the filename property."""
         return self._filename
 
     @contextmanager

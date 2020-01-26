@@ -1,7 +1,7 @@
 """Database table models for the audiobook library."""
 
 from datetime import date
-from typing import Any, Dict, Optional, Type
+from typing import Dict, Optional, Type
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,7 +17,7 @@ class ModelUnique:
     key: Column = Column(Integer, primary_key=True, autoincrement=True)
     _name: Column = Column("name", String, unique=True, nullable=False)
 
-    def __init__(self, name: str, **kwargs: Any) -> None:
+    def __init__(self, name: str) -> None:
         """Construct a model."""
         self.name: str = name
 
@@ -29,10 +29,12 @@ class ModelUnique:
 
     @hybrid_property
     def name(self) -> str:
+        """Return the name property."""
         return self._name
 
     @name.setter
     def name(self, value: str) -> None:
+        """Set the name property."""
         self._name: str = clean_name(name=value)
 
 
@@ -41,29 +43,17 @@ class Author(ModelUnique, Base):
 
     __tablename__ = "authors"
 
-    def __init__(self, name: str) -> None:
-        """Construct an Author instance."""
-        super().__init__(name)
-
 
 class Series(ModelUnique, Base):
     """Defines the model for the ``series`` table in the database."""
 
     __tablename__ = "series"
 
-    def __init__(self, name: str) -> None:
-        """Construct a Series instance."""
-        super().__init__(name)
-
 
 class Genre(ModelUnique, Base):
     """Defines the model for the ``genres`` table in the database."""
 
     __tablename__ = "genres"
-
-    def __init__(self, name: str) -> None:
-        """Construct a Genre instance."""
-        super().__init__(name)
 
 
 class Book(ModelUnique, Base):
