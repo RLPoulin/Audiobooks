@@ -11,13 +11,13 @@ from sqlalchemy.orm import RelationshipProperty, relationship
 Base = declarative_base()
 
 
-class ModelUnique:
+class ModelUnique(object):
     """Base class for a model containing only uniquely named items."""
 
     key: Column = Column(Integer, primary_key=True, autoincrement=True)
     _name: Column = Column("name", String, unique=True, nullable=False)
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, **kwargs) -> None:
         """Construct a model."""
         self.name: str = name
 
@@ -33,9 +33,9 @@ class ModelUnique:
         return self._name
 
     @name.setter
-    def name(self, value: str) -> None:
+    def name(self, new_name: str) -> None:  # noqa: WPS440
         """Set the name property."""
-        self._name: str = clean_name(name=value)
+        self._name: str = clean_name(name=new_name)
 
 
 class Author(ModelUnique, Base):
@@ -80,7 +80,7 @@ class Book(ModelUnique, Base):
         self.date_added: date = date.today()
 
     def __repr__(self) -> str:
-        return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"
+        return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"  # noqa: WPS221,WPS221
 
 
 # Dictionary associating book properties with the correct model.

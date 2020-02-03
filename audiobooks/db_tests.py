@@ -29,7 +29,7 @@ def do_tests() -> None:
 
 def test_database(clear: bool = False) -> None:
     """Test the database and print content."""
-    library_file: str = str(Path(__file__).parent.parent) + "/data/test.sqlite"
+    library_file: str = str(Path(__file__).parent.parent / "data/test.sqlite")
     library: LibraryDatabase = LibraryDatabase(library_file)
 
     if clear:

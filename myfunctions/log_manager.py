@@ -13,10 +13,9 @@ import sys
 import time
 from typing import Dict, List, Optional, Union
 
-try:
-    import colorama
+try:  # noqa: WPS229
+    import colorama  # noqa: WPS433
 
-    colorama.init(autoreset=True)
     COLOR: bool = True
 except ModuleNotFoundError:
     COLOR = False
@@ -30,6 +29,7 @@ DEFAULT_FILE_LEVEL: str = "DEBUG"
 STREAM_FORMAT: str = "%(asctime)s  %(name)s:%(lineno)03d\t%(levelname)s → %(message)s"
 FILE_FORMAT: str = "%(asctime)s  %(name)s:%(lineno)03d  %(levelname)-8s  %(message)s"
 CSV_FORMAT: str = "'%(asctime)s','%(name)s',%(lineno)d,%(levelno)s,'%(message)s'"
+FLUSH_SLEEP_TIME: float = 0.2
 
 
 class ColoredFormatter(logging.Formatter):
@@ -38,6 +38,7 @@ class ColoredFormatter(logging.Formatter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if COLOR:
+            colorama.init(autoreset=True)
             self.colors: Dict[int, str] = {
                 logging.NOTSET: colorama.Fore.WHITE + colorama.Style.DIM,
                 logging.DEBUG: colorama.Fore.WHITE + colorama.Style.DIM,
@@ -51,7 +52,7 @@ class ColoredFormatter(logging.Formatter):
             self.colors = {}
             self.reset_color = ""
 
-    def format(self, record: logging.LogRecord):
+    def format(self, record: logging.LogRecord):  # noqa: A003
         """Format a log record by adding coloring codes."""
         new_record: logging.LogRecord = copy(record)
         color: str = self.colors.get(new_record.levelno, "")
@@ -60,7 +61,7 @@ class ColoredFormatter(logging.Formatter):
         return super().format(new_record)
 
 
-class LogManager:
+class LogManager(object):
     """Logging management class."""
 
     def __init__(
@@ -101,7 +102,7 @@ class LogManager:
         add_stream: bool = True,
         stream_level: Optional[Level] = None,
         add_file: bool = False,
-        file: Optional[PathLike] = None,
+        log_file: Optional[PathLike] = None,
         file_level: Optional[Level] = None,
     ) -> logging.Logger:
         """Get and configure a logger."""
@@ -109,7 +110,7 @@ class LogManager:
         if add_stream:
             self.add_stream(logger=logger, level=stream_level)
         if add_file:
-            self.add_file(logger=logger, level=file_level, log_file=file)
+            self.add_file(logger=logger, level=file_level, log_file=log_file)
         for handler in logger.handlers:
             if stream_level is not None and isinstance(handler, logging.StreamHandler):
                 handler.setLevel(stream_level)
@@ -122,9 +123,7 @@ class LogManager:
         """Get Logger instance."""
         if isinstance(logger, logging.Logger):
             return logger
-        if logger in self.loggers:
-            return self.loggers[logger]
-        logger: logging.Logger = logging.getLogger(logger)
+        logger: logging.Logger = self.loggers.get(logger, logging.getLogger(logger))
         self.loggers.update({logger.name: logger})
         return logger
 
@@ -197,7 +196,7 @@ class LogManager:
 
     def flush_logger(self, logger: Optional[Log] = None) -> None:
         """Flush logger write buffer."""
-        time.sleep(0.2)
+        time.sleep(FLUSH_SLEEP_TIME)
         logger: logging.Logger = self.get_logger(logger)
         for handler in logger.handlers:
             handler.flush()
