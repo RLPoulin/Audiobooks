@@ -2,4 +2,4 @@
 
 __author__ = "Robert Poulin <poulin.robert@gmail.com>"
 __license__ = "MIT"
-__version__ = "0.4.3"
+__version__ = "0.4.4"
