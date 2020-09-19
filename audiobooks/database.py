@@ -75,7 +75,7 @@ class CachedSession(Session):  # noqa: WPS214
     def get_index(self, model: ModelType) -> Dict[str, str]:
         """Return an index dictionary from a table in the database."""
         index = self.query(model).all()
-        return {entry.key: entry.name for entry in index}
+        return {str(entry.key): str(entry.name) for entry in index}
 
 
 class LibraryDatabase(object):

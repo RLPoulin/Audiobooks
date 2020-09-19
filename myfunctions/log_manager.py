@@ -125,7 +125,7 @@ class LogManager(object):
         """Get Logger instance."""
         if isinstance(logger, logging.Logger):
             return logger
-        logger: logging.Logger = self.loggers.get(logger, logging.getLogger(logger))
+        logger: logging.Logger = self.loggers.get(logger, logging.getLogger(logger))  # type: ignore
         self.loggers.update({logger.name: logger})
         return logger
 
