@@ -19,20 +19,20 @@ class ModelUnique(object):
 
     def __init__(self, name: str, **kwargs) -> None:
         """Construct a model."""
-        self.name: str = name
+        self.name: str = name  # type: ignore
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}('{self.name}')>"
 
     def __str__(self) -> str:
-        return self.name
+        return self.name  # type: ignore
 
     @hybrid_property
     def name(self) -> str:
         """Return the name property."""
         return self._name
 
-    @name.setter
+    @name.setter  # type: ignore
     def name(self, new_name: str) -> None:  # noqa: WPS440
         """Set the name property."""
         self._name: str = clean_name(name=new_name)
@@ -80,7 +80,7 @@ class Book(ModelUnique, Base):
         self.date_added: date = date.today()
 
     def __repr__(self) -> str:
-        return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"  # noqa: WPS221,WPS221
+        return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"  # noqa: WPS221,E501
 
 
 # Dictionary associating book properties with the correct model.

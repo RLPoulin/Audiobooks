@@ -6,11 +6,11 @@ TODO: docstrings
 
 __all__ = ["LogManager"]
 
-from copy import copy
 import logging
-from pathlib import Path
 import sys
 import time
+from copy import copy
+from pathlib import Path
 from typing import Dict, List, Optional, Union
 
 try:  # noqa: WPS229
@@ -111,11 +111,13 @@ class LogManager(object):
             self.add_stream(logger=logger, level=stream_level)
         if add_file:
             self.add_file(logger=logger, level=file_level, log_file=log_file)
-        for handler in logger.handlers:
-            if stream_level is not None and isinstance(handler, logging.StreamHandler):
-                handler.setLevel(stream_level)
-            if file_level is not None and isinstance(handler, logging.FileHandler):
-                handler.setLevel(file_level)
+        for log_handler in logger.handlers:
+            if stream_level is not None and isinstance(
+                log_handler, logging.StreamHandler
+            ):
+                log_handler.setLevel(stream_level)
+            if file_level is not None and isinstance(log_handler, logging.FileHandler):
+                log_handler.setLevel(file_level)
         self._set_logger_level(logger)
         return logger
 
@@ -150,23 +152,25 @@ class LogManager(object):
         level: int = self.get_level(level, self._stream_level)
 
         handlers: List[logging.StreamHandler] = [
-            handler
-            for handler in logger.handlers
-            if isinstance(handler, logging.StreamHandler)
+            log_handler
+            for log_handler in logger.handlers
+            if isinstance(log_handler, logging.StreamHandler)
         ]
         if handlers:
-            handler: logging.StreamHandler = handlers[-1]
+            stream_handler: logging.StreamHandler = handlers[-1]
         else:
-            handler = self.stream_handlers.get(
+            stream_handler = self.stream_handlers.get(
                 logger.name, logging.StreamHandler(sys.stderr)
             )
 
-        logger.addHandler(handler)
-        self.stream_handlers.update({logger.name: handler})
-        handler.setLevel(level)
-        handler.setFormatter(ColoredFormatter(fmt=STREAM_FORMAT, datefmt="%H:%M:%S"))
+        logger.addHandler(stream_handler)
+        self.stream_handlers.update({logger.name: stream_handler})
+        stream_handler.setLevel(level)
+        stream_handler.setFormatter(
+            ColoredFormatter(fmt=STREAM_FORMAT, datefmt="%H:%M:%S")
+        )
 
-        return handler
+        return stream_handler
 
     def add_file(
         self,
@@ -182,24 +186,24 @@ class LogManager(object):
 
         log_file.touch()
         log_file = log_file.resolve()
-        handler: logging.FileHandler = self.file_handlers.get(
+        file_handler: logging.FileHandler = self.file_handlers.get(
             str(log_file), logging.FileHandler(log_file, mode="a", encoding="UTF-8")
         )
 
-        logger.addHandler(handler)
-        self.file_handlers.update({str(log_file): handler})
-        handler.setLevel(level)
+        logger.addHandler(file_handler)
+        self.file_handlers.update({str(log_file): file_handler})
+        file_handler.setLevel(level)
         log_format: str = CSV_FORMAT if log_file.suffix == ".csv" else FILE_FORMAT
-        handler.setFormatter(logging.Formatter(log_format))
+        file_handler.setFormatter(logging.Formatter(log_format))
 
-        return handler
+        return file_handler
 
     def flush_logger(self, logger: Optional[Log] = None) -> None:
         """Flush logger write buffer."""
         time.sleep(FLUSH_SLEEP_TIME)
         logger: logging.Logger = self.get_logger(logger)
-        for handler in logger.handlers:
-            handler.flush()
+        for log_handler in logger.handlers:
+            log_handler.flush()
 
     def remove_handlers(
         self,
@@ -211,15 +215,15 @@ class LogManager(object):
         """Remove all handlers of the chosen classes from a logger."""
         logger: logging.Logger = self.get_logger(logger)
         self.flush_logger(logger)
-        for handler in logger.handlers:
-            if streams and isinstance(handler, logging.StreamHandler):
+        for log_handler in logger.handlers:
+            if streams and isinstance(log_handler, logging.StreamHandler):
                 self.stream_handlers.pop(logger.name, None)
-            elif files and isinstance(handler, logging.FileHandler):
-                self.file_handlers.pop(handler.baseFilename, None)
+            elif files and isinstance(log_handler, logging.FileHandler):
+                self.file_handlers.pop(log_handler.baseFilename, None)
             else:
                 continue
-            handler.close()
-            logger.removeHandler(handler)
+            log_handler.close()
+            logger.removeHandler(log_handler)
         self._set_logger_level(logger)
 
     def close_logger(self, logger: Optional[Log] = None) -> None:
@@ -237,6 +241,8 @@ class LogManager(object):
     def _set_logger_level(self, logger: Optional[Log] = None) -> None:
         """Set the logger's log level to the minimum required by its handlers."""
         logger: logging.Logger = self.get_logger(logger)
-        current_levels: List[int] = [handler.level for handler in logger.handlers]
+        current_levels: List[int] = [
+            log_handler.level for log_handler in logger.handlers
+        ]
         new_level: int = min(current_levels) if current_levels else 0
         logger.setLevel(new_level)

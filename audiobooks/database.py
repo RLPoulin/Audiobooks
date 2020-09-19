@@ -9,13 +9,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from audiobooks.log import log_manager
-from audiobooks.models import Base, MODELS, ModelUnique, clean_name
+from audiobooks.models import MODELS, Base, ModelUnique, clean_name
 
 log = log_manager.setup_logger(__name__)
 ModelType = Type[ModelUnique]
 
 
-class CachedSession(Session):
+class CachedSession(Session):  # noqa: WPS214
     """Database session with added instance cache."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -30,7 +30,7 @@ class CachedSession(Session):
         if instance:
             log.debug("Got from cache: %s", repr(instance))
             return instance
-        instance: ModelUnique = self.query(model).filter(model.name == name).first()
+        instance: ModelUnique = self.query(model).filter(model.name == name).first()  # type: ignore  # noqa: E501
         if instance:
             self.cache[(model, name)] = instance
             log.debug("Got from database: %s", repr(instance))
@@ -54,7 +54,7 @@ class CachedSession(Session):
     def add(self, instance: ModelUnique, warn: bool = True) -> None:
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
-        self.cache[(instance.__class__, instance.name)] = instance
+        self.cache[(instance.__class__, instance.name)] = instance  # type: ignore
         log.info("Added: %s", repr(instance))
 
     def delete(self, instance: ModelUnique) -> None:
