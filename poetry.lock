@@ -102,6 +102,14 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "cfgv"
+version = "3.2.0"
+description = "Validate configuration and produce human readable error messages."
+category = "dev"
+optional = false
+python-versions = ">=3.6.1"
+
+[[package]]
 name = "click"
 version = "7.1.2"
 description = "Composable command line interface toolkit"
@@ -171,6 +179,14 @@ optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*"
 
 [[package]]
+name = "distlib"
+version = "0.3.1"
+description = "Distribution utilities"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "docutils"
 version = "0.16"
 description = "Docutils -- Python Documentation Utilities"
@@ -190,6 +206,14 @@ python-versions = ">=2.7"
 name = "eradicate"
 version = "1.0"
 description = "Removes commented-out code."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "filelock"
+version = "3.0.12"
+description = "A platform independent file lock."
 category = "dev"
 optional = false
 python-versions = "*"
@@ -532,6 +556,17 @@ python-versions = ">=3.4"
 gitdb = ">=4.0.1,<5"
 
 [[package]]
+name = "identify"
+version = "1.5.3"
+description = "File identification library for Python"
+category = "dev"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
+
+[package.extras]
+license = ["editdistance"]
+
+[[package]]
 name = "ipython"
 version = "7.18.1"
 description = "IPython: Productive Interactive Computing"
@@ -684,6 +719,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "nodeenv"
+version = "1.5.0"
+description = "Node.js virtual environment builder"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "packaging"
 version = "20.4"
 description = "Core utilities for Python packages"
@@ -752,6 +795,22 @@ description = "Tiny 'shelve'-like database with concurrency support"
 category = "dev"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "pre-commit"
+version = "2.7.1"
+description = "A framework for managing and maintaining multi-language pre-commit hooks."
+category = "dev"
+optional = false
+python-versions = ">=3.6.1"
+
+[package.dependencies]
+cfgv = ">=2.0.0"
+identify = ">=1.0.0"
+nodeenv = ">=0.11.1"
+pyyaml = ">=5.1"
+toml = "*"
+virtualenv = ">=20.0.8"
 
 [[package]]
 name = "prompt-toolkit"
@@ -1039,6 +1098,24 @@ secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "pyOpenSSL (>=0
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [[package]]
+name = "virtualenv"
+version = "20.0.31"
+description = "Virtual Python Environment builder"
+category = "dev"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
+
+[package.extras]
+docs = ["proselint (>=0.10.2)", "sphinx (>=3)", "sphinx-argparse (>=0.2.5)", "sphinx-rtd-theme (>=0.4.3)", "towncrier (>=19.9.0rc1)"]
+testing = ["coverage (>=5)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", "pytest (>=4)", "pytest-env (>=0.6.2)", "pytest-freezegun (>=0.4.1)", "pytest-mock (>=2)", "pytest-randomly (>=1)", "pytest-timeout (>=1)", "pytest-xdist (>=1.31.0)", "packaging (>=20.0)", "xonsh (>=0.9.16)"]
+
+[package.dependencies]
+appdirs = ">=1.4.3,<2"
+distlib = ">=0.3.1,<1"
+filelock = ">=3.0.0,<4"
+six = ">=1.9.0,<2"
+
+[[package]]
 name = "wcwidth"
 version = "0.2.5"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -1107,7 +1184,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.0"
 python-versions = "~3.8"
-content-hash = "f64def96c79027a30addfca62d5c7d69b39fe8f0b1eb1f8df7cde7744ad9371a"
+content-hash = "d97812b78def0539a25ef46660a2aa54ef1ece8b60d97e1d8566b6f1719b35bb"
 
 [metadata.files]
 appdirs = [
@@ -1146,6 +1223,10 @@ bump2version = [
     {file = "bump2version-1.0.0-py2.py3-none-any.whl", hash = "sha256:477f0e18a0d58e50bb3dbc9af7fcda464fd0ebfc7a6151d8888602d7153171a0"},
     {file = "bump2version-1.0.0.tar.gz", hash = "sha256:cd4f3a231305e405ed8944d8ff35bd742d9bc740ad62f483bd0ca21ce7131984"},
 ]
+cfgv = [
+    {file = "cfgv-3.2.0-py2.py3-none-any.whl", hash = "sha256:32e43d604bbe7896fe7c248a9c2276447dbef840feb28fe20494f62af110211d"},
+    {file = "cfgv-3.2.0.tar.gz", hash = "sha256:cf22deb93d4bcf92f345a5c3cd39d3d41d6340adc60c78bbbd6588c384fda6a1"},
+]
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
@@ -1173,6 +1254,10 @@ decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
     {file = "decorator-4.4.2.tar.gz", hash = "sha256:e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7"},
 ]
+distlib = [
+    {file = "distlib-0.3.1-py2.py3-none-any.whl", hash = "sha256:8c09de2c67b3e7deef7184574fc060ab8a793e7adbb183d942c389c8b13c52fb"},
+    {file = "distlib-0.3.1.zip", hash = "sha256:edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1"},
+]
 docutils = [
     {file = "docutils-0.16-py2.py3-none-any.whl", hash = "sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af"},
     {file = "docutils-0.16.tar.gz", hash = "sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc"},
@@ -1183,6 +1268,10 @@ entrypoints = [
 ]
 eradicate = [
     {file = "eradicate-1.0.tar.gz", hash = "sha256:4ffda82aae6fd49dfffa777a857cb758d77502a1f2e0f54c9ac5155a39d2d01a"},
+]
+filelock = [
+    {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},
+    {file = "filelock-3.0.12.tar.gz", hash = "sha256:18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59"},
 ]
 flake8 = [
     {file = "flake8-3.8.3-py2.py3-none-any.whl", hash = "sha256:15e351d19611c887e482fb960eae4d44845013cc142d42896e9862f775d8cf5c"},
@@ -1283,6 +1372,10 @@ gitdb = [
 gitpython = [
     {file = "GitPython-3.1.8-py3-none-any.whl", hash = "sha256:1858f4fd089abe92ae465f01d5aaaf55e937eca565fb2c1fce35a51b5f85c910"},
     {file = "GitPython-3.1.8.tar.gz", hash = "sha256:080bf8e2cf1a2b907634761c2eaefbe83b69930c94c66ad11b65a8252959f912"},
+]
+identify = [
+    {file = "identify-1.5.3-py2.py3-none-any.whl", hash = "sha256:d02d004568c5a01261839a05e91705e3e9f5c57a3551648f9b3fb2b9c62c0f62"},
+    {file = "identify-1.5.3.tar.gz", hash = "sha256:c770074ae1f19e08aadbda1c886bc6d0cb55ffdc503a8c0fe8699af2fc9664ae"},
 ]
 ipython = [
     {file = "ipython-7.18.1-py3-none-any.whl", hash = "sha256:2e22c1f74477b5106a6fb301c342ab8c64bb75d702e350f05a649e8cb40a0fb8"},
@@ -1394,6 +1487,10 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
+nodeenv = [
+    {file = "nodeenv-1.5.0-py2.py3-none-any.whl", hash = "sha256:5304d424c529c997bc888453aeaa6362d242b6b4631e90f3d4bf1b290f1c84a9"},
+    {file = "nodeenv-1.5.0.tar.gz", hash = "sha256:ab45090ae383b716c4ef89e690c41ff8c2b257b85b309f01f3654df3d084bd7c"},
+]
 packaging = [
     {file = "packaging-20.4-py2.py3-none-any.whl", hash = "sha256:998416ba6962ae7fbd6596850b80e17859a5753ba17c32284f67bfff33784181"},
     {file = "packaging-20.4.tar.gz", hash = "sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8"},
@@ -1421,6 +1518,10 @@ pexpect = [
 pickleshare = [
     {file = "pickleshare-0.7.5-py2.py3-none-any.whl", hash = "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"},
     {file = "pickleshare-0.7.5.tar.gz", hash = "sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca"},
+]
+pre-commit = [
+    {file = "pre_commit-2.7.1-py2.py3-none-any.whl", hash = "sha256:810aef2a2ba4f31eed1941fc270e72696a1ad5590b9751839c90807d0fff6b9a"},
+    {file = "pre_commit-2.7.1.tar.gz", hash = "sha256:c54fd3e574565fe128ecc5e7d2f91279772ddb03f8729645fa812fe809084a70"},
 ]
 prompt-toolkit = [
     {file = "prompt_toolkit-3.0.7-py3-none-any.whl", hash = "sha256:83074ee28ad4ba6af190593d4d4c607ff525272a504eb159199b6dd9f950c950"},
@@ -1605,6 +1706,10 @@ typing-extensions = [
 urllib3 = [
     {file = "urllib3-1.25.10-py2.py3-none-any.whl", hash = "sha256:e7983572181f5e1522d9c98453462384ee92a0be7fac5f1413a1e35c56cc0461"},
     {file = "urllib3-1.25.10.tar.gz", hash = "sha256:91056c15fa70756691db97756772bb1eb9678fa585d9184f24534b100dc60f4a"},
+]
+virtualenv = [
+    {file = "virtualenv-20.0.31-py2.py3-none-any.whl", hash = "sha256:e0305af10299a7fb0d69393d8f04cb2965dda9351140d11ac8db4e5e3970451b"},
+    {file = "virtualenv-20.0.31.tar.gz", hash = "sha256:43add625c53c596d38f971a465553f6318decc39d98512bc100fa1b1e839c8dc"},
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},

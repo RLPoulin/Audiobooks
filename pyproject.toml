@@ -20,6 +20,7 @@ flakehell = "^0.3.3"
 ipython = "^7.10.2"
 isort = "^5.5.2"
 mypy = "^0.761"
+pre-commit = "^2.7.1"
 sqlalchemy-stubs = "^0.3"
 wemake-python-styleguide = "^0.13.4"
 
@@ -38,10 +39,20 @@ line-length = 88
 target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
-(
-  /(.+\.egg-info | \.git | \.venv | \.idea)/
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.idea
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
   | __pycache__
-)
+  | buck-out
+  | build
+  | dist
+)/
 '''
 
 

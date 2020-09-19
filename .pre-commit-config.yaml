@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    - id: check-case-conflict
+    - id: check-toml
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.5.2
+    hooks:
+    - id: isort
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+    - id: black
+  - hooks:
+    - id: commitizen
+      stages:
+      - commit-msg
+    repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.4.0
