@@ -57,15 +57,15 @@ radon_no_assert = true
 [tool.flakehell.plugins]
 "flake8-*" = ["+*"]
 flake8-coding = ["+*", "-C101", "-C812"]
+flake8-commas = ["-*"]
 flake8-darglint = ["-*"]  # enable when docstrings are mostly done
 flake8-docstrings = ["+*", "-D105"]
-flake8-isort = ["-*"]
 flake8-quotes = ["-*"]
 flake8-print = ["-*"]
 mccabe = ["+*"]
 nitpick = ["+*"]
 pep8-naming = ["+*"]
-pycodestyle = ["+*"]
+pycodestyle = ["+*", "-E203", "-W503"]
 pyflakes = ["+*"]
 radon = ["+*"]
 wemake-python-styleguide = [
