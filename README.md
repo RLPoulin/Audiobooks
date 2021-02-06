@@ -10,7 +10,7 @@ suggestion, criticism, or tip!
 ## Description
 
 This is a personal project to learn to work with databases, create a UI, use web APIs,
-and use git while practicing Python out of the workplace.
+and manage projects while practicing Python out of the workplace.
 
 ### Planned features
 
@@ -25,7 +25,7 @@ and use git while practicing Python out of the workplace.
 
 #### packages
 
-- [Python 3.8](https://www.python.org/)
+- [Python 3.9](https://www.python.org/)
 - [SQLAlchemy](http://www.sqlalchemy.org)
 - [Flask](https://palletsprojects.com/p/flask/)
 
@@ -34,9 +34,6 @@ and use git while practicing Python out of the workplace.
 - [Poetry](https://python-poetry.org/)
 - [GitHub](https://github.com/)
 - [PyCharm](https://www.jetbrains.com/pycharm/)
-- [black](https://github.com/psf/black)
+- [Commitizen](https://github.com/commitizen-tools/commitizen)
+- [flakehell](https://github.com/life4/flakehell) (with [wemake-python-styleguide](https://wemake-python-stylegui.de))
 - [mypy](http://www.mypy-lang.org/)
-- [flake8](https://gitlab.com/pycqa/flake8) (with
-  [flakehell](https://github.com/life4/flakehell) and
-  [wemake-python-styleguide](https://wemake-python-stylegui.de))
-- [bump2version](https://github.com/c4urself/bump2version)
