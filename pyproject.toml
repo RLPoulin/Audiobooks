@@ -19,7 +19,7 @@ commitizen = "^2.4.0"
 flakehell = "^0.9.0"
 ipython = "^7.18.1"
 mypy = "^0.761"
-pre-commit = "^2.7.1"
+pre-commit = "^2.10.0"
 sqlalchemy-stubs = "^0.3"
 wemake-python-styleguide = "^0.14.1"
 
