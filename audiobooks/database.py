@@ -3,7 +3,7 @@
 __all__ = ["CachedSession", "LibraryDatabase"]
 
 from contextlib import contextmanager
-from typing import Any, Dict, Generator, Optional, Tuple, Type
+from typing import Any, Generator, Optional, Type
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -21,7 +21,7 @@ class CachedSession(Session):  # noqa: WPS214
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize a cached session instance."""
         super().__init__(*args, **kwargs)
-        self.cache: Dict[Tuple[ModelType, str], ModelUnique] = {}
+        self.cache: dict[tuple[ModelType, str], ModelUnique] = {}
 
     def get(self, model: ModelType, name: str) -> Optional[ModelUnique]:
         """Get the instance with a name and a model from the cache or database."""
@@ -30,7 +30,7 @@ class CachedSession(Session):  # noqa: WPS214
         if instance:
             log.debug("Got from cache: %s", repr(instance))
             return instance
-        instance: ModelUnique = self.query(model).filter(model.name == name).first()  # type: ignore  # noqa: E501
+        instance: Optional[ModelUnique] = self.query(model).filter(model.name == name).first()  # type: ignore
         if instance:
             self.cache[(model, name)] = instance
             log.debug("Got from database: %s", repr(instance))
@@ -54,7 +54,7 @@ class CachedSession(Session):  # noqa: WPS214
     def add(self, instance: ModelUnique, warn: bool = True) -> None:
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
-        self.cache[(instance.__class__, instance.name)] = instance  # type: ignore
+        self.cache[(instance.__class__, instance.name)] = instance
         log.info("Added: %s", repr(instance))
 
     def delete(self, instance: ModelUnique) -> None:
@@ -72,7 +72,7 @@ class CachedSession(Session):  # noqa: WPS214
         super().rollback()
         self.cache = {}
 
-    def get_index(self, model: ModelType) -> Dict[str, str]:
+    def get_index(self, model: ModelType) -> dict[str, str]:
         """Return an index dictionary from a table in the database."""
         index = self.query(model).all()
         return {str(entry.key): str(entry.name) for entry in index}
@@ -103,7 +103,7 @@ class LibraryDatabase(object):
         return self._filename
 
     @contextmanager
-    def session_scope(self) -> Generator:
+    def session_scope(self) -> Generator[CachedSession, None, None]:
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
         log.info("Database session started.")

@@ -4,7 +4,6 @@ __all__ = ["do_tests", "test_database", "add_to_library"]
 
 from datetime import date
 from pathlib import Path
-from typing import Dict
 
 from audiobooks.database import LibraryDatabase
 from audiobooks.log import log_manager
@@ -29,23 +28,25 @@ def do_tests() -> None:
 
 def test_database(clear: bool = False) -> None:
     """Test the database and print content."""
-    library_file: str = str(Path(__file__).parent.parent / "data/test.sqlite")
+    library_path: Path = Path(__file__).parent.parent / "data"
+    library_path.mkdir(exist_ok=True)
+    library_file: str = str(library_path / "test.sqlite")
     library: LibraryDatabase = LibraryDatabase(library_file)
 
     if clear:
         library.clear()
 
-    books: Dict[str, str] = add_to_library(library)
+    books: dict[str, str] = add_to_library(library)
 
     log_manager.flush_logger(log)
     print()
     print("End state list of books:")
     for book, name in books.items():
-        print(f"{book:-4d}: {name}")
+        print(f"{int(book):-4d}: {name}")
     print()
 
 
-def add_to_library(library: LibraryDatabase) -> Dict[str, str]:
+def add_to_library(library: LibraryDatabase) -> dict[str, str]:
     """Add test entries into the database."""
     with library.session_scope() as session:
         session.create(model=Genre, name="Fantasy")
@@ -57,7 +58,7 @@ def add_to_library(library: LibraryDatabase) -> Dict[str, str]:
             series="The Stormlight Archive",
             release_date=date(2010, 8, 31),
         )
-        sanderson: Author = session.get(Author, "Brandon Sanderson")
+        sanderson = session.get(Author, "Brandon Sanderson")
         session.create(
             model=Book,
             name="Words of Radiance",
