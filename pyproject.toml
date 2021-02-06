@@ -30,8 +30,7 @@ wemake-python-styleguide = "^0.14.1"
 name = "cz_conventional_commits"
 version = "0.5.0"
 version_files = [
-    "pyproject.toml:version",
-    "audiobooks/__init__.py"
+    "pyproject.toml:version"
 ]
 
 tag_format = "v$version"
@@ -78,37 +77,25 @@ enable_extensions = "G"
 accept_encodings = "utf-8"
 max_complexity = 6
 max_line_length = 88
-radon_max_cc = 10
-radon_show_closures = true
-radon_no_assert = true
 
 [tool.flakehell.plugins]
 "flake8-*" = ["+*"]
-flake8-coding = ["+*", "-C101", "-C812"]
 flake8-commas = ["-*"]
 flake8-darglint = ["-*"]  # enable when docstrings are mostly done
 flake8-docstrings = ["+*", "-D105"]
 flake8-quotes = ["-*"]
-flake8-print = ["-*"]
 mccabe = ["+*"]
 pep8-naming = ["+*"]
-pycodestyle = ["+*", "-E203", "-W503"]
+pycodestyle = ["+*", "-W503"]
 pyflakes = ["+*"]
 pylint = ["+*"]
-radon = ["+*"]
-wemake-python-styleguide = [
-    "+*",
-    "-WPS305",
-    "-WPS407",
-    "-WPS410",
-    "-WPS412",
-]
+wemake-python-styleguide = ["+*", "-WPS305", "-WPS323"]
 
 [tool.flakehell.exceptions."audiobooks/models.py"]
 wemake-python-styleguide = ["-WPS601"]
 
 [tool.flakehell.exceptions."audiobooks/db_tests.py"]
-wemake-python-styleguide = ["-WPS226", "-WPS432"]
+wemake-python-styleguide = ["-WPS226", "-WPS421", "-WPS432"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
