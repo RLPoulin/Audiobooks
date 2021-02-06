@@ -1,17 +1,18 @@
 """Database table models for the audiobook library."""
 
 from datetime import date
-from typing import TYPE_CHECKING, Optional, Type
+from types import MappingProxyType
+from typing import TYPE_CHECKING, Type
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import RelationshipProperty, relationship
+from sqlalchemy.orm import relationship
 from titlecase import titlecase
 
 if TYPE_CHECKING:
     hybrid_property = property
 else:
-    from sqlalchemy.ext.hybrid import hybrid_property
+    from sqlalchemy.ext.hybrid import hybrid_property  # noqa: WPS433, WPS440
 
 
 Base = declarative_base()
@@ -76,7 +77,9 @@ class Book(ModelUnique, Base):
     genre = relationship("Genre", backref=__tablename__)
     series = relationship("Series", backref=__tablename__)
 
-    def __init__(self, name: str, author: Author, genre: Genre, **kwargs) -> None:  # type: ignore
+    def __init__(
+        self, name: str, author: Author, genre: Genre, **kwargs  # type: ignore
+    ) -> None:
         """Construct a Book instance."""
         super().__init__(name)
         self.author = author
@@ -86,17 +89,19 @@ class Book(ModelUnique, Base):
         self.date_added = date.today()
 
     def __repr__(self) -> str:
-        return f"<Book('{self.name}', author='{self.author}', genre='{self.genre}')>"  # noqa: WPS221,E501
+        arguments: str = f"'{self.name}'"
+        arguments = f"{arguments}, author='{self.author}'"
+        arguments = f"{arguments}, genre='{self.genre}'"
+        return f"<Book({arguments})>"
 
 
 # Dictionary associating book properties with the correct model.
-MODELS: dict[str, Type[ModelUnique]] = {
-    "author": Author,
-    "genre": Genre,
-    "series": Series,
-}
+MODELS: MappingProxyType[str, Type[ModelUnique]] = MappingProxyType(
+    {"author": Author, "genre": Genre, "series": Series}
+)
 
 
 def clean_name(name: str) -> str:
     """Clean a string by capitalizing and removing extra spaces."""
-    return titlecase(" ".join(name.strip().split()))
+    name = " ".join(name.strip().split())
+    return str(titlecase(name))

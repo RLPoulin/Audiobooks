@@ -1,7 +1,5 @@
 """Database interactions for the audiobook library."""
 
-__all__ = ["CachedSession", "LibraryDatabase"]
-
 from contextlib import contextmanager
 from typing import Any, Generator, Optional, Type
 
@@ -30,7 +28,9 @@ class CachedSession(Session):  # noqa: WPS214
         if instance:
             log.debug("Got from cache: %s", repr(instance))
             return instance
-        instance: Optional[ModelUnique] = self.query(model).filter(model.name == name).first()  # type: ignore
+        instance: Optional[ModelUnique] = (
+            self.query(model).filter(model.name == name).first()  # type: ignore
+        )
         if instance:
             self.cache[(model, name)] = instance
             log.debug("Got from database: %s", repr(instance))
