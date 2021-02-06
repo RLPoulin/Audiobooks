@@ -3,7 +3,7 @@
 from audiobooks.db_tests import do_tests
 
 
-def main():
+def main() -> None:
     """Execute the entry point of the program."""
     do_tests()
 

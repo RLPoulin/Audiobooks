@@ -11,7 +11,7 @@ import sys
 import time
 from copy import copy
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 try:  # noqa: WPS229
     import colorama  # noqa: WPS433
@@ -35,11 +35,11 @@ FLUSH_SLEEP_TIME: float = 0.2
 class ColoredFormatter(logging.Formatter):
     """Formatter for colored screen output."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:  # type: ignore
         super().__init__(*args, **kwargs)
         if COLOR:
             colorama.init(autoreset=True)
-            self.colors: Dict[int, str] = {
+            self.colors: dict[int, str] = {
                 logging.NOTSET: colorama.Fore.WHITE + colorama.Style.DIM,
                 logging.DEBUG: colorama.Fore.WHITE + colorama.Style.DIM,
                 logging.INFO: colorama.Fore.GREEN + colorama.Style.DIM,
@@ -52,7 +52,7 @@ class ColoredFormatter(logging.Formatter):
             self.colors = {}
             self.reset_color = ""
 
-    def format(self, record: logging.LogRecord):  # noqa: A003
+    def format(self, record: logging.LogRecord) -> str:
         """Format a log record by adding coloring codes."""
         new_record: logging.LogRecord = copy(record)
         color: str = self.colors.get(new_record.levelno, "")
@@ -71,9 +71,9 @@ class LogManager(object):
         self._stream_level: str = DEFAULT_STREAM_LEVEL
         self._file_level: str = DEFAULT_FILE_LEVEL
         self.set_default_levels(stream_level, file_level, setup_loggers=False)
-        self.loggers: Dict[str, logging.Logger] = {}
-        self.file_handlers: Dict[str, logging.FileHandler] = {}
-        self.stream_handlers: Dict[str, logging.StreamHandler] = {}
+        self.loggers: dict[str, logging.Logger] = {}
+        self.file_handlers: dict[str, logging.FileHandler] = {}
+        self.stream_handlers: dict[str, logging.StreamHandler] = {}
         logging.captureWarnings(capture=True)
 
     def set_default_levels(
@@ -125,7 +125,7 @@ class LogManager(object):
         """Get Logger instance."""
         if isinstance(logger, logging.Logger):
             return logger
-        logger: logging.Logger = self.loggers.get(logger, logging.getLogger(logger))  # type: ignore
+        logger: logging.Logger = self.loggers.get(logger, logging.getLogger(logger))
         self.loggers.update({logger.name: logger})
         return logger
 
@@ -151,7 +151,7 @@ class LogManager(object):
         logger: logging.Logger = self.get_logger(logger)
         level: int = self.get_level(level, self._stream_level)
 
-        handlers: List[logging.StreamHandler] = [
+        handlers: list[logging.StreamHandler] = [
             log_handler
             for log_handler in logger.handlers
             if isinstance(log_handler, logging.StreamHandler)
@@ -232,7 +232,7 @@ class LogManager(object):
         self.remove_handlers(logger, files=True, streams=True)
         self.loggers.pop(logger.name, None)
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Close all loggers and shutdown."""
         for logger in list(self.loggers.values()):
             self.close_logger(logger)
@@ -241,7 +241,7 @@ class LogManager(object):
     def _set_logger_level(self, logger: Optional[Log] = None) -> None:
         """Set the logger's log level to the minimum required by its handlers."""
         logger: logging.Logger = self.get_logger(logger)
-        current_levels: List[int] = [
+        current_levels: list[int] = [
             log_handler.level for log_handler in logger.handlers
         ]
         new_level: int = min(current_levels) if current_levels else 0
