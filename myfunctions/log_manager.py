@@ -1,35 +1,29 @@
-"""My preconfigured logger.
-
-TODO: docstrings
-
-"""
-
-__all__ = ["LogManager"]
+"""My preconfigured logger."""
 
 import logging
 import sys
 import time
 from copy import copy
 from pathlib import Path
-from typing import Any, Optional, Union
-
-try:  # noqa: WPS229
-    import colorama  # noqa: WPS433
-
-    COLOR: bool = True
-except ModuleNotFoundError:
-    COLOR = False
+from typing import Optional, Union
 
 Level = Union[int, str]
 Log = Union[logging.Logger, str]
 PathLike = Union[Path, str]
 
+COLOR: bool = True
 DEFAULT_STREAM_LEVEL: str = "WARNING"
 DEFAULT_FILE_LEVEL: str = "DEBUG"
 STREAM_FORMAT: str = "%(asctime)s  %(name)s:%(lineno)03d\t%(levelname)s → %(message)s"
 FILE_FORMAT: str = "%(asctime)s  %(name)s:%(lineno)03d  %(levelname)-8s  %(message)s"
 CSV_FORMAT: str = "'%(asctime)s','%(name)s',%(lineno)d,%(levelno)s,'%(message)s'"
 FLUSH_SLEEP_TIME: float = 0.2
+
+try:
+    import colorama  # noqa: WPS433
+
+except ModuleNotFoundError:
+    COLOR = False
 
 
 class ColoredFormatter(logging.Formatter):
@@ -52,7 +46,7 @@ class ColoredFormatter(logging.Formatter):
             self.colors = {}
             self.reset_color = ""
 
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record: logging.LogRecord) -> str:  # noqa: WPS125
         """Format a log record by adding coloring codes."""
         new_record: logging.LogRecord = copy(record)
         color: str = self.colors.get(new_record.levelno, "")
@@ -112,12 +106,10 @@ class LogManager(object):
         if add_file:
             self.add_file(logger=logger, level=file_level, log_file=log_file)
         for log_handler in logger.handlers:
-            if stream_level is not None and isinstance(
-                log_handler, logging.StreamHandler
-            ):
-                log_handler.setLevel(stream_level)
-            if file_level is not None and isinstance(log_handler, logging.FileHandler):
-                log_handler.setLevel(file_level)
+            if isinstance(log_handler, logging.StreamHandler):
+                self._set_handler_level(log_handler, stream_level)
+            elif isinstance(log_handler, logging.FileHandler):
+                self._set_handler_level(log_handler, file_level)
         self._set_logger_level(logger)
         return logger
 
@@ -205,6 +197,17 @@ class LogManager(object):
         for log_handler in logger.handlers:
             log_handler.flush()
 
+    def remove_handler(
+        self, logger: logging.Logger, log_handler: logging.Handler
+    ) -> None:
+        """Remove a handler from a logger."""
+        if isinstance(log_handler, logging.StreamHandler):
+            self.stream_handlers.pop(logger.name, None)
+        elif isinstance(log_handler, logging.FileHandler):
+            self.file_handlers.pop(log_handler.baseFilename, None)
+        log_handler.close()
+        logger.removeHandler(log_handler)
+
     def remove_handlers(
         self,
         logger: Optional[Log] = None,
@@ -217,13 +220,9 @@ class LogManager(object):
         self.flush_logger(logger)
         for log_handler in logger.handlers:
             if streams and isinstance(log_handler, logging.StreamHandler):
-                self.stream_handlers.pop(logger.name, None)
+                self.remove_handler(logger, log_handler)
             elif files and isinstance(log_handler, logging.FileHandler):
-                self.file_handlers.pop(log_handler.baseFilename, None)
-            else:
-                continue
-            log_handler.close()
-            logger.removeHandler(log_handler)
+                self.remove_handler(logger, log_handler)
         self._set_logger_level(logger)
 
     def close_logger(self, logger: Optional[Log] = None) -> None:
@@ -246,3 +245,9 @@ class LogManager(object):
         ]
         new_level: int = min(current_levels) if current_levels else 0
         logger.setLevel(new_level)
+
+    def _set_handler_level(
+        self, log_handler: logging.Handler, level: Optional[Level]
+    ) -> None:
+        if level is not None:
+            log_handler.setLevel(level)
