@@ -77,8 +77,8 @@ class Book(ModelUnique, Base):
     genre = relationship("Genre", backref=__tablename__)
     series = relationship("Series", backref=__tablename__)
 
-    def __init__(
-        self, name: str, author: Author, genre: Genre, **kwargs  # type: ignore
+    def __init__(  # type: ignore
+        self, name: str, author: Author, genre: Genre, **kwargs
     ) -> None:
         """Construct a Book instance."""
         super().__init__(name)
