@@ -1,7 +1,5 @@
 """Creates a database in an SQLite file and does some tests."""
 
-__all__ = ["do_tests", "test_database", "add_to_library"]
-
 from datetime import date
 from pathlib import Path
 
@@ -28,10 +26,9 @@ def do_tests() -> None:
 
 def test_database(clear: bool = False) -> None:
     """Test the database and print content."""
-    library_path: Path = Path(__file__).parent.parent / "data"
-    library_path.mkdir(exist_ok=True)
-    library_file: str = str(library_path / "test.sqlite")
-    library: LibraryDatabase = LibraryDatabase(library_file)
+    library_path: Path = Path(__file__).parent.parent / "data" / "test.sqlite"
+    library_path.parent.mkdir(exist_ok=True)
+    library: LibraryDatabase = LibraryDatabase(str(library_path))
 
     if clear:
         library.clear()
