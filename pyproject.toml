@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Audiobooks"
-version = "0.4.5"
+version = "0.5.0"
 description = "My audiobook library program."
 authors = ["Robert Poulin <poulin.robert@gmail.com>"]
 license = "MIT"
@@ -27,7 +27,7 @@ wemake-python-styleguide = "^0.14.1"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.4.5"
+version = "0.5.0"
 version_files = [
     "pyproject.toml:version",
     "audiobooks/__init__.py"
@@ -35,7 +35,7 @@ version_files = [
 
 tag_format = "v$version"
 update_changelog_on_bump = true
-changelog_incremental = true
+changelog_incremental = false
 
 
 [tool.black]
