@@ -21,7 +21,7 @@ ipython = "^7.20.0"
 mypy = "^0.800"
 pre-commit = "^2.10.0"
 pretty-errors = "^1.2.19"
-sqlalchemy-stubs = "^0.3"
+sqlalchemy-stubs = "^0.4"
 wemake-python-styleguide = "^0.14.1"
 
 

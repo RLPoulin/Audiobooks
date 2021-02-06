@@ -801,14 +801,14 @@ pymysql = ["pymysql (<1)", "pymysql"]
 
 [[package]]
 name = "sqlalchemy-stubs"
-version = "0.3"
+version = "0.4"
 description = "SQLAlchemy stubs and mypy plugin"
 category = "dev"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-mypy = ">=0.720"
+mypy = ">=0.790"
 typing-extensions = ">=3.7.4"
 
 [[package]]
@@ -972,7 +972,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.0"
-content-hash = "2da2369b1f8b4f04c492a824da1cb06d52e6128bbd9e75bed98bf42270abeffd"
+content-hash = "bc67b97872e35b9c3de229fd12e5bc87f51a062369cf75e953eb109e7784e7f5"
 
 [metadata.files]
 appdirs = [
@@ -1383,8 +1383,8 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.3.23.tar.gz", hash = "sha256:6fca33672578666f657c131552c4ef8979c1606e494f78cd5199742dfb26918b"},
 ]
 sqlalchemy-stubs = [
-    {file = "sqlalchemy-stubs-0.3.tar.gz", hash = "sha256:a3318c810697164e8c818aa2d90bac570c1a0e752ced3ec25455b309c0bee8fd"},
-    {file = "sqlalchemy_stubs-0.3-py3-none-any.whl", hash = "sha256:ca1250605a39648cc433f5c70cb1a6f9fe0b60bdda4c51e1f9a2ab3651daadc8"},
+    {file = "sqlalchemy-stubs-0.4.tar.gz", hash = "sha256:c665d6dd4482ef642f01027fa06c3d5e91befabb219dc71fc2a09e7d7695f7ae"},
+    {file = "sqlalchemy_stubs-0.4-py3-none-any.whl", hash = "sha256:5eec7aa110adf9b957b631799a72fef396b23ff99fe296df726645d01e312aa5"},
 ]
 stevedore = [
     {file = "stevedore-3.3.0-py3-none-any.whl", hash = "sha256:50d7b78fbaf0d04cd62411188fa7eedcb03eb7f4c4b37005615ceebe582aa82a"},
