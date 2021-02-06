@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Optional, Type
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import RelationshipProperty, relationship
+from titlecase import titlecase
 
 if TYPE_CHECKING:
     hybrid_property = property
@@ -98,4 +99,4 @@ MODELS: dict[str, Type[ModelUnique]] = {
 
 def clean_name(name: str) -> str:
     """Clean a string by capitalizing and removing extra spaces."""
-    return " ".join(name.strip().split()).title()
+    return titlecase(" ".join(name.strip().split()))
