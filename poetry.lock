@@ -635,7 +635,7 @@ python-versions = "*"
 
 [[package]]
 name = "pre-commit"
-version = "2.10.0"
+version = "2.10.1"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
@@ -991,7 +991,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.0"
-content-hash = "c44a71e3557e1d068b3f28ba2e97f7468d73297356c1b69562a70306dec5c8a0"
+content-hash = "27c7a34d4b2f2d28cdb62a0f530c1919c06ea3dbde8f72136a10c598c796e16f"
 
 [metadata.files]
 appdirs = [
@@ -1284,8 +1284,8 @@ pickleshare = [
     {file = "pickleshare-0.7.5.tar.gz", hash = "sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca"},
 ]
 pre-commit = [
-    {file = "pre_commit-2.10.0-py2.py3-none-any.whl", hash = "sha256:391ed331fdd0a21d0be48c1b9919921e9d372dfd60f6dc77b8f01dd6b13161c1"},
-    {file = "pre_commit-2.10.0.tar.gz", hash = "sha256:f413348d3a8464b77987e36ef6e02c3372dadb823edf0dfe6fb0c3dc2f378ef9"},
+    {file = "pre_commit-2.10.1-py2.py3-none-any.whl", hash = "sha256:16212d1fde2bed88159287da88ff03796863854b04dc9f838a55979325a3d20e"},
+    {file = "pre_commit-2.10.1.tar.gz", hash = "sha256:399baf78f13f4de82a29b649afd74bef2c4e28eb4f021661fc7f29246e8c7a3a"},
 ]
 pretty-errors = [
     {file = "pretty_errors-1.2.19-py3-none-any.whl", hash = "sha256:87fd3071dbc302c9064f5b9a6114ea1678dda6ace70cbcd1452e46661af408e6"},
