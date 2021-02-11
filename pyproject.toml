@@ -23,7 +23,7 @@ mypy = "^0.800"
 pre-commit = "^2.10.1"
 pretty-errors = "^1.2.19"
 sqlalchemy-stubs = "^0.4"
-wemake-python-styleguide = "^0.14.1"
+wemake-python-styleguide = "^0.15.0"
 
 
 [tool.commitizen]
