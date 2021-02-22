@@ -950,7 +950,7 @@ python-versions = "*"
 
 [[package]]
 name = "wemake-python-styleguide"
-version = "0.15.0"
+version = "0.15.1"
 description = "The strictest and most opinionated python linter ever"
 category = "dev"
 optional = false
@@ -992,7 +992,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.0"
-content-hash = "02ae391ea411c66ca6160dba06a9c2b08f9238a3acc8facbd43370318a334914"
+content-hash = "d39ce596ec015d2577e2531b76d0e29251f48a0efd4115439e2815dc8e29d37b"
 
 [metadata.files]
 appdirs = [
@@ -1526,8 +1526,8 @@ wcwidth = [
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
 ]
 wemake-python-styleguide = [
-    {file = "wemake-python-styleguide-0.15.0.tar.gz", hash = "sha256:c8a3f426cd621f03fb3cc41cbd6754548d1db49bef245bc9a589c20dbff81aff"},
-    {file = "wemake_python_styleguide-0.15.0-py3-none-any.whl", hash = "sha256:3911a78c3475ab388da45c6291ac4130e4b862d807666aaa3997b2e833da6db8"},
+    {file = "wemake-python-styleguide-0.15.1.tar.gz", hash = "sha256:fe3c867e8960d4a755cbee09fcbeabd7f35b37289aaa6acce931b2ccd806300e"},
+    {file = "wemake_python_styleguide-0.15.1-py3-none-any.whl", hash = "sha256:d0fc6a62533903531cbb77a45822090a71052ce3f340fe1a11886f10bc1131f8"},
 ]
 werkzeug = [
     {file = "Werkzeug-1.0.1-py2.py3-none-any.whl", hash = "sha256:2de2a5db0baeae7b2d2664949077c2ac63fbd16d98da0ff71837f7d1dea3fd43"},
