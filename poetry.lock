@@ -392,7 +392,7 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-sqlalchemy"
-version = "2.4.4"
+version = "2.5.1"
 description = "Adds SQLAlchemy support to your Flask application."
 category = "main"
 optional = false
@@ -1012,7 +1012,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.0"
-content-hash = "af7ad8d31a782edfa4f51cb72ea275f249a426768da1828aeb958126a066b84c"
+content-hash = "6ef7c48142dd9ca9eec9672040f859d3e826f46d1f2e3d108cb640fc9eac2f9e"
 
 [metadata.files]
 appdirs = [
@@ -1152,8 +1152,8 @@ flask = [
     {file = "Flask-1.1.2.tar.gz", hash = "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060"},
 ]
 flask-sqlalchemy = [
-    {file = "Flask-SQLAlchemy-2.4.4.tar.gz", hash = "sha256:bfc7150eaf809b1c283879302f04c42791136060c6eeb12c0c6674fb1291fae5"},
-    {file = "Flask_SQLAlchemy-2.4.4-py2.py3-none-any.whl", hash = "sha256:05b31d2034dd3f2a685cbbae4cfc4ed906b2a733cff7964ada450fd5e462b84e"},
+    {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
+    {file = "Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl", hash = "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390"},
 ]
 gitdb = [
     {file = "gitdb-4.0.5-py3-none-any.whl", hash = "sha256:91f36bfb1ab7949b3b40e23736db18231bf7593edada2ba5c3a174a7b23657ac"},
