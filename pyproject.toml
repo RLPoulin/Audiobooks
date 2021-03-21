@@ -10,7 +10,7 @@ homepage = "https://github.com/RLPoulin/Audiobooks"
 [tool.poetry.dependencies]
 python = "^3.9.0"
 flask = "^1.1.1"
-flask-sqlalchemy = "^2.4.1"
+flask-sqlalchemy = "^2.5.1"
 sqlalchemy = "^1.4.1"
 titlecase = "^2.0.0"
 
