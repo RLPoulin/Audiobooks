@@ -11,7 +11,7 @@ homepage = "https://github.com/RLPoulin/Audiobooks"
 python = "^3.9.0"
 flask = "^1.1.1"
 flask-sqlalchemy = "^2.5.1"
-sqlalchemy = "^1.4.1"
+sqlalchemy = "^1.4.9"
 titlecase = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
