@@ -6,10 +6,10 @@ from typing import Any, Generator, Optional, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from audiobooks.log import logging
+from audiobooks.log import log_manager
 from audiobooks.models import MODELS, Base, ModelUnique, clean_name
 
-log = logging.getLogger(__name__)
+log = log_manager.get_logger(__name__)
 ModelType = Type[ModelUnique]
 
 

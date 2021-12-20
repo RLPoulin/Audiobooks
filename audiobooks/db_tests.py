@@ -4,13 +4,13 @@ from datetime import date
 from pathlib import Path
 
 from audiobooks.database import LibraryDatabase
-from audiobooks.log import flush_logger, logging
+from audiobooks.log import log_manager
 from audiobooks.models import Author, Book, Genre, Series
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
-logging.getLogger("audiobooks.database").setLevel(logging.DEBUG)
-logging.getLogger("titlecase").setLevel(logging.WARNING)
+log = log_manager.get_logger(__name__)
+log_manager.set_logger_level(__name__, "debug")
+log_manager.set_logger_level("audiobooks.database", "debug")
+log_manager.set_logger_level("titlecase", "warning")
 
 
 def do_tests() -> None:
@@ -22,7 +22,7 @@ def do_tests() -> None:
     test_database(clear=False)
 
     log.debug("Tests done")
-    logging.shutdown()
+    log_manager.shutdown()
 
 
 def test_database(clear: bool = False) -> None:
@@ -35,8 +35,6 @@ def test_database(clear: bool = False) -> None:
         library.clear()
 
     books: dict[str, str] = add_to_library(library)
-
-    flush_logger(log)
     log.info("End state list of books: %s", books)
 
 
