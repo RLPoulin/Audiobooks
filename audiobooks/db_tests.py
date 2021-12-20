@@ -4,24 +4,25 @@ from datetime import date
 from pathlib import Path
 
 from audiobooks.database import LibraryDatabase
-from audiobooks.log import log_manager
+from audiobooks.log import flush_logger, logging
 from audiobooks.models import Author, Book, Genre, Series
 
-log = log_manager.setup_logger(__name__)
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+logging.getLogger("audiobooks.database").setLevel(logging.DEBUG)
+logging.getLogger("titlecase").setLevel(logging.WARNING)
 
 
 def do_tests() -> None:
     """Start the db tests."""
-    log_manager.set_default_levels(stream_level="DEBUG", setup_loggers=True)
-
     log.info("Testing adding entries to an empty database")
     test_database(clear=True)
 
     log.info("Testing adding entries to an existing database")
     test_database(clear=False)
 
-    log.info("Done")
-    log_manager.shutdown()
+    log.debug("Tests done")
+    logging.shutdown()
 
 
 def test_database(clear: bool = False) -> None:
@@ -35,12 +36,8 @@ def test_database(clear: bool = False) -> None:
 
     books: dict[str, str] = add_to_library(library)
 
-    log_manager.flush_logger(log)
-    print()
-    print("End state list of books:")
-    for book, name in books.items():
-        print(f"{int(book):-4d}: {name}")
-    print()
+    flush_logger(log)
+    log.info("End state list of books: %s", books)
 
 
 def add_to_library(library: LibraryDatabase) -> dict[str, str]:

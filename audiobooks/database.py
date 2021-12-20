@@ -6,10 +6,10 @@ from typing import Any, Generator, Optional, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from audiobooks.log import log_manager
+from audiobooks.log import logging
 from audiobooks.models import MODELS, Base, ModelUnique, clean_name
 
-log = log_manager.setup_logger(__name__)
+log = logging.getLogger(__name__)
 ModelType = Type[ModelUnique]
 
 
@@ -55,7 +55,7 @@ class CachedSession(Session):
         """Add an instance to the database."""
         super().add(instance=instance, _warn=warn)
         self.cache[(instance.__class__, instance.name)] = instance
-        log.info("Added: %s", repr(instance))
+        log.debug("Added: %s", repr(instance))
 
     def delete(self, instance: ModelUnique) -> None:
         """Delete an instance from the database."""
@@ -106,7 +106,7 @@ class LibraryDatabase(object):
     def session_scope(self) -> Generator[CachedSession, None, None]:
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
-        log.info("Database session started.")
+        log.debug("Database session started.")
         try:
             yield session
             session.commit()
@@ -116,7 +116,7 @@ class LibraryDatabase(object):
             raise
         finally:
             session.close()
-            log.info("Database session closed.")
+            log.debug("Database session closed.")
 
     def clear(self) -> None:
         """Clear the database."""
