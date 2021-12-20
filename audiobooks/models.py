@@ -12,7 +12,7 @@ from titlecase import titlecase
 if TYPE_CHECKING:
     hybrid_property = property
 else:
-    from sqlalchemy.ext.hybrid import hybrid_property  # noqa: WPS433, WPS440
+    from sqlalchemy.ext.hybrid import hybrid_property
 
 
 Base = declarative_base()
@@ -24,7 +24,7 @@ class ModelUnique(object):
     key = Column(Integer, primary_key=True, autoincrement=True)
     _name = Column("name", String, unique=True, nullable=False)
 
-    def __init__(self, name: str, **kwargs) -> None:  # type: ignore
+    def __init__(self, name: str, **kwargs) -> None:
         """Construct a model."""
         self.name: str = name
 
@@ -40,7 +40,7 @@ class ModelUnique(object):
         return self._name
 
     @name.setter
-    def name(self, new_name: str) -> None:  # noqa: WPS440
+    def name(self, new_name: str) -> None:
         """Set the name property."""
         self._name = clean_name(name=new_name)
 
@@ -77,9 +77,7 @@ class Book(ModelUnique, Base):
     genre = relationship("Genre", backref=__tablename__)
     series = relationship("Series", backref=__tablename__)
 
-    def __init__(  # type: ignore
-        self, name: str, author: Author, genre: Genre, **kwargs
-    ) -> None:
+    def __init__(self, name: str, author: Author, genre: Genre, **kwargs) -> None:
         """Construct a Book instance."""
         super().__init__(name)
         self.author = author

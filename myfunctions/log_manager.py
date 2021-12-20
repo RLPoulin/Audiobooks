@@ -20,7 +20,7 @@ CSV_FORMAT: str = "'%(asctime)s','%(name)s',%(lineno)d,%(levelno)s,'%(message)s'
 FLUSH_SLEEP_TIME: float = 0.2
 
 try:
-    import colorama  # noqa: WPS433
+    import colorama
 
 except ModuleNotFoundError:
     COLOR = False
@@ -29,7 +29,7 @@ except ModuleNotFoundError:
 class ColoredFormatter(logging.Formatter):
     """Formatter for colored screen output."""
 
-    def __init__(self, *args, **kwargs) -> None:  # type: ignore
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if COLOR:
             colorama.init(autoreset=True)
@@ -46,7 +46,7 @@ class ColoredFormatter(logging.Formatter):
             self.colors = {}
             self.reset_color = ""
 
-    def format(self, record: logging.LogRecord) -> str:  # noqa: WPS125
+    def format(self, record: logging.LogRecord) -> str:  # noqa: A003
         """Format a log record by adding coloring codes."""
         new_record: logging.LogRecord = copy(record)
         color: str = self.colors.get(new_record.levelno, "")

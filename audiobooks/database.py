@@ -13,7 +13,7 @@ log = log_manager.setup_logger(__name__)
 ModelType = Type[ModelUnique]
 
 
-class CachedSession(Session):  # noqa: WPS214
+class CachedSession(Session):
     """Database session with added instance cache."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -29,7 +29,7 @@ class CachedSession(Session):  # noqa: WPS214
             log.debug("Got from cache: %s", repr(instance))
             return instance
         instance: Optional[ModelUnique] = (
-            self.query(model).filter(model.name == name).first()  # type: ignore
+            self.query(model).filter(model.name == name).first()
         )
         if instance:
             self.cache[(model, name)] = instance
@@ -107,7 +107,7 @@ class LibraryDatabase(object):
         """Create a context manager for a database session."""
         session: CachedSession = self._session_maker()
         log.info("Database session started.")
-        try:  # noqa: WPS229
+        try:
             yield session
             session.commit()
         except Exception:
