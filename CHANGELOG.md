@@ -1,3 +1,22 @@
+## v0.6.0 (2021-12-20)
+
+### Refactor
+
+- update noqa comments for use with flake8
+- **models**: fix type annotations after sqlalchemy-stubs update
+- **audiobooks**: improve code with flakehell
+- **myfunctions**: improve code with flakehell
+
+### Fix
+
+- **flakehell**: fix and clean config
+- **models**: change clean_name() to use the titlecase librairy
+- update typing information for Python 3.9 and mypy 0.800
+
+### Feat
+
+- update dependencies; includes increasing the Python version to 3.9
+
 ## v0.5.1 (2021-02-06)
 
 ### Refactor
