@@ -112,7 +112,7 @@ class LibraryDatabase:
             session.commit()
         except Exception:
             session.rollback()
-            log.exception("Error while committing transaction, rolling back changes.")
+            log.error("Exception while committing transaction, rolling back changes.")
             raise
         finally:
             session.close()
