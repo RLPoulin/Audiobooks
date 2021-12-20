@@ -8,8 +8,7 @@ from audiobooks.log import log_manager
 from audiobooks.models import Author, Book, Genre, Series
 
 log = log_manager.get_logger(__name__)
-log_manager.set_logger_level(__name__, "debug")
-log_manager.set_logger_level("audiobooks.database", "debug")
+log_manager.set_all_levels("debug")
 log_manager.set_logger_level("titlecase", "warning")
 
 
