@@ -21,7 +21,7 @@ class CachedSession(Session):
         super().__init__(*args, **kwargs)
         self.cache: dict[tuple[ModelType, str], ModelUnique] = {}
 
-    def get(self, model: ModelType, name: str) -> ModelUnique | None:
+    def get_instance(self, model: ModelType, name: str) -> ModelUnique | None:
         """Get the instance with a name and a model from the cache or database."""
         name = clean_name(name=name)
         instance: ModelUnique | None = self.cache.get((model, name), None)
@@ -41,7 +41,7 @@ class CachedSession(Session):
     def create(self, model: ModelType, name: str, **kwargs: Any) -> ModelUnique:
         """Create a model instance or get it if it already exists."""
         name = clean_name(name)
-        instance: ModelUnique | None = self.get(name=name, model=model)
+        instance: ModelUnique | None = self.get_instance(name=name, model=model)
         if instance:
             return instance
         for key, argument in kwargs.items():

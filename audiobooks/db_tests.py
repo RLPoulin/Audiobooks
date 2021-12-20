@@ -52,7 +52,7 @@ def add_to_library(library: LibraryDatabase) -> dict[str, str]:
             series="The Stormlight Archive",
             release_date=date(2010, 8, 31),
         )
-        sanderson = session.get(Author, "Brandon Sanderson")
+        sanderson = session.get_instance(Author, "Brandon Sanderson")
         session.create(
             model=Book,
             name="Words of Radiance",
