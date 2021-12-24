@@ -1,4 +1,4 @@
-"""Program entry point."""
+"""Program entry point. Currently, it just runs the db tests."""
 
 from audiobooks.db_tests import do_tests
 

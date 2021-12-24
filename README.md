@@ -16,24 +16,22 @@ and manage projects while practicing Python out of the workplace.
 
 - A database of books with information on the book, author, series, and genre.
 - Managing local audiobook files: adding, deleting, renaming, and organizing.
-- Fetching book information from the [Goodreads](https://goodreads.com) API.
-- Syncing some information between the database and my Goodreads collection.
+- Fetching book information with the [Goodreads](https://goodreads.com) API.
+- Syncing between the database and my Goodreads collection.
 - Linking to my [Audible](https://audible.com) books.
-- A UI to do all of the above.
+- A web UI to do all the above.
 
 ### Using
 
 #### packages
 
-- [Python 3.9](https://www.python.org/)
+- [Python 3.10](https://www.python.org/)
 - [SQLAlchemy](http://www.sqlalchemy.org)
 - [Flask](https://palletsprojects.com/p/flask/)
 
 #### development tools
 
 - [Poetry](https://python-poetry.org/)
-- [GitHub](https://github.com/)
+- [GitHub](https://github.com/) (with [pre-commit](https://pre-commit.com/) and [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically))
 - [PyCharm](https://www.jetbrains.com/pycharm/)
 - [Commitizen](https://github.com/commitizen-tools/commitizen)
-- [flakehell](https://github.com/life4/flakehell) (with [wemake-python-styleguide](https://wemake-python-stylegui.de))
-- [mypy](http://www.mypy-lang.org/)
