@@ -11,8 +11,8 @@ from audiobooks.models import Author, Book, Genre, Series
 
 install(show_locals=False)
 log = log_manager.get_logger(__name__)
-log_manager.set_all_levels("debug")
-log_manager.set_logger_level("titlecase", "warning")
+log_manager.set_all_levels("DEBUG")
+log_manager.set_logger_level("titlecase", "WARNING")
 
 
 def do_tests() -> None:
