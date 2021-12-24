@@ -1,3 +1,20 @@
+## v0.7.0 (2021-12-24)
+
+### Fix
+
+- **database.CachedSession**: renamed CachedSession.get() to .get_instance() to remove conflict with parent method
+- add traceback handling from Rich
+- **log**: move more functionality to LogManager
+- **log**: create a LogManager class to take care of logging functionality
+
+### Refactor
+
+- update code to new 3.10 syntax
+
+### Feat
+
+- **log**: migrate logging handler to Rich
+
 ## v0.6.0 (2021-12-20)
 
 ### Refactor
