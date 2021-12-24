@@ -9,7 +9,7 @@ from audiobooks.database import LibraryDatabase
 from audiobooks.log import log_manager
 from audiobooks.models import Author, Book, Genre, Series
 
-install(show_locals=True)
+install(show_locals=False)
 log = log_manager.get_logger(__name__)
 log_manager.set_all_levels("debug")
 log_manager.set_logger_level("titlecase", "warning")
