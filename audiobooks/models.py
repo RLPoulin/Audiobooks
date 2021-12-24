@@ -94,7 +94,8 @@ class Book(ModelUnique, Base):
 
 
 # Dictionary associating book properties with the correct model.
-MODELS: MappingProxyType[str, type[ModelUnique]] = MappingProxyType(
+ModelType = type[ModelUnique]
+MODELS: MappingProxyType[str, ModelType] = MappingProxyType(
     {"author": Author, "genre": Genre, "series": Series}
 )
 
