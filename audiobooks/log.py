@@ -1,29 +1,29 @@
 """Set up the LogManager."""
 
 import logging
+from typing import Literal
 
 from rich.logging import RichHandler
 
-LEVELS: dict[str, int] = {
-    "debug": logging.DEBUG,
-    "info": logging.INFO,
-    "warning": logging.WARNING,
-    "error": logging.ERROR,
-}
-
-DEFAULT_LEVEL: str = "info"
+LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+DEFAULT_LEVEL: LogLevel = "INFO"
 MESSAGE_FORMAT: str = "%(message)s"
 DATE_FORMAT: str = "%H:%M:%S"
 
 
 class LogManager:
-    def __init__(self, level: str = DEFAULT_LEVEL):
-        if level not in LEVELS:
-            raise ValueError(f"LogManager: invalid logging level: '{level}'.")
-        self.level: str = level
-        self._log_level: int = LEVELS[level]
+    """Class to manage loging."""
+
+    def __init__(self, level: LogLevel = DEFAULT_LEVEL):
+        """Initialize a log manager.
+
+        Args:
+            level: basic logging level, valid values are:
+                   "DEBUG", "INFO", "WARNING", "ERROR", and "CRITICAL"
+        """
+        self.level: LogLevel = level
         logging.basicConfig(
-            level=self._log_level,
+            level=level,
             format=MESSAGE_FORMAT,
             datefmt=DATE_FORMAT,
             handlers=[RichHandler()],
@@ -39,11 +39,12 @@ class LogManager:
         self.loggers |= {logger_name: logger}
         return logger
 
-    def set_logger_level(self, logger_name: str, level: str | None) -> None:
-        logger = self.get_logger(logger_name)
-        logger.setLevel(LEVELS.get(level, self._log_level))
+    def set_logger_level(self, logger_name: str, level: LogLevel | None = None) -> None:
+        if level is None:
+            level = self.level
+        self.get_logger(logger_name).setLevel(level)
 
-    def set_all_levels(self, level: str | None) -> None:
+    def set_all_levels(self, level: LogLevel | None = None) -> None:
         for logger_name in self.loggers:
             self.set_logger_level(logger_name, level)
 
