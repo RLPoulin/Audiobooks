@@ -68,7 +68,7 @@ class Book(ModelUnique, Base):
 
     __tablename__ = "books"
     author_key = Column(Integer, ForeignKey("authors.key"), nullable=False)
-    genre_key = Column(Integer, ForeignKey("genres.key"), nullable=False)
+    genre_key = Column(Integer, ForeignKey("genres.key"))
     series_key = Column(Integer, ForeignKey("series.key"))
     release_date = Column(Date)
     date_added = Column(Date)
@@ -77,20 +77,33 @@ class Book(ModelUnique, Base):
     genre = relationship("Genre", backref=__tablename__)
     series = relationship("Series", backref=__tablename__)
 
-    def __init__(self, name: str, author: Author, genre: Genre, **kwargs) -> None:
-        """Construct a Book instance."""
+    def __init__(
+        self,
+        name: str,
+        author: Author,
+        *,
+        genre: Genre | None = None,
+        series: Series | None = None,
+        release_date: date | None = None,
+    ) -> None:
+        """Construct a Book instance.
+
+        Args:
+            name: name of the book
+            author: instance object for the author
+            genre: instance object for the genre (optional)
+            series: instance object for the series (optional)
+            release_date: book release date (optional)
+        """
         super().__init__(name)
         self.author = author
         self.genre = genre
-        self.series = kwargs.get("series", None)
-        self.release_date = kwargs.get("release_date", None)
+        self.series = series
+        self.release_date = release_date
         self.date_added = date.today()
 
     def __repr__(self) -> str:
-        arguments: str = f"'{self.name}'"  # noqa
-        arguments = f"{arguments}, author='{self.author}'"
-        arguments = f"{arguments}, genre='{self.genre}'"
-        return f"<Book({arguments})>"
+        return f"<Book('{self.name}', author='{self.author}')>"  # noqa
 
 
 # Dictionary associating book properties with the correct model.
