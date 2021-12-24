@@ -25,7 +25,12 @@ class ModelUnique:
     _name = Column("name", String, unique=True, nullable=False)
 
     def __init__(self, name: str, **kwargs) -> None:
-        """Construct a model."""
+        """Construct a model instance.
+
+        Args:
+            name: name of the instance
+            kwargs: additional instance fields
+        """
         self.name: str = name
 
     def __repr__(self) -> str:
@@ -114,6 +119,13 @@ MODELS: MappingProxyType[str, ModelType] = MappingProxyType(
 
 
 def clean_name(name: str) -> str:
-    """Clean a string by capitalizing and removing extra spaces."""
+    """Clean a string by capitalizing and removing extra spaces.
+
+    Args:
+        name: the name to be cleaned
+
+    Returns:
+        str: the cleaned name
+    """
     name = " ".join(name.strip().split())
     return str(titlecase(name))
