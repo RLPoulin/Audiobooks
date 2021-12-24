@@ -18,6 +18,7 @@ titlecase = "^2.3"
 [tool.poetry.dev-dependencies]
 commitizen = "^2.20.3"
 pre-commit = "^2.16.0"
+sqlalchemy2-stubs = "^0.0.2-alpha.19"
 
 
 [tool.commitizen]
