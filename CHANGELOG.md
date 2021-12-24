@@ -1,3 +1,18 @@
+## v0.7.1 (2021-12-24)
+
+### Refactor
+
+- **db_tests**: change library_path to a module constant
+- correct spelling and supress a few incorrect PyCharm warnings
+- **models**: move ModelType from database to models
+
+### Fix
+
+- **log.LogManager**: improve logging level handling
+- **log**: improve code for logging levels
+- **models.Book**: clean class initializer, made genre optional
+- **database.LibraryDatabase**: change filename property to a Path object file_path
+
 ## v0.7.0 (2021-12-24)
 
 ### Fix
