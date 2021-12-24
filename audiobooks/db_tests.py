@@ -15,6 +15,10 @@ log_manager.set_logger_level("titlecase", "WARNING")
 log = log_manager.get_logger(__name__)
 
 
+LIBRARY_PATH: Path = Path(__file__).parent.parent / "data" / "test.sqlite"
+LIBRARY_PATH.parent.mkdir(exist_ok=True)
+
+
 def do_tests() -> None:
     """Start the db tests."""
     log.info("Testing adding entries to an empty database")
@@ -29,9 +33,7 @@ def do_tests() -> None:
 
 def test_database(clear: bool = False) -> None:
     """Test the database and print content."""
-    library_path: Path = Path(__file__).parent.parent / "data" / "test.sqlite"
-    library_path.parent.mkdir(exist_ok=True)
-    library: LibraryDatabase = LibraryDatabase(library_path)
+    library: LibraryDatabase = LibraryDatabase(LIBRARY_PATH)
 
     if clear:
         library.clear()
