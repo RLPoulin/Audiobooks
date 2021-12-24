@@ -22,7 +22,15 @@ class CachedSession(Session):
         self.cache: dict[tuple[ModelType, str], ModelUnique] = {}
 
     def get_instance(self, model: ModelType, name: str) -> ModelUnique | None:
-        """Get the instance with a name and a model from the cache or database."""
+        """Get an instance object from the cache or database.
+
+        Args:
+            model: type of the instance
+            name: name of the instance
+
+        Returns:
+            ModelUnique: the instance object, or None if it wasn't found
+        """
         name = clean_name(name=name)
         instance: ModelUnique | None = self.cache.get((model, name), None)
         if instance:
@@ -39,7 +47,16 @@ class CachedSession(Session):
         return None
 
     def create(self, model: ModelType, name: str, **kwargs: Any) -> ModelUnique:
-        """Create a model instance or get it if it already exists."""
+        """Create a new model instance, or get it from the database if it already exists.
+
+        Args:
+            model: type of the instance
+            name: name of the instance
+            kwargs: additional model information for the creation of the instance
+
+        Returns:
+            ModelUnique: the created instance object
+        """
         name = clean_name(name)
         instance: ModelUnique | None = self.get_instance(name=name, model=model)
         if instance:
@@ -52,13 +69,22 @@ class CachedSession(Session):
         return instance
 
     def add(self, instance: ModelUnique, warn: bool = True) -> None:
-        """Add an instance to the database."""
+        """Add an instance to the database.
+
+        Args:
+            instance: the instance object to add to the database
+            warn: display warnings
+        """
         super().add(instance=instance, _warn=warn)
         self.cache[(instance.__class__, instance.name)] = instance
         log.debug("Added: %s", repr(instance))
 
     def delete(self, instance: ModelUnique) -> None:
-        """Delete an instance from the database."""
+        """Delete an instance from the database.
+
+        Args:
+            instance: the instance object to delete from the database
+        """
         super().delete(instance)
         log.info("Deleted: %s", repr(instance))
 
@@ -73,7 +99,14 @@ class CachedSession(Session):
         self.cache = {}
 
     def get_index(self, model: ModelType) -> dict[str, str]:
-        """Return an index dictionary from a table in the database."""
+        """Return an index from a table in the database.
+
+        Args:
+            model: type of the table to query
+
+        Returns:
+            dict[str, str]: index as a {'key number': 'name'} dictionary
+        """
         index = self.query(model).all()
         return {str(entry.key): str(entry.name) for entry in index}
 
