@@ -37,7 +37,7 @@ class CachedSession(Session):
             log.debug("Got from cache: %s", repr(instance))
             return instance
         instance: ModelUnique | None = (
-            self.query(model).filter(model.name == name).first()
+            self.query(model).filter(model.name == name).first()  # noqa
         )
         if instance:
             self.cache[(model, name)] = instance
@@ -76,7 +76,7 @@ class CachedSession(Session):
             warn: display warnings
         """
         super().add(instance=instance, _warn=warn)
-        self.cache[(instance.__class__, instance.name)] = instance
+        self.cache[(instance.__class__, instance.name)] = instance  # noqa
         log.debug("Added: %s", repr(instance))
 
     def delete(self, instance: ModelUnique) -> None:
@@ -122,6 +122,7 @@ class LibraryDatabase:
         """
         self._file_path: Path = Path(file_path).resolve()
         self._engine = create_engine(f"sqlite:///{str(file_path)}")
+        # noinspection PyTypeChecker
         self._session_maker: sessionmaker = sessionmaker(
             bind=self._engine, class_=CachedSession
         )

@@ -2,7 +2,7 @@
 
 from datetime import date
 from types import MappingProxyType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Type
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,10 +29,10 @@ class ModelUnique:
         self.name: str = name
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__}('{self.name}')>"
+        return f"<{self.__class__.__name__}('{self.name}')>"  # noqa
 
     def __str__(self) -> str:
-        return self.name
+        return self.name  # noqa
 
     @hybrid_property
     def name(self) -> str:
@@ -64,7 +64,7 @@ class Genre(ModelUnique, Base):
 
 
 class Book(ModelUnique, Base):
-    """Model for the for the ``books`` table in the database."""
+    """Model for the ``books`` table in the database."""
 
     __tablename__ = "books"
     author_key = Column(Integer, ForeignKey("authors.key"), nullable=False)
@@ -87,14 +87,14 @@ class Book(ModelUnique, Base):
         self.date_added = date.today()
 
     def __repr__(self) -> str:
-        arguments: str = f"'{self.name}'"
+        arguments: str = f"'{self.name}'"  # noqa
         arguments = f"{arguments}, author='{self.author}'"
         arguments = f"{arguments}, genre='{self.genre}'"
         return f"<Book({arguments})>"
 
 
 # Dictionary associating book properties with the correct model.
-ModelType = type[ModelUnique]
+ModelType = Type[ModelUnique]
 MODELS: MappingProxyType[str, ModelType] = MappingProxyType(
     {"author": Author, "genre": Genre, "series": Series}
 )
