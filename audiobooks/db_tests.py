@@ -31,7 +31,7 @@ def test_database(clear: bool = False) -> None:
     """Test the database and print content."""
     library_path: Path = Path(__file__).parent.parent / "data" / "test.sqlite"
     library_path.parent.mkdir(exist_ok=True)
-    library: LibraryDatabase = LibraryDatabase(str(library_path))
+    library: LibraryDatabase = LibraryDatabase(library_path)
 
     if clear:
         library.clear()

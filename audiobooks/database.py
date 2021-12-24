@@ -1,6 +1,7 @@
 """Database interactions for the audiobook library."""
 
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Any, Generator
 
 from sqlalchemy import create_engine
@@ -80,10 +81,14 @@ class CachedSession(Session):
 class LibraryDatabase:
     """Interface to interact with the database."""
 
-    def __init__(self, filename: str) -> None:
-        """Initialize the database."""
-        self._filename: str = filename
-        self._engine = create_engine(f"sqlite:///{filename}")
+    def __init__(self, file_path: Path | str) -> None:
+        """Initialize the database.
+
+        Args:
+            file_path: path to the database file
+        """
+        self._file_path: Path = Path(file_path).resolve()
+        self._engine = create_engine(f"sqlite:///{str(file_path)}")
         self._session_maker: sessionmaker = sessionmaker(
             bind=self._engine, class_=CachedSession
         )
@@ -91,15 +96,15 @@ class LibraryDatabase:
         log.info("Connected: %s", repr(self))
 
     def __repr__(self) -> str:
-        return f"<LibraryDatabase('{self.filename}')>"
+        return f"<LibraryDatabase('{self.file_path}')>"
 
     def __str__(self) -> str:
-        return self.filename
+        return str(self.file_path)
 
     @property
-    def filename(self) -> str:
-        """Return the filename property."""
-        return self._filename
+    def file_path(self) -> Path:
+        """Return the file_path property."""
+        return self._file_path
 
     @contextmanager
     def session_scope(self) -> Generator[CachedSession, None, None]:
