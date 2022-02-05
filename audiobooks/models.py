@@ -2,7 +2,7 @@
 
 from datetime import date
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -112,7 +112,7 @@ class Book(ModelUnique, Base):
 
 
 # Dictionary associating book properties with the correct model.
-ModelType = Type[ModelUnique]
+ModelType = type[ModelUnique]
 MODELS: MappingProxyType[str, ModelType] = MappingProxyType(
     {"author": Author, "genre": Genre, "series": Series}
 )
