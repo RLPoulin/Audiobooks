@@ -24,35 +24,11 @@ sqlalchemy2-stubs = "^0.0.2-alpha.19"
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.7.1"
-version_files = [
-    "pyproject.toml:version"
-]
+version_files = ["pyproject.toml:version"]
 
 tag_format = "v$version"
 update_changelog_on_bump = true
 changelog_incremental = false
-
-
-[tool.black]
-line-length = 88
-target-version = ['py310']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.idea
-  | \.mypy_cache
-  | \.venv
-  | __pycache__
-  | build
-  | dist
-)/
-'''
-
-
-[tool.isort]
-profile = "black"
 
 
 [build-system]
