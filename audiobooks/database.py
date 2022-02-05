@@ -121,7 +121,7 @@ class LibraryDatabase:
             file_path: path to the database file
         """
         self._file_path: Path = Path(file_path).resolve()
-        self._engine = create_engine(f"sqlite:///{str(file_path)}")
+        self._engine = create_engine(f"sqlite:///{file_path}")
         # noinspection PyTypeChecker
         self._session_maker: sessionmaker = sessionmaker(
             bind=self._engine, class_=CachedSession
