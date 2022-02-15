@@ -109,7 +109,7 @@ testing = ["covdefaults (>=1.2.0)", "coverage (>=4)", "pytest (>=4)", "pytest-co
 
 [[package]]
 name = "flask"
-version = "2.0.2"
+version = "2.0.3"
 description = "A simple framework for building complex web applications."
 category = "main"
 optional = false
@@ -440,7 +440,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0"
-content-hash = "92c874d27926d55279c2ad5e455e3eedd7fb4084c394d766ebd688a2bafc9263"
+content-hash = "b2d117546ba640002ab141ee1f2d89e3f19f1dcbcd014c78f760059f5bf38f18"
 
 [metadata.files]
 argcomplete = [
@@ -484,8 +484,8 @@ filelock = [
     {file = "filelock-3.4.0.tar.gz", hash = "sha256:93d512b32a23baf4cac44ffd72ccf70732aeff7b8050fcaf6d3ec406d954baf4"},
 ]
 flask = [
-    {file = "Flask-2.0.2-py3-none-any.whl", hash = "sha256:cb90f62f1d8e4dc4621f52106613488b5ba826b2e1e10a33eac92f723093ab6a"},
-    {file = "Flask-2.0.2.tar.gz", hash = "sha256:7b2fb8e934ddd50731893bdcdb00fc8c0315916f9fcd50d22c7cc1a95ab634e2"},
+    {file = "Flask-2.0.3-py3-none-any.whl", hash = "sha256:59da8a3170004800a2837844bfa84d49b022550616070f7cb1a659682b2e7c9f"},
+    {file = "Flask-2.0.3.tar.gz", hash = "sha256:e1120c228ca2f553b470df4a5fa927ab66258467526069981b3eb0a91902687d"},
 ]
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
