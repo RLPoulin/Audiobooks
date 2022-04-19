@@ -290,11 +290,11 @@ docs = ["Sphinx (>=3.3,<4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)", "sphinx-auto
 
 [[package]]
 name = "rich"
-version = "12.0.1"
+version = "12.2.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
-python-versions = ">=3.6.2,<4.0.0"
+python-versions = ">=3.6.3,<4.0.0"
 
 [package.dependencies]
 commonmark = ">=0.9.0,<0.10.0"
@@ -439,7 +439,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0"
-content-hash = "a4c4235e48a377d70ff3fa2a6e76f2e6e78e60898b7acd81ba3283e212a36db7"
+content-hash = "d83298f409855d330265e6e0fea64de4db2593d64b481156eb31f6fd68dfc8b0"
 
 [metadata.files]
 argcomplete = [
@@ -698,8 +698,8 @@ questionary = [
     {file = "questionary-1.10.0.tar.gz", hash = "sha256:600d3aefecce26d48d97eee936fdb66e4bc27f934c3ab6dd1e292c4f43946d90"},
 ]
 rich = [
-    {file = "rich-12.0.1-py3-none-any.whl", hash = "sha256:ce5c714e984a2d185399e4e1dd1f8b2feacb7cecfc576f1522425643a36a57ea"},
-    {file = "rich-12.0.1.tar.gz", hash = "sha256:3fba9dd15ebe048e2795a02ac19baee79dc12cc50b074ef70f2958cd651b59a9"},
+    {file = "rich-12.2.0-py3-none-any.whl", hash = "sha256:c50f3d253bc6a9bb9c79d61a26d510d74abdf1b16881260fab5edfc3edfb082f"},
+    {file = "rich-12.2.0.tar.gz", hash = "sha256:ea74bc9dad9589d8eea3e3fd0b136d8bf6e428888955f215824c2894f0da8b47"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
