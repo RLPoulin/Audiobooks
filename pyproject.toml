@@ -19,6 +19,9 @@ titlecase = "^2.3"
 [tool.poetry.dev-dependencies]
 commitizen = "^2.24.0"
 pre-commit = "^2.18.1"
+pytest = "^7.1.2"
+pytest-flask = "^1.2.0"
+pytest-flask-sqlalchemy = "^1.0.2"
 sqlalchemy2-stubs = "^0.0.2a22"
 
 
