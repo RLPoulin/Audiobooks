@@ -8,7 +8,7 @@ updates:
           time: "06:38"
           timezone: "America/Toronto"
       commit-message:
-          prefix: "ci: "
+          prefix: "build"
           include: "scope"
       open-pull-requests-limit: 10
     - package-ecosystem: "github-actions"
@@ -19,5 +19,5 @@ updates:
           time: "05:38"
           timezone: "America/Toronto"
       commit-message:
-          prefix: "ci: "
+          prefix: "build"
           include: "scope"
