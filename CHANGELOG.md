@@ -1,3 +1,13 @@
+## v0.8.0 (2022-04-30)
+
+### Feat
+
+- **app**: add flask app entry point
+
+### Refactor
+
+- **database**: remove redundent call to str
+
 ## v0.7.1 (2021-12-24)
 
 ### Refactor
