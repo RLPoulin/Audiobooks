@@ -1,3 +1,8 @@
+ci:
+    autofix_commit_msg: "ci(pre-commit): auto fix from pre-commit hooks"
+    autofix_prs: true
+    autoupdate_commit_msg: "ci(pre-commit): update dependencies"
+    autoupdate_schedule: weekly
 exclude: ".idea"
 repos:
     - repo: https://github.com/asottile/pyupgrade
