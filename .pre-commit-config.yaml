@@ -12,6 +12,7 @@ repos:
           - id: isort
             args:
                 - "--profile=black"
+                - "--project=audiobooks"
     - repo: https://github.com/psf/black
       rev: 22.3.0
       hooks:
@@ -26,30 +27,41 @@ repos:
                 - "--max-line-length=88"
                 - "--max-complexity=18"
             additional_dependencies:
+                - flake8-annotations
+                - flake8-bandit
+                - flake8-blind-except
                 - flake8-broken-line
                 - flake8-bugbear
                 - flake8-builtins
                 - flake8-comprehensions
                 - flake8-eradicate
+                - flake8-future-annotations
+                - flake8-implicit-str-concat
+                - flake8-markdown
+                - flake8-print
                 - flake8-rst-docstrings
                 - pep8-naming
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v4.2.0
       hooks:
+          - id: check-merge-conflict
           - id: check-case-conflict
           - id: check-vcs-permalinks
           - id: check-symlinks
           - id: destroyed-symlinks
-          - id: check-merge-conflict
+          - id: detect-private-key
+          - id: check-ast
           - id: check-toml
           - id: check-yaml
+          - id: check-xml
           - id: check-json
           - id: pretty-format-json
-            args: [--autofix]
-          - id: end-of-file-fixer
+            args: [--autofix, --indent=4]
           - id: trailing-whitespace
             args: [--markdown-linebreak-ext=md]
           - id: mixed-line-ending
+          - id: end-of-file-fixer
+          - id: fix-byte-order-marker
     - repo: https://github.com/commitizen-tools/commitizen
       rev: v2.24.0
       hooks:
