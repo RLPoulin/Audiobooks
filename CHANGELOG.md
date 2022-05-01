@@ -1,3 +1,20 @@
+## v1.0.0 (2022-05-01)
+
+### Refactor
+
+- **database**: remove the entire database module since flask-sqlalchemy takes care of everything now
+- **library**: move models to new audiobooks.library package and update code to use flask-sqlalchemy
+- **log**: remove audiobooks.log module
+
+### Feat
+
+- **__main__**: change main() to create the Flask app and run it; add logging setup
+- **app**: change from a simple app to a create_app() factory and integrate new extensions and pages
+- **library**: add simple pages to create and read entries from the database
+- **configuration**: add module to prepare the default configuration for Flask
+- **extensions**: add module to initialize Flask plugins
+- **main_page**: add module for the application main page with a basic landing page
+
 ## v0.8.0 (2022-04-30)
 
 ### Feat

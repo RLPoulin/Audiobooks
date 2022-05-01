@@ -1,28 +1,20 @@
 """Database table models for the audiobook library."""
 
-from datetime import date
-from types import MappingProxyType
-from typing import TYPE_CHECKING
+import datetime
 
-from sqlalchemy import Column, Date, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from titlecase import titlecase
+from sqlalchemy.ext.hybrid import hybrid_property
 
-if TYPE_CHECKING:
-    hybrid_property = property
-else:
-    from sqlalchemy.ext.hybrid import hybrid_property
+from audiobooks.extensions import db
+
+from .utils import clean_name
 
 
-Base = declarative_base()
-
-
-class ModelUnique:
+class LibraryModel(db.Model):
     """Base class for a model containing only uniquely named items."""
 
-    key = Column(Integer, primary_key=True, autoincrement=True)
-    _name = Column("name", String, unique=True, nullable=False)
+    __abstract__ = True
+    key = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    _name = db.Column("name", db.String, unique=True, nullable=False)
 
     def __init__(self, name: str, **kwargs) -> None:
         """Construct a model instance.
@@ -34,10 +26,10 @@ class ModelUnique:
         self.name: str = name
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__}('{self.name}')>"  # noqa
+        return f"{self.__class__.__name__}('{self.name}')"
 
     def __str__(self) -> str:
-        return self.name  # noqa
+        return self.name
 
     @hybrid_property
     def name(self) -> str:
@@ -50,37 +42,37 @@ class ModelUnique:
         self._name = clean_name(name=new_name)
 
 
-class Author(ModelUnique, Base):
+class Author(LibraryModel):
     """Defines the model for the ``authors`` table in the database."""
 
     __tablename__ = "authors"
 
 
-class Series(ModelUnique, Base):
+class Series(LibraryModel):
     """Defines the model for the ``series`` table in the database."""
 
     __tablename__ = "series"
 
 
-class Genre(ModelUnique, Base):
+class Genre(LibraryModel):
     """Defines the model for the ``genres`` table in the database."""
 
     __tablename__ = "genres"
 
 
-class Book(ModelUnique, Base):
+class Book(LibraryModel):
     """Model for the ``books`` table in the database."""
 
     __tablename__ = "books"
-    author_key = Column(Integer, ForeignKey("authors.key"), nullable=False)
-    genre_key = Column(Integer, ForeignKey("genres.key"))
-    series_key = Column(Integer, ForeignKey("series.key"))
-    release_date = Column(Date)
-    date_added = Column(Date)
+    author_key = db.Column(db.Integer, db.ForeignKey("authors.key"), nullable=False)
+    genre_key = db.Column(db.Integer, db.ForeignKey("genres.key"))
+    series_key = db.Column(db.Integer, db.ForeignKey("series.key"))
+    release_date = db.Column(db.Date)
+    date_added = db.Column(db.Date)
 
-    author = relationship("Author", backref=__tablename__)
-    genre = relationship("Genre", backref=__tablename__)
-    series = relationship("Series", backref=__tablename__)
+    author = db.relationship("Author", backref=__tablename__)
+    genre = db.relationship("Genre", backref=__tablename__)
+    series = db.relationship("Series", backref=__tablename__)
 
     def __init__(
         self,
@@ -89,7 +81,7 @@ class Book(ModelUnique, Base):
         *,
         genre: Genre | None = None,
         series: Series | None = None,
-        release_date: date | None = None,
+        release_date: datetime.date | None = None,
     ) -> None:
         """Construct a Book instance.
 
@@ -105,27 +97,16 @@ class Book(ModelUnique, Base):
         self.genre = genre
         self.series = series
         self.release_date = release_date
-        self.date_added = date.today()
+        self.date_added = datetime.date.today()
 
     def __repr__(self) -> str:
         return f"<Book('{self.name}', author='{self.author}')>"  # noqa
 
 
 # Dictionary associating book properties with the correct model.
-ModelType = type[ModelUnique]
-MODELS: MappingProxyType[str, ModelType] = MappingProxyType(
-    {"author": Author, "genre": Genre, "series": Series}
-)
-
-
-def clean_name(name: str) -> str:
-    """Clean a string by capitalizing and removing extra spaces.
-
-    Args:
-        name: the name to be cleaned
-
-    Returns:
-        str: the cleaned name
-    """
-    name = " ".join(name.strip().split())
-    return str(titlecase(name))
+LIBRARY_MODELS: dict[str, type[LibraryModel]] = {
+    "author": Author,
+    "book": Book,
+    "genre": Genre,
+    "series": Series,
+}
