@@ -20,7 +20,7 @@ library_blueprint = Blueprint(
 def create_entry(item: str) -> str:
     model = LIBRARY_MODELS.get(item)
     if not model:
-        return f"Can't find model for item: '{item}'"
+        return "<b>Can't find model type!</b>"
     name = request.args.get("name", type=str)
     if not name:
         log.warning("Missing required argument: name")
@@ -29,16 +29,16 @@ def create_entry(item: str) -> str:
     try:
         db.session.add(entry)
         db.session.commit()
-        return f"Added: {entry!r}"
+        return f"Created: {entry!r}"
     except IntegrityError as exception:
         log.warning(f"Can't add {item}: {exception}")
-        return f"Can't add {item} with name '{name}'"
+        return "<b>Creating new entry failed!</b>"
 
 
 @library_blueprint.route("/read/<item>/<name>")
 def read_entry(item: str, name: str) -> str:
     model = LIBRARY_MODELS.get(item)
     if not model:
-        return f"Can't find model for item: '{item}'"
+        return "<b>Can't find model type!</b>"
     entry = model.query.filter_by(name=clean_name(name)).first_or_404()
-    return f"Got: {entry!r}"
+    return f"Read: {entry!r}"
