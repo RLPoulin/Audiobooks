@@ -1,8 +1,8 @@
 """Base database module."""
 
-from typing import TypeVar
+from typing import Any, TypeVar
 
-from extensions import db
+from audiobooks.extensions import db
 
 ModelType = TypeVar("ModelType", bound="Model")
 
@@ -44,3 +44,10 @@ class Model(db.Model):
     def delete(self) -> None:
         """Delete the record from the database."""
         db.session.delete(self)
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert the record to a dictionary."""
+        return {
+            column.key: getattr(self, column.key)
+            for column in db.inspect(self).mapper.column_attrs
+        }
