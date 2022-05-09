@@ -2,13 +2,11 @@
 
 import logging
 
-from flask import Blueprint, request
-from sqlalchemy.exc import IntegrityError
+from flask import Blueprint, abort, redirect, request
 
 from audiobooks.extensions import db
 
 from .models import LIBRARY_MODELS
-from .utils import clean_name
 
 log: logging.Logger = logging.getLogger(__name__)
 library_blueprint = Blueprint(
@@ -16,29 +14,57 @@ library_blueprint = Blueprint(
 )
 
 
-@library_blueprint.route("/create/<item>")
+@library_blueprint.route("/<string:item>/create")
 def create_entry(item: str) -> str:
-    model = LIBRARY_MODELS.get(item)
-    if not model:
-        return "<b>Can't find model type!</b>"
-    name = request.args.get("name", type=str)
-    if not name:
-        log.warning("Missing required argument: name")
-        return "Missing required argument: name"
-    entry = model(**request.args.to_dict())
+    model = LIBRARY_MODELS.get(item) or abort(404)
+    record = model.create(**request.args.to_dict())
     try:
-        db.session.add(entry)
         db.session.commit()
-        return f"Created: {entry!r}"
-    except IntegrityError as exception:
-        log.warning(f"Can't add {item}: {exception}")
-        return "<b>Creating new entry failed!</b>"
+        return redirect(f"./{record.record_id}")
+    except Exception as exception:  # noqa: B902
+        db.session.rollback()
+        log.warning(f"Can't add {record}: {exception}")
+        return "<b>Creating new record failed!</b>"
 
 
-@library_blueprint.route("/read/<item>/<name>")
-def read_entry(item: str, name: str) -> str:
-    model = LIBRARY_MODELS.get(item)
-    if not model:
-        return "<b>Can't find model type!</b>"
-    entry = model.query.filter_by(name=clean_name(name)).first_or_404()
-    return f"Read: {entry!r}"
+@library_blueprint.route("/<string:item>/find")
+def find_by_name(item: str) -> str:
+    model = LIBRARY_MODELS.get(item) or abort(404)
+    name = request.args.get("name", type=str) or abort(404)
+    record = model.get_by_name(name) or abort(404)
+    return redirect(f"./{record.record_id}")
+
+
+@library_blueprint.route("/<string:item>/<int:record_id>")
+def read_record(item: str, record_id: int) -> str:
+    model = LIBRARY_MODELS.get(item) or abort(404)
+    record = model.get_by_id(record_id) or abort(404)
+    return record.to_dict()
+
+
+@library_blueprint.route("/<string:item>/<int:record_id>/update")
+def update_record(item: str, record_id: int) -> str:
+    model = LIBRARY_MODELS.get(item) or abort(404)
+    record = model.get_by_id(record_id) or abort(404)
+    try:
+        record.update(**request.args.to_dict())
+        db.session.commit()
+        return redirect(f"../{record.record_id}")
+    except Exception as exception:  # noqa: B902
+        db.session.rollback()
+        log.warning(f"Can't update {record}: {exception}")
+        return "<b>Updating record failed!</b>"
+
+
+@library_blueprint.route("/<string:item>/<int:record_id>/delete")
+def delete_record(item: str, record_id: int) -> str:
+    model = LIBRARY_MODELS.get(item) or abort(404)
+    record = model.get_by_id(record_id) or abort(404)
+    try:
+        record.delete()
+        db.session.commit()
+        return f"Deleted: {record}"
+    except Exception as exception:  # noqa: B902
+        db.session.rollback()
+        log.warning(f"Can't delete {record}: {exception}")
+        return "<b>Deleting record failed!</b>"
