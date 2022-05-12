@@ -1,5 +1,7 @@
 """Flask app entry point."""
 
+from __future__ import annotations
+
 import logging
 
 import flask
@@ -20,12 +22,15 @@ logging.getLogger("werkzeug").handlers.clear()
 logging.getLogger("titlecase").setLevel("WARNING")
 
 
-def main() -> flask.Flask:
+def start_app() -> flask.Flask:
     app: flask.Flask = create_app()
     db.create_all(app=app)
     return app
 
 
+def main() -> None:
+    start_app().run()
+
+
 if __name__ == "__main__":
-    app = main()
-    app.run()
+    main()
