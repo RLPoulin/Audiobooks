@@ -1,29 +1,24 @@
 ci:
-  autofix_commit_msg: "ci(pre-commit): auto fix from pre-commit hooks"
+  autofix_commit_msg: "ci(pre-commit): auto fix code from pre-commit hooks"
   autofix_prs: true
-  autoupdate_commit_msg: "ci(pre-commit): update dependencies"
+  autoupdate_commit_msg: "ci(pre-commit): update pre-commit dependencies"
   autoupdate_schedule: weekly
-exclude: ".idea"
 repos:
   - repo: https://github.com/asottile/pyupgrade
     rev: v2.32.1
     hooks:
       - id: pyupgrade
-        args:
-          - "--py310-plus"
+        args: [--py310-plus]
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1
     hooks:
       - id: isort
-        args:
-          - "--profile=black"
-          - "--project=audiobooks"
+        args: [--profile=black, --project=audiobooks]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       - id: black
-        args:
-          - "--target-version=py310"
+        args: [--target-version=py310]
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
