@@ -19,5 +19,5 @@ updates:
       time: "05:38"
       timezone: "America/Toronto"
     commit-message:
-      prefix: "build"
+      prefix: "ci"
       include: "scope"
