@@ -1,11 +1,14 @@
 [tool.poetry]
 name = "Audiobooks"
-version = "1.0.0"
+version = "0.9.0"
 description = "My audiobook library program."
 authors = ["Robert Poulin <poulin.robert@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/RLPoulin/Audiobooks"
+repository = "https://github.com/RLPoulin/Audiobooks"
+
+[tool.poetry.scripts]
+audiobooks = "audiobooks.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10.0"
@@ -28,7 +31,7 @@ pytest-flask-sqlalchemy = "^1.1.0"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "1.0.0"
+version = "0.9.0"
 version_files = ["pyproject.toml:version"]
 
 tag_format = "v$version"

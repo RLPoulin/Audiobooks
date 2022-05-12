@@ -1,4 +1,4 @@
-## v1.0.0 (2022-05-01)
+## v0.9.0 (2022-05-01)
 
 ### Refactor
 
@@ -8,7 +8,7 @@
 
 ### Feat
 
-- **__main__**: change main() to create the Flask app and run it; add logging setup
+- ****main****: change main() to create the Flask app and run it; add logging setup
 - **app**: change from a simple app to a create_app() factory and integrate new extensions and pages
 - **library**: add simple pages to create and read entries from the database
 - **configuration**: add module to prepare the default configuration for Flask
