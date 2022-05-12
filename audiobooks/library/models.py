@@ -21,11 +21,11 @@ class LibraryModel(Model):
     date_added = db.Column(db.Date, default=datetime.date.today)
 
     def __init__(self, name: str, **kwargs) -> None:
-        super().__init__()
+        super().__init__(**kwargs)
         self.name = name
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}('{self.name}')"
+        return f"{type(self)}('{self.name}')"
 
     @classmethod
     def get_by_name(cls, name: str) -> LibraryModelType:
@@ -78,13 +78,13 @@ class Book(LibraryModel):
         series: Series | str | None = None,
         release_date: datetime.date | str | None = None,
     ) -> None:
-        super().__init__(name)
+        super().__init__(name=name)
         if isinstance(author, str):
             author = Author.get_by_name(author)
         if isinstance(genre, str):
-            author = Genre.get_by_name(genre)
+            genre = Genre.get_by_name(genre)
         if isinstance(series, str):
-            author = Series.get_by_name(series)
+            series = Series.get_by_name(series)
         if isinstance(release_date, str):
             release_date = datetime.date.fromisoformat(release_date)
         self.author = author

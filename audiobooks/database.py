@@ -14,7 +14,7 @@ class Model(db.Model):
     record_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.record_id})"
+        return f"{type(self)}({self.record_id})"
 
     @classmethod
     def get_by_id(cls, record_id: int | str) -> ModelType:
