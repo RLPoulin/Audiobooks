@@ -47,7 +47,11 @@ class Model(db.Model):
 
     def to_dict(self) -> dict[str, Any]:
         """Convert the record to a dictionary."""
-        return {
-            column.key: getattr(self, column.key)
-            for column in db.inspect(self).mapper.column_attrs
-        }
+        record_dict: dict[str, Any] = {}
+        for column in db.inspect(self).mapper.column_attrs:
+            column_name = column.key
+            value = getattr(self, column_name)
+            if hasattr(value, "to_dict"):
+                value = value.to_dict()
+            record_dict[column_name] = value
+        return record_dict
