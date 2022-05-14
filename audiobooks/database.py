@@ -1,6 +1,6 @@
 """Base database module."""
 
-from typing import Any, SupportsInt, TypeVar
+from typing import Any, TypeVar
 
 from audiobooks.extensions import db
 
@@ -17,15 +17,13 @@ class Model(db.Model):
         return f"{type(self).__name__}({self.record_id})"
 
     @classmethod
-    def get_by_id(
-        cls: type[ModelType], record_id: SupportsInt | str
-    ) -> ModelType | None:
+    def get_by_id(cls: type[ModelType], record_id: int) -> ModelType | None:
         """Get a record by id."""
-        try:
-            record_id = int(record_id)
-        except ValueError:
-            return None
         return cls.query.get(record_id)
+
+    @classmethod
+    def get(cls: type[ModelType], record: ModelType | int) -> ModelType | None:
+        return record if isinstance(record, ModelType) else cls.get_by_id(record)
 
     @classmethod
     def create(cls: type[ModelType], **kwargs) -> ModelType:

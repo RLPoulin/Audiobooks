@@ -32,6 +32,14 @@ class LibraryModel(Model):
         """Get a record by name."""
         return cls.query.filter_by(name=clean_name(name)).first()
 
+    @classmethod
+    def get(
+        cls: type[LibraryModelType], record: LibraryModelType | str | int
+    ) -> LibraryModelType | None:
+        return (
+            cls.get_by_name(record) if isinstance(record, str) else super().get(record)
+        )
+
     @hybrid_property
     def name(self) -> str:
         """Return the name property."""
@@ -79,17 +87,11 @@ class Book(LibraryModel):
         release_date: datetime.date | str | None = None,
     ) -> None:
         super().__init__(name=name)
-        if isinstance(author, str):
-            author = Author.get_by_name(author)
-        if isinstance(genre, str):
-            genre = Genre.get_by_name(genre)
-        if isinstance(series, str):
-            series = Series.get_by_name(series)
         if isinstance(release_date, str):
             release_date = datetime.date.fromisoformat(release_date)
-        self.author = author
-        self.genre = genre
-        self.series = series
+        self.author = Author.get(author)
+        self.genre = Genre.get(genre)
+        self.series = Series.get(series)
         self.release_date = release_date
 
 
