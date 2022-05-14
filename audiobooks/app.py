@@ -17,6 +17,7 @@ def create_app(config_object: str = "audiobooks.configuration") -> flask.Flask:
 
 def register_extensions(app: flask.Flask) -> None:
     db.init_app(app)
+    db.create_all(app=app)
     migrate.init_app(app, db)
     cache.init_app(app)
 
