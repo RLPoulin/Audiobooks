@@ -1,3 +1,25 @@
+## v0.10.0 (2022-05-14)
+
+### Refactor
+
+- **database.Model**: add get method
+- **audiobooks.__main__**: simplify app creation process
+- **audiobooks.__init__**: simplify __version__
+- fix small issues and clean code
+
+### Fix
+
+- **routes**: improve route responses
+- **database.Model**: improve to_dict method
+- **__main__**: fix script entry point
+
+### Feat
+
+- **library.routes**: update routes to use the new CRUD methods from database.Model and library.models.LibraryModel
+- **library.models**: update models to the new audiobooks.database.Model base class
+- **database.Model**: add to_dict() method
+- **database**: add new database base model class
+
 ## v0.9.0 (2022-05-01)
 
 ### Refactor

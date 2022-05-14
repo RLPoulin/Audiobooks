@@ -1,3 +1,3 @@
 """My audiobook library program."""
 
-__version__ = "v0.9.0"
+__version__ = "v0.10.0"
