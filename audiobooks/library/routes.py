@@ -2,11 +2,11 @@
 
 import logging
 
-from flask import Blueprint, abort, redirect, request
+from flask import Blueprint, Response, abort, make_response, redirect, request
 
 from audiobooks.extensions import db
 
-from .models import LIBRARY_MODELS
+from .models import LIBRARY_MODELS, LibraryModelType
 
 log: logging.Logger = logging.getLogger(__name__)
 library_blueprint = Blueprint(
@@ -15,37 +15,37 @@ library_blueprint = Blueprint(
 
 
 @library_blueprint.route("/<string:item>/create")
-def create_entry(item: str) -> str:
-    model = LIBRARY_MODELS.get(item) or abort(404)
-    record = model.create(**request.args.to_dict())
+def create_entry(item: str) -> Response:
+    model: type[LibraryModelType] = LIBRARY_MODELS.get(item) or abort(404)
+    record: LibraryModelType = model.create(**request.args.to_dict())
     try:
         db.session.commit()
         return redirect(f"./{record.record_id}")
     except Exception as exception:  # noqa: B902
         db.session.rollback()
         log.warning(f"Can't add {record}: {exception}")
-        return "<b>Creating new record failed!</b>"
+        return make_response(f"<b>Creating {record} failed!</b><p>{exception}")
 
 
 @library_blueprint.route("/<string:item>/find")
-def find_by_name(item: str) -> str:
-    model = LIBRARY_MODELS.get(item) or abort(404)
-    name = request.args.get("name", type=str) or abort(404)
-    record = model.get_by_name(name) or abort(404)
+def find_by_name(item: str) -> Response:
+    model: type[LibraryModelType] = LIBRARY_MODELS.get(item) or abort(404)
+    name: str = request.args.get("name", type=str) or abort(404)
+    record: LibraryModelType = model.get_by_name(name) or abort(404)
     return redirect(f"./{record.record_id}")
 
 
 @library_blueprint.route("/<string:item>/<int:record_id>")
-def read_record(item: str, record_id: int) -> str:
-    model = LIBRARY_MODELS.get(item) or abort(404)
-    record = model.get_by_id(record_id) or abort(404)
-    return record.to_dict()
+def read_record(item: str, record_id: int) -> Response:
+    model: type[LibraryModelType] = LIBRARY_MODELS.get(item) or abort(404)
+    record: LibraryModelType = model.get_by_id(record_id) or abort(404)
+    return make_response(record.to_dict())
 
 
 @library_blueprint.route("/<string:item>/<int:record_id>/update")
-def update_record(item: str, record_id: int) -> str:
-    model = LIBRARY_MODELS.get(item) or abort(404)
-    record = model.get_by_id(record_id) or abort(404)
+def update_record(item: str, record_id: int) -> Response:
+    model: type[LibraryModelType] = LIBRARY_MODELS.get(item) or abort(404)
+    record: LibraryModelType = model.get_by_id(record_id) or abort(404)
     try:
         record.update(**request.args.to_dict())
         db.session.commit()
@@ -53,13 +53,13 @@ def update_record(item: str, record_id: int) -> str:
     except Exception as exception:  # noqa: B902
         db.session.rollback()
         log.warning(f"Can't update {record}: {exception}")
-        return "<b>Updating record failed!</b>"
+        return make_response(f"<b>Updating {record} failed!</b><p>{exception}")
 
 
 @library_blueprint.route("/<string:item>/<int:record_id>/delete")
-def delete_record(item: str, record_id: int) -> str:
-    model = LIBRARY_MODELS.get(item) or abort(404)
-    record = model.get_by_id(record_id) or abort(404)
+def delete_record(item: str, record_id: int) -> Response:
+    model: type[LibraryModelType] = LIBRARY_MODELS.get(item) or abort(404)
+    record: LibraryModelType = model.get_by_id(record_id) or abort(404)
     try:
         record.delete()
         db.session.commit()
@@ -67,4 +67,4 @@ def delete_record(item: str, record_id: int) -> str:
     except Exception as exception:  # noqa: B902
         db.session.rollback()
         log.warning(f"Can't delete {record}: {exception}")
-        return "<b>Deleting record failed!</b>"
+        return make_response(f"<b>Deleting {record} failed!</b><p>{exception}")
