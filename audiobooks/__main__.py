@@ -7,9 +7,12 @@ import rich.logging
 from audiobooks.app import create_app
 from audiobooks.configuration import environment
 
+LOG_LEVEL: str = environment.str("LOG_LEVEL", default="WARNING").upper()
+
+
 logging.basicConfig(
-    level=environment.str("LOG_LEVEL", default="WARNING").upper(),
-    format="%(name)s: %(message)s",
+    level=LOG_LEVEL,
+    format="%(name)s – %(message)s",
     datefmt="%H:%M:%S",
     handlers=[rich.logging.RichHandler()],
 )
@@ -19,6 +22,7 @@ logging.getLogger("titlecase").setLevel("WARNING")
 
 
 def main() -> None:
+    """Application entry point."""
     create_app().run()
 
 

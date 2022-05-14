@@ -15,7 +15,15 @@ library_blueprint = Blueprint(
 
 
 @library_blueprint.route("/<string:item>/create")
-def create_entry(item: str) -> Response:
+def create_record(item: str) -> Response:
+    """Create new record and add it to the database.
+
+    Args:
+        item (str): The type of record to create.
+
+    Returns:
+        Response: The record or an error message.
+    """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.create(**request.args.to_dict())
     try:
@@ -29,6 +37,14 @@ def create_entry(item: str) -> Response:
 
 @library_blueprint.route("/<string:item>/find")
 def find_by_name(item: str) -> Response:
+    """Find a record in the database by name.
+
+    Args:
+        item (str): The type of record to find.
+
+    Returns:
+        Response: The record or a HTTP 404 error.
+    """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     name: str = request.args.get("name", type=str) or abort(404)
     record: LibraryModel = model.get_by_name(name) or abort(404)
@@ -37,6 +53,15 @@ def find_by_name(item: str) -> Response:
 
 @library_blueprint.route("/<string:item>/<int:record_id>")
 def read_record(item: str, record_id: int) -> Response:
+    """Read a record from the database.
+
+    Args:
+        item (str): The type of record to read.
+        record_id (int): The id of the record.
+
+    Returns:
+        Response: The record or a HTTP 404 error.
+    """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.get_by_id(record_id) or abort(404)
     return make_response(record.to_dict())
@@ -44,6 +69,15 @@ def read_record(item: str, record_id: int) -> Response:
 
 @library_blueprint.route("/<string:item>/<int:record_id>/update")
 def update_record(item: str, record_id: int) -> Response:
+    """Update a record from the database.
+
+    Args:
+        item (str): The type of record to update.
+        record_id (int): The id of the record.
+
+    Returns:
+        Response: The record, a HTTP 404 error, or an error messsage.
+    """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.get_by_id(record_id) or abort(404)
     try:
@@ -58,6 +92,15 @@ def update_record(item: str, record_id: int) -> Response:
 
 @library_blueprint.route("/<string:item>/<int:record_id>/delete")
 def delete_record(item: str, record_id: int) -> Response:
+    """Delete a record from the database.
+
+    Args:
+        item (str): The type of record to delete.
+        record_id (int): The id of the record.
+
+    Returns:
+        Response: A success or error message.
+    """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.get_by_id(record_id) or abort(404)
     try:

@@ -1,4 +1,4 @@
-"""Create extension instances. Each extension is initialized in app.create_app()"""
+"""Create extension instances. Each extension is initialized in app.create_app()."""
 
 import flask_caching
 import flask_migrate

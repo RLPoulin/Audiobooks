@@ -1,6 +1,7 @@
 """Database table models for the audiobook library."""
 
-import datetime
+from datetime import date
+from decimal import Decimal
 from typing import TypeVar
 
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -18,9 +19,14 @@ class LibraryModel(Model):
 
     __abstract__ = True
     _name = db.Column("name", db.String, unique=True, nullable=False)
-    date_added = db.Column(db.Date, default=datetime.date.today)
+    date_added = db.Column(db.Date, default=date.today)
 
     def __init__(self, name: str, **kwargs) -> None:
+        """Initialize a model record for an item in the library.
+
+        Args:
+            name (str): The name of the item.
+        """
         super().__init__(**kwargs)
         self.name = name
 
@@ -29,13 +35,28 @@ class LibraryModel(Model):
 
     @classmethod
     def get_by_name(cls: type[LibraryModelType], name: str) -> LibraryModelType | None:
-        """Get a record by name."""
+        """Get a record by name.
+
+        Args:
+            name (str): The name of the record.
+
+        Returns:
+            LibraryModelType | None: The record or None if not found.
+        """
         return cls.query.filter_by(name=clean_name(name)).first()
 
     @classmethod
     def get(
         cls: type[LibraryModelType], record: LibraryModelType | str | int
     ) -> LibraryModelType | None:
+        """Get a record by itself, name, or id.
+
+        Args:
+            record (LibraryModelType | str | int): The record, its name, or id.
+
+        Returns:
+            LibraryModelType | None: The record or None if not found.
+        """
         return (
             cls.get_by_name(record) if isinstance(record, str) else super().get(record)
         )
@@ -75,6 +96,7 @@ class Book(LibraryModel):
     author_id = db.Column(db.Integer, db.ForeignKey("author.record_id"))
     genre_id = db.Column(db.Integer, db.ForeignKey("genre.record_id"))
     series_id = db.Column(db.Integer, db.ForeignKey("series.record_id"))
+    series_number = db.Column(db.Decimal)
     release_date = db.Column(db.Date)
 
     def __init__(
@@ -84,11 +106,28 @@ class Book(LibraryModel):
         author: Author | str | None = None,
         genre: Genre | str | None = None,
         series: Series | str | None = None,
-        release_date: datetime.date | str | None = None,
+        series_number: Decimal | None = None,
+        release_date: date | str | None = None,
     ) -> None:
+        """Initialize a model record for a book.
+
+        Args:
+            name (str): The name of the book.
+            author (Author | str | None, optional): The author of the book. Defaults to
+                None.
+            genre (Genre | str | None, optional): The genre of the book. Defaults to
+                None.
+            series (Series | str | None, optional): The series containing the book.
+                Defaults to None.
+            series_number (Decimal | None, optional): The book's order number in the
+                series. Default to None.
+            release_date (date | str | None, optional): The book's release date.
+                Defaults to None.
+
+        """
         super().__init__(name=name)
         if isinstance(release_date, str):
-            release_date = datetime.date.fromisoformat(release_date)
+            release_date = date.fromisoformat(release_date)
         self.author = Author.get(author)
         self.genre = Genre.get(genre)
         self.series = Series.get(series)
