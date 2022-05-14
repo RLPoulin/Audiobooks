@@ -1,14 +1,19 @@
 """Routes for main page module."""
 
-from flask import Blueprint
+from flask import Blueprint, Response, make_response
 
 import audiobooks
-
-VERSION_STRING = f"{audiobooks.__package__.title()} v{audiobooks.__version__}"
 
 main_blueprint = Blueprint("main", __name__, template_folder="templates")
 
 
 @main_blueprint.route("/")
-def hello() -> str:
-    return f"<b>{VERSION_STRING}</b>"
+def hello() -> Response:
+    """A simple welcome message.
+
+    Returns:
+        Response: The message.
+    """
+    return make_response(
+        f"<b>{audiobooks.__name__.title()}</b><p>{audiobooks.__version__}"
+    )

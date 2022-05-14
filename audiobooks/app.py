@@ -1,26 +1,46 @@
 """Base Flask web application."""
 
-import flask
+from flask import Flask
 
 from audiobooks.extensions import cache, db, migrate
 from audiobooks.library.routes import library_blueprint
 from audiobooks.main_page.routes import main_blueprint
 
 
-def create_app(config_object: str = "audiobooks.configuration") -> flask.Flask:
-    app = flask.Flask(__name__.split(".")[0])
+def create_app(config_object: str = "audiobooks.configuration") -> Flask:
+    """Create the Flask application and initialize it.
+
+    Args:
+        config_object (str, optional): Name of the object containing the app
+            configuration. Defaults to "audiobooks.configuration".
+
+    Returns:
+        Flask: The Flask application.
+    """
+    app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
     return app
 
 
-def register_extensions(app: flask.Flask) -> None:
+def register_extensions(app: Flask) -> None:
+    """Register all Flask extensions in the application.
+
+    Args:
+        app (Flask): The Flask application.
+    """
     db.init_app(app)
+    db.create_all(app=app)
     migrate.init_app(app, db)
     cache.init_app(app)
 
 
-def register_blueprints(app: flask.Flask) -> None:
+def register_blueprints(app: Flask) -> None:
+    """Register all route blueprints in the application.
+
+    Args:
+        app (Flask): The Flask application.
+    """
     app.register_blueprint(main_blueprint)
     app.register_blueprint(library_blueprint)

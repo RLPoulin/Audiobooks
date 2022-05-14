@@ -2,16 +2,17 @@
 
 import logging
 
-import flask
 import rich.logging
 
 from audiobooks.app import create_app
 from audiobooks.configuration import environment
-from audiobooks.extensions import db
+
+LOG_LEVEL: str = environment.str("LOG_LEVEL", default="WARNING").upper()
+
 
 logging.basicConfig(
-    level=environment.str("LOG_LEVEL", default="WARNING").upper(),
-    format="%(name)s: %(message)s",
+    level=LOG_LEVEL,
+    format="%(name)s – %(message)s",
     datefmt="%H:%M:%S",
     handlers=[rich.logging.RichHandler()],
 )
@@ -20,12 +21,10 @@ logging.getLogger("werkzeug").handlers.clear()
 logging.getLogger("titlecase").setLevel("WARNING")
 
 
-def main() -> flask.Flask:
-    app: flask.Flask = create_app()
-    db.create_all(app=app)
-    return app
+def main() -> None:
+    """Application entry point."""
+    create_app().run()
 
 
 if __name__ == "__main__":
-    app = main()
-    app.run()
+    main()
