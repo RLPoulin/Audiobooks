@@ -1,6 +1,6 @@
 """Base database module."""
 
-from typing import Any, TypeVar
+from typing import Any, SupportsInt, TypeVar
 
 from audiobooks.extensions import db
 
@@ -14,10 +14,12 @@ class Model(db.Model):
     record_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     def __repr__(self) -> str:
-        return f"{type(self)}({self.record_id})"
+        return f"{type(self).__name__}({self.record_id})"
 
     @classmethod
-    def get_by_id(cls, record_id: int | str) -> ModelType:
+    def get_by_id(
+        cls: type[ModelType], record_id: SupportsInt | str
+    ) -> ModelType | None:
         """Get a record by id."""
         try:
             record_id = int(record_id)
@@ -26,7 +28,7 @@ class Model(db.Model):
         return cls.query.get(record_id)
 
     @classmethod
-    def create(cls, **kwargs) -> ModelType:
+    def create(cls: type[ModelType], **kwargs) -> ModelType:
         """Create a new record and save it to the database."""
         return cls(**kwargs).save()
 

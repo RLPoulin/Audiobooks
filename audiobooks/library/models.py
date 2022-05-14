@@ -25,10 +25,10 @@ class LibraryModel(Model):
         self.name = name
 
     def __repr__(self) -> str:
-        return f"{type(self)}('{self.name}')"
+        return f"{type(self).__name__}('{self.name}')"
 
     @classmethod
-    def get_by_name(cls, name: str) -> LibraryModelType:
+    def get_by_name(cls: type[LibraryModelType], name: str) -> LibraryModelType | None:
         """Get a record by name."""
         return cls.query.filter_by(name=clean_name(name)).first()
 
@@ -40,7 +40,7 @@ class LibraryModel(Model):
     @name.setter
     def name(self, new_name: str) -> None:
         """Set the name property."""
-        self._name = clean_name(name=new_name)
+        self._name = clean_name(new_name)
 
 
 class Author(LibraryModel):
