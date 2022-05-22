@@ -24,7 +24,7 @@ class Model(db.Model):
         return f"{type(self).__name__}({self.record_id})"
 
     @classmethod
-    def get_by_id(cls: type[ModelType], record_id: int) -> ModelType | None:
+    def get_by_id(cls: type[ModelType], record_id: int | None) -> ModelType | None:
         """Get a record by id.
 
         Args:
@@ -33,10 +33,10 @@ class Model(db.Model):
         Returns:
             ModelType | None: The record or None if not found.
         """
-        return cls.query.get(record_id)
+        return cls.query.get(record_id) if record_id is not None else None
 
     @classmethod
-    def get(cls: type[ModelType], record: ModelType | int) -> ModelType | None:
+    def get(cls: type[ModelType], record: ModelType | int | None) -> ModelType | None:
         """Get a record by itself or by id.
 
         Args:
