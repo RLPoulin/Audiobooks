@@ -8,7 +8,7 @@ from typing import TypeVar
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from audiobooks.database import Model
+from audiobooks.database import Model, SqliteDecimal
 from audiobooks.extensions import db
 
 from .utils import clean_name
@@ -99,7 +99,7 @@ class Book(LibraryModel):
     author_id = db.Column(db.Integer, db.ForeignKey("author.record_id"))
     genre_id = db.Column(db.Integer, db.ForeignKey("genre.record_id"))
     series_id = db.Column(db.Integer, db.ForeignKey("series.record_id"))
-    series_number = db.Column(db.Decimal)
+    series_number = db.Column(SqliteDecimal(precision=3))
     release_date = db.Column(db.Date)
 
     def __init__(
@@ -131,10 +131,12 @@ class Book(LibraryModel):
         super().__init__(name=name)
         if isinstance(release_date, str):
             release_date = date.fromisoformat(release_date)
+        if isinstance(series_number, str):
+            series_number = Decimal(series_number)
         self.author = Author.get(author)
         self.genre = Genre.get(genre)
         self.series = Series.get(series)
-        self.series_number = Decimal(series_number)
+        self.series_number = series_number
         self.release_date = release_date
 
 

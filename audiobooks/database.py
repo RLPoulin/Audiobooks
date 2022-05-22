@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Any, TypeVar
+from decimal import Decimal
+from typing import Any, TypeVar, Union
+
+import sqlalchemy.types
 
 from audiobooks.extensions import db
 
 ModelType = TypeVar("ModelType", bound="Model")
+SupportDecimal = Union[Decimal, int, float, str]
 
 
 class Model(db.Model):
@@ -94,3 +98,31 @@ class Model(db.Model):
                 value = value.to_dict()
             record_dict[column_name] = value
         return record_dict
+
+
+class SqliteDecimal(sqlalchemy.types.TypeDecorator):
+    """SQLAlchemy decimal type adapter for sqlite databases."""
+
+    impl = sqlalchemy.types.Integer
+
+    def __init__(self, precision: int = 2) -> None:
+        """Initialize an instance of SqliteDecimal.
+
+        Args:
+            precision (int, optional): Number of decimal places to store. Defaults to 2.
+        """
+        super().__init__()
+        self.precision: int = precision
+        self.multiplier: int = 10**self.precision
+
+    def process_bind_param(
+        self, value: SupportDecimal | None, dialect: sqlalchemy.engine.Dialect
+    ) -> int | None:
+        """Receive a bound parameter value to be converted."""
+        return int(Decimal(value) * self.multiplier) if value is not None else None
+
+    def process_result_value(
+        self, value: SupportDecimal, dialect: sqlalchemy.engine.Dialect
+    ) -> Decimal | None:
+        """Receive a result-row column value to be converted."""
+        return Decimal(value) / self.multiplier if value is not None else None
