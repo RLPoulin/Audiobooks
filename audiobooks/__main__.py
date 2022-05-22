@@ -5,10 +5,7 @@ import logging
 import rich.logging
 
 from audiobooks.app import create_app
-from audiobooks.configuration import environment
-
-LOG_LEVEL: str = environment.str("LOG_LEVEL", default="WARNING").upper()
-
+from audiobooks.configuration import LOG_LEVEL
 
 logging.basicConfig(
     level=LOG_LEVEL,

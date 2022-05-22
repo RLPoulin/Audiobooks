@@ -5,6 +5,8 @@ import environs
 environment = environs.Env()
 environment.read_env()
 
+LOG_LEVEL: str = environment.str("LOG_LEVEL", default="WARNING").upper()
+
 ENV: str = environment.str("FLASK_ENV", default="production")
 SECRET_KEY: str = environment.str("SECRET_KEY")
 
