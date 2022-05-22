@@ -8,17 +8,17 @@ repos:
     rev: v2.32.1
     hooks:
       - id: pyupgrade
-        args: [--py310-plus]
+        args: [ --py310-plus ]
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1
     hooks:
       - id: isort
-        args: [--profile=black, --project=audiobooks]
+        args: [ --profile=black, --project=audiobooks ]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       - id: black
-        args: [--target-version=py310]
+        args: [ --target-version=py310 ]
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
@@ -58,9 +58,9 @@ repos:
       - id: check-xml
       - id: check-json
       - id: pretty-format-json
-        args: [--autofix, --indent=2]
+        args: [ --autofix, --indent=2 ]
       - id: trailing-whitespace
-        args: [--markdown-linebreak-ext=md]
+        args: [ --markdown-linebreak-ext=md ]
       - id: mixed-line-ending
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -68,4 +68,4 @@ repos:
     rev: v2.27.1
     hooks:
       - id: commitizen
-        stages: [commit-msg]
+        stages: [ commit-msg ]

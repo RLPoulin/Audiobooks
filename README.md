@@ -15,25 +15,25 @@ databases, and project management.
 
 ### Planned features
 
--   A database of books with information on the book, author, series, and genre.
--   Managing local audiobook files: adding, deleting, renaming, and organizing.
--   Fetching book information with the [Goodreads](https://goodreads.com) API.
--   Syncing between the database and my Goodreads collection.
--   Linking to my [Audible](https://audible.com) books.
--   A web UI to do all the above.
+- A database of books with information on the book, author, series, and genre.
+- Managing local audiobook files: adding, deleting, renaming, and organizing.
+- Fetching book information with the [Goodreads](https://goodreads.com) API.
+- Syncing between the database and my Goodreads collection.
+- Linking to my [Audible](https://audible.com) books.
+- A web UI to do all the above.
 
 ### Using
 
 #### frameworks
 
--   [Python 3.10](https://www.python.org/)
--   [SQLAlchemy](http://www.sqlalchemy.org)
--   [Flask](https://flask.palletsprojects.com/)
--   [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
+- [Python 3.10](https://www.python.org/)
+- [SQLAlchemy](http://www.sqlalchemy.org)
+- [Flask](https://flask.palletsprojects.com/)
+- [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
 
 #### development tools
 
--   [Poetry](https://python-poetry.org/)
--   [GitHub](https://github.com/)
--   [Commitizen](https://github.com/commitizen-tools/commitizen)
--   [pre-commit](https://pre-commit.com/)
+- [Poetry](https://python-poetry.org/)
+- [GitHub](https://github.com/)
+- [Commitizen](https://github.com/commitizen-tools/commitizen)
+- [pre-commit](https://pre-commit.com/)

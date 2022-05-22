@@ -43,7 +43,7 @@ def find_by_name(item: str) -> Response:
         item (str): The type of record to find.
 
     Returns:
-        Response: The record or a HTTP 404 error.
+        Response: The record or an HTTP 404 error.
     """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     name: str = request.args.get("name", type=str) or abort(404)
@@ -60,7 +60,7 @@ def read_record(item: str, record_id: int) -> Response:
         record_id (int): The id of the record.
 
     Returns:
-        Response: The record or a HTTP 404 error.
+        Response: The record or an HTTP 404 error.
     """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.get_by_id(record_id) or abort(404)
@@ -76,7 +76,7 @@ def update_record(item: str, record_id: int) -> Response:
         record_id (int): The id of the record.
 
     Returns:
-        Response: The record, a HTTP 404 error, or an error messsage.
+        Response: The record, an HTTP 404 error, or an error message.
     """
     model: type[LibraryModel] = LIBRARY_MODELS.get(item) or abort(404)
     record: LibraryModel = model.get_by_id(record_id) or abort(404)

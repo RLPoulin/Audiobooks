@@ -31,6 +31,7 @@ class LibraryModel(Model):
         self.name = name
 
     def __repr__(self) -> str:
+        # noinspection PyPropertyAccess
         return f"{type(self).__name__}('{self.name}')"
 
     @classmethod
