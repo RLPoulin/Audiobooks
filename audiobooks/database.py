@@ -1,5 +1,7 @@
 """Base database module."""
 
+from __future__ import annotations
+
 from typing import Any, TypeVar
 
 from audiobooks.extensions import db
