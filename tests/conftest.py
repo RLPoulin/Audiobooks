@@ -26,7 +26,7 @@ def app() -> flask.Flask:
 
 
 @pytest.fixture
-def _db(app: flask.Flask) -> flask_sqlalchemy.SQLAlchemy:
+def test_db(app: flask.Flask) -> flask_sqlalchemy.SQLAlchemy:
     """Create a database for the tests."""
     db.app = app
     with app.app_context():
