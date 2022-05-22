@@ -1,16 +1,14 @@
 """Base configuration for Flask application."""
 
-import environs
+from audiobooks.configuration import Config
 
-environment = environs.Env()
-environment.read_env()
 
-ENV: str = "development"
-SECRET_KEY: str = "not-so-secret-in-tests"
-TESTING: bool = True
+class TestConfig(Config):
+    """Configuration class for testing."""
 
-SQLALCHEMY_DATABASE_URI: str = "sqlite:///:memory:"
-SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
+    ENV: str = "development"
+    SECRET_KEY: str = "not-so-secret-in-tests"
+    TESTING: bool = True
 
-CACHE_TYPE: str = "simple"
-CACHE_DEFAULT_TIMEOUT: int = 300
+    SQLALCHEMY_DATABASE_URI: str = "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS: bool = False

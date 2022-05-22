@@ -7,7 +7,7 @@ import flask_sqlalchemy
 import pytest
 
 from audiobooks.app import create_app
-from audiobooks.extensions import db as _db
+from audiobooks.database import db
 
 os.environ["LOG_LEVEL"] = "CRITICAL"
 
@@ -15,7 +15,7 @@ os.environ["LOG_LEVEL"] = "CRITICAL"
 @pytest.fixture
 def app() -> flask.Flask:
     """Create an application for the tests."""
-    test_app: flask.Flask = create_app("tests.configuration0")
+    test_app: flask.Flask = create_app("tests.configuration.TestConfig")
     test_app.logger.setLevel("CRITICAL")
     test_context = test_app.test_request_context()
     test_context.push()
@@ -25,12 +25,12 @@ def app() -> flask.Flask:
 
 
 @pytest.fixture
-def db(app: flask.Flask) -> flask_sqlalchemy.SQLAlchemy:
+def _db(app: flask.Flask) -> flask_sqlalchemy.SQLAlchemy:
     """Create a database for the tests."""
-    _db.app = app
+    db.app = app
     with app.app_context():
-        _db.create_all()
+        db.create_all()
 
-    yield _db
-    _db.session.close()
-    _db.drop_all()
+    yield db
+    db.session.close()
+    db.drop_all()
