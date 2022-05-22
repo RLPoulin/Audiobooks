@@ -9,6 +9,7 @@ import pytest
 from audiobooks.app import create_app
 from audiobooks.database import db
 
+
 os.environ["LOG_LEVEL"] = "CRITICAL"
 
 

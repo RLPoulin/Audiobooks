@@ -7,6 +7,7 @@ import rich.logging
 from audiobooks.app import create_app
 from audiobooks.configuration import LOG_LEVEL
 
+
 logging.basicConfig(
     level=LOG_LEVEL,
     format="%(name)s – %(message)s",

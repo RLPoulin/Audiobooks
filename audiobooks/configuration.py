@@ -2,6 +2,7 @@
 
 import environs
 
+
 environment = environs.Env()
 environment.read_env()
 

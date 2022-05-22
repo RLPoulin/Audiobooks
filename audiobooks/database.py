@@ -9,6 +9,7 @@ import sqlalchemy.types
 
 from audiobooks.extensions import db
 
+
 ModelType = TypeVar("ModelType", bound="Model")
 SupportDecimal = Union[Decimal, int, float, str]
 

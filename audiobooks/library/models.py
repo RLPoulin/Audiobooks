@@ -13,6 +13,7 @@ from audiobooks.extensions import db
 
 from .utils import clean_name
 
+
 LibraryModelType = TypeVar("LibraryModelType", bound="LibraryModel")
 
 

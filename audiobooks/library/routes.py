@@ -8,6 +8,7 @@ from audiobooks.extensions import db
 
 from .models import LIBRARY_MODELS, LibraryModel
 
+
 log: logging.Logger = logging.getLogger(__name__)
 library_blueprint = Blueprint(
     "library", __name__, url_prefix="/lib", template_folder="templates"
