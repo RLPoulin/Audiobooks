@@ -7,7 +7,7 @@ from audiobooks.library.routes import library_blueprint
 from audiobooks.main_page.routes import main_blueprint
 
 
-def create_app(config_object: str = "audiobooks.configuration") -> Flask:
+def create_app(config_object: str = "audiobooks.configuration.Config") -> Flask:
     """Create the Flask application and initialize it.
 
     Args:
