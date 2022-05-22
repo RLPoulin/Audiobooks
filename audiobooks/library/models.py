@@ -107,7 +107,7 @@ class Book(LibraryModel):
         author: Author | str | None = None,
         genre: Genre | str | None = None,
         series: Series | str | None = None,
-        series_number: Decimal | None = None,
+        series_number: Decimal | str | None = None,
         release_date: date | str | None = None,
     ) -> None:
         """Initialize a model record for a book.
@@ -132,6 +132,7 @@ class Book(LibraryModel):
         self.author = Author.get(author)
         self.genre = Genre.get(genre)
         self.series = Series.get(series)
+        self.series_number = Decimal(series_number)
         self.release_date = release_date
 
 

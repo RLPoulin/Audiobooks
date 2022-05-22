@@ -106,7 +106,7 @@ def delete_record(item: str, record_id: int) -> Response:
     try:
         record.delete()
         db.session.commit()
-        return f"Deleted: {record}"
+        return make_response("Deleted: {record}")
     except Exception as exception:  # noqa: B902
         db.session.rollback()
         log.warning(f"Can't delete {record}: {exception}")

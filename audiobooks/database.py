@@ -38,7 +38,7 @@ class Model(db.Model):
         Returns:
             ModelType | None: The record or None if not found.
         """
-        return record if isinstance(record, ModelType) else cls.get_by_id(record)
+        return record if isinstance(record, Model) else cls.get_by_id(record)
 
     @classmethod
     def create(cls: type[ModelType], **kwargs) -> ModelType:
