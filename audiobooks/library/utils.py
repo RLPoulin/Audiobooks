@@ -12,5 +12,5 @@ def clean_name(name: str) -> str:
     Returns:
         str: the cleaned name
     """
-    name = " ".join(name.strip().split())
+    name = " ".join(name.lower().strip().split())
     return str(titlecase.titlecase(name))
