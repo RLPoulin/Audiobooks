@@ -30,14 +30,37 @@ pytest-flask = "^1.2.0"
 pytest-flask-sqlalchemy = "^1.1.0"
 
 
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310"]
+preview = true
+
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.10.0"
 version_files = ["pyproject.toml:version", "audiobooks/__init__.py"]
-
 tag_format = "v$version"
 update_changelog_on_bump = true
 changelog_incremental = false
+
+
+[tool.isort]
+profile = "black"
+src_paths = ["audiobooks", "tests"]
+lines_before_imports = 1
+lines_after_imports = 2
+color_output = true
+
+
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report=term --cov-report=html"
+log_auto_indent = true
+log_cli = true
+log_cli_level = "WARNING"
+testpaths = ["tests"]
+usefixtures = ["app", "test_db"]
 
 
 [build-system]

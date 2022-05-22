@@ -13,12 +13,10 @@ repos:
     rev: 5.10.1
     hooks:
       - id: isort
-        args: [ --profile=black, --project=audiobooks ]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       - id: black
-        args: [ --target-version=py39 ]
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
@@ -27,7 +25,7 @@ repos:
           - --max-line-length=88
           - --max-complexity=18
           - --docstring-convention=google
-          - --ignore=ANN002,ANN003,ANN101,ANN102,D105
+          - --ignore=ANN002,ANN003,ANN101,ANN102,D105,S101
         additional_dependencies:
           - flake8-annotations
           - flake8-bandit
