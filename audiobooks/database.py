@@ -104,6 +104,7 @@ class SqliteDecimal(sqlalchemy.types.TypeDecorator):
     """SQLAlchemy decimal type adapter for sqlite databases."""
 
     impl = sqlalchemy.types.Integer
+    cache_ok = True
 
     def __init__(self, precision: int = 2) -> None:
         """Initialize an instance of SqliteDecimal.
