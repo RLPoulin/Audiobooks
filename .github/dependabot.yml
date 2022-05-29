@@ -3,21 +3,17 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      day: "saturday"
-      interval: "weekly"
-      time: "06:38"
-      timezone: "America/Toronto"
+      interval: "daily"
+      time: "07:00"
     commit-message:
       prefix: "build"
       include: "scope"
-    open-pull-requests-limit: 10
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       day: "saturday"
       interval: "weekly"
-      time: "05:38"
-      timezone: "America/Toronto"
+      time: "06:00"
     commit-message:
       prefix: "ci"
       include: "scope"
