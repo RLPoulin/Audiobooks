@@ -2,7 +2,7 @@
 
 from flask import Flask
 
-from audiobooks.extensions import cache, db, migrate
+from audiobooks.extensions import cache, db
 from audiobooks.library.routes import library_blueprint
 from audiobooks.main_page.routes import main_blueprint
 
@@ -32,7 +32,6 @@ def register_extensions(app: Flask) -> None:
     """
     db.init_app(app)
     db.create_all(app=app)
-    migrate.init_app(app, db)
     cache.init_app(app)
 
 
