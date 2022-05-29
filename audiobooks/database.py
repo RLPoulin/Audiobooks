@@ -67,8 +67,13 @@ class Model(db.Model):
 
         Returns:
             ModelType: The record.
+
+        Raises:
+            KeyError: The column to be updated is not in the model.
         """
         for attribute, value in kwargs.items():
+            if not hasattr(self, attribute):
+                raise KeyError(f"{self!r} has no column '{attribute}'")
             setattr(self, attribute, value)
         return self.save()
 
