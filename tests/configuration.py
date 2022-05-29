@@ -11,4 +11,3 @@ class TestConfig(Config):
     TESTING: bool = True
 
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///:memory:"
-    SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
