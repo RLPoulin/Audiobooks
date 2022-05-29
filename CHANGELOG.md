@@ -1,3 +1,23 @@
+## v0.11.0 (2022-05-29)
+
+### Fix
+
+- **audiobooks.configuration**: fix base config to not crash during testing without a .env file
+- **audiobooks.library.routes**: fix annotations
+- **audiobooks.library.routes**: improve error handling
+- **audiobooks.database**: add KeyError exception to Model.update to prevent creating non-existant attributes
+- **library.utils**: fix bug in clean_name due to inconsistent casing
+- **database**: fix handling of None values in Model.get_by_id and Model.get
+- **database.SqliteDecimal**: set cache_ok property to True
+- **library.models**: fix Decimal implementation for compatibility with sqlite
+- fix a few small bugs
+
+### Refactor
+
+- **audiobooks.configuration**: move configuration to Config class
+- **configuration**: move LOG_LEVEL from __main__ to configuration
+- add compatibility with python 3.9
+
 ## v0.10.0 (2022-05-14)
 
 ### Feat
