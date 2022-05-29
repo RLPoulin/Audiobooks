@@ -25,7 +25,7 @@ repos:
           - --max-line-length=88
           - --max-complexity=18
           - --docstring-convention=google
-          - --ignore=ANN002,ANN003,ANN101,ANN102,D105,S101
+          - --ignore=ANN002,ANN003,ANN101,ANN102,D105,F811,S101
         additional_dependencies:
           - flake8-annotations
           - flake8-bandit
@@ -44,7 +44,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.2.0
     hooks:
-      - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-vcs-permalinks
       - id: check-symlinks
