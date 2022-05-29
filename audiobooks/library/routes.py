@@ -1,5 +1,7 @@
 """Routes for main page module."""
 
+from __future__ import annotations
+
 import logging
 
 from flask import Blueprint, Response, abort, make_response, redirect, request
