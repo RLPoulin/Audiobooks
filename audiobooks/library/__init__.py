@@ -1,1 +1,1 @@
-"""Application library mangegement."""
+"""Application library management."""

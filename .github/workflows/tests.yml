@@ -1,0 +1,62 @@
+name: PyTest
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-linux:
+    name: "Test Python ${{ matrix.python-version }} on Ubuntu"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.9", "3.10" ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Python version
+        run: python --version
+
+      - name: Setup poetry
+        run: |
+          pipx install poetry
+          poetry env use ${{ matrix.python-version }}
+          poetry install
+
+      - name: Run tests
+        run: poetry run pytest
+  test-windows:
+    name: "Test Python ${{ matrix.python-version }} on Windows"
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        python-version: [ "3.9", "3.10" ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Python version
+        run: python --version
+
+      - name: Setup poetry
+        run: |
+          pipx install poetry
+          poetry install
+
+      - name: Run tests
+        run: poetry run pytest
