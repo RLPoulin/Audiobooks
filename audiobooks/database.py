@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from decimal import Decimal
-from typing import Any, Collection, TypeVar, Union
+from typing import Any, Collection, TypeVar, Union, get_args
 
 import sqlalchemy.types
 
@@ -141,7 +141,7 @@ class SqliteDecimal(sqlalchemy.types.TypeDecorator):
 
 
 def _simplify_description(value: Any) -> SimpleType | list[SimpleType]:  # noqa: ANN401
-    if isinstance(value, SimpleType):
+    if isinstance(value, get_args(SimpleType)):
         return value
     if isinstance(value, date):
         return value.isoformat()
