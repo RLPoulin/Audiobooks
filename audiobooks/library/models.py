@@ -34,6 +34,10 @@ class LibraryModel(Model):
         super().__init__(**kwargs)
         self.name = name
 
+    def __str__(self) -> str:
+        # noinspection PyPropertyAccess
+        return self.name
+
     def __repr__(self) -> str:
         # noinspection PyPropertyAccess
         return f"{type(self).__name__}('{self.name}')"
