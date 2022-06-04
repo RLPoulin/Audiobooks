@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from decimal import Decimal
+from enum import Enum
 from typing import TypeVar
 
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -141,10 +142,25 @@ class Book(LibraryModel):
         self.release_date = release_date
 
 
-# Dictionary associating book properties with the correct model.
-LIBRARY_MODELS: dict[str, type[LibraryModel]] = {
-    "author": Author,
-    "book": Book,
-    "genre": Genre,
-    "series": Series,
-}
+class LibraryItems(Enum):
+    """Enumeration of the different types of library items."""
+
+    AUTHOR = Author
+    BOOK = Book
+    GENRE = Genre
+    SERIES = Series
+
+
+def get_library_item(item: str) -> LibraryModel | None:
+    """Gets the model class corresponding to the requested item type.
+
+    Args:
+        item (str): The name of the item.
+
+    Returns:
+        LibrayModel: The model class.
+    """
+    try:
+        return LibraryItems[item.upper()].value
+    except KeyError:
+        return None

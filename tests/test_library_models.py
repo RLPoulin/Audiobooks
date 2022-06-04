@@ -4,7 +4,7 @@ from decimal import Decimal
 import flask_sqlalchemy
 import pytest
 
-from audiobooks.library.models import Author, Book, date
+from audiobooks.library.models import Author, Book, date, get_library_item
 
 
 @pytest.fixture
@@ -99,3 +99,9 @@ def test_book_create__string(
     assert Book.get_by_id(book.record_id).author is author
     assert Book.get_by_id(book.record_id).series_number == Decimal("1.1")
     assert Book.get_by_id(book.record_id).release_date == date(2020, 10, 10)
+
+
+def test_get_library_item() -> None:
+    """Test for the get_library_item function."""
+    assert get_library_item("author") == Author
+    assert get_library_item("FAIL") is None

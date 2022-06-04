@@ -9,7 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from audiobooks.extensions import db
 
-from .models import LIBRARY_MODELS, LibraryModel
+from .models import LibraryModel, get_library_item
 
 
 log: logging.Logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ def get_model(item: str) -> type[LibraryModel]:
     Raises:
         HTTPError: Raises 404 error if the model is not found.
     """
-    return LIBRARY_MODELS.get(item) or abort(404)
+    return get_library_item(item) or abort(404)
 
 
 def get_record(item: str, record_id: int) -> LibraryModel:
