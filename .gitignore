@@ -3,6 +3,7 @@
 .vscode/
 __pycache__/
 htmlcov/
-.env
 *.py[cod]
 *.sqlite
+.coverage
+.env
