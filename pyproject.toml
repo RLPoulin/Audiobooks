@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Audiobooks"
-version = "0.11.0"
+version = "0.11.1"
 description = "My audiobook library program."
 authors = ["Robert Poulin <poulin.robert@gmail.com>"]
 license = "MIT"
@@ -37,7 +37,7 @@ preview = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.11.0"
+version = "0.11.1"
 version_files = ["pyproject.toml:version", "audiobooks/__init__.py"]
 tag_format = "v$version"
 update_changelog_on_bump = true
