@@ -73,7 +73,12 @@ def test_delete(example: ModelExample, test_db: flask_sqlalchemy.SQLAlchemy) -> 
 def test_to_dict(example: ModelExample) -> None:
     """Test for Model.to_dict method."""
     example_dict = ModelExample.get_by_id(example.record_id).to_dict()
-    assert example_dict == {"record_id": 1, "name": "name", "number": None}
+    assert example_dict == {
+        "model": "ModelExample",
+        "record_id": 1,
+        "name": "name",
+        "number": None,
+    }
 
 
 def test_decimal(example: ModelExample, test_db: flask_sqlalchemy.SQLAlchemy) -> None:

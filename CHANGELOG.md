@@ -1,3 +1,14 @@
+## v0.11.1 (2022-06-04)
+
+### Fix
+
+- **database**: fix _simplify_description for compatibility with python 3.9
+
+### Refactor
+
+- **database.Model**: improve the implementation of the to_dict method
+- **library.models**: replace the LIBRARY_MODELS dict with an enum and get_library_item function
+
 ## v0.11.0 (2022-05-29)
 
 ### Fix

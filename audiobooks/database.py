@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from datetime import date
 from decimal import Decimal
-from typing import Any, TypeVar, Union
+from typing import Any, Collection, TypeVar, Union, get_args
 
 import sqlalchemy.types
 
@@ -11,6 +12,8 @@ from audiobooks.extensions import db
 
 
 ModelType = TypeVar("ModelType", bound="Model")
+SimpleType = Union[int, str, None]
+
 SupportDecimal = Union[Decimal, int, float, str]
 
 
@@ -90,19 +93,21 @@ class Model(db.Model):
         """Delete the record from the database."""
         db.session.delete(self)
 
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the record to a dictionary.
+    def to_dict(self) -> dict[str, SimpleType | list[SimpleType]]:
+        """Creates a dictionary of the record.
 
         Returns:
-            dict[str, Any]: Dictionary with the record columns as keys.
+            dict[str, SimpleType]: Dictionary with the record columns as keys.
         """
-        record_dict: dict[str, Any] = {}
-        for column in db.inspect(self).mapper.column_attrs:
-            column_name = column.key
-            value = getattr(self, column_name)
-            if hasattr(value, "to_dict"):
-                value = value.to_dict()
-            record_dict[column_name] = value
+        descriptors: list[str] = db.inspect(self).mapper.all_orm_descriptors.keys()
+        descriptors = sorted(
+            d for d in descriptors if not d.startswith("_") and not d.endswith("_id")
+        )
+        record_dict: dict[str, SimpleType | list[SimpleType]] = {
+            "model": type(self).__name__,
+            "record_id": self.record_id,
+        }
+        record_dict |= {d: _simplify_description(getattr(self, d)) for d in descriptors}
         return record_dict
 
 
@@ -133,3 +138,13 @@ class SqliteDecimal(sqlalchemy.types.TypeDecorator):
     ) -> Decimal | None:
         """Receive a result-row column value to be converted."""
         return Decimal(value) / self.multiplier if value is not None else None
+
+
+def _simplify_description(value: Any) -> SimpleType | list[SimpleType]:  # noqa: ANN401
+    if isinstance(value, get_args(SimpleType)):
+        return value
+    if isinstance(value, date):
+        return value.isoformat()
+    if isinstance(value, Collection):
+        return [_simplify_description(entry) for entry in value]
+    return str(value)

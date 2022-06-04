@@ -4,7 +4,7 @@ from decimal import Decimal
 import flask_sqlalchemy
 import pytest
 
-from audiobooks.library.models import Author, Book, date
+from audiobooks.library.models import Author, Book, date, get_library_item
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ def author(test_db: flask_sqlalchemy.SQLAlchemy) -> Author:
 @pytest.fixture
 def book(test_db: flask_sqlalchemy.SQLAlchemy) -> Book:
     """Generate an Author example."""
-    new_book = Book.create(name="Book", author="Alice Bob")
+    new_book = Book.create(name="Example", author="Alice Bob")
     test_db.session.commit()
     return new_book
 
@@ -61,10 +61,10 @@ def test_author_books(author: Author, book: Book) -> None:
 
 def test_book_create__default(test_db: flask_sqlalchemy.SQLAlchemy) -> None:
     """Test for Book.create method with default arguments."""
-    book = Book.create(name="Book")
+    book = Book.create(name="Example")
     test_db.session.commit()
     assert Book.get_by_id(book.record_id).record_id == 1
-    assert Book.get_by_id(book.record_id).name == "Book"
+    assert Book.get_by_id(book.record_id).name == "Example"
     assert Book.get_by_id(book.record_id).date_added == date.today()
     assert Book.get_by_id(book.record_id).author is None
 
@@ -74,7 +74,7 @@ def test_book_create__object(
 ) -> None:
     """Test for Book.create method with object arguments."""
     book = Book.create(
-        name="Book",
+        name="Example",
         author=author,
         series_number=Decimal("1.1"),
         release_date=date(2020, 10, 10),
@@ -90,7 +90,7 @@ def test_book_create__string(
 ) -> None:
     """Test for Book.create method with string arguments."""
     book = Book.create(
-        name="Book",
+        name="Example",
         author="Alice Bob",
         series_number="1.1",
         release_date="2020-10-10",
@@ -99,3 +99,33 @@ def test_book_create__string(
     assert Book.get_by_id(book.record_id).author is author
     assert Book.get_by_id(book.record_id).series_number == Decimal("1.1")
     assert Book.get_by_id(book.record_id).release_date == date(2020, 10, 10)
+
+
+def test_get_library_item() -> None:
+    """Test for the get_library_item function."""
+    assert get_library_item("author") == Author
+    assert get_library_item("FAIL") is None
+
+
+def test_to_dict(author: Author, book: Book) -> None:
+    """Test for Model.to_dict method."""
+    author_dict = Author.get_by_id(author.record_id).to_dict()
+    book_dict = Book.get_by_id(book.record_id).to_dict()
+    assert author_dict == {
+        "model": "Author",
+        "record_id": 1,
+        "books": ["Example"],
+        "date_added": date.today().isoformat(),
+        "name": "Alice Bob",
+    }
+    assert book_dict == {
+        "model": "Book",
+        "record_id": 1,
+        "author": "Alice Bob",
+        "date_added": date.today().isoformat(),
+        "genre": None,
+        "name": "Example",
+        "release_date": None,
+        "series": None,
+        "series_number": None,
+    }
