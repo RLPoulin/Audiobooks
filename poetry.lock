@@ -33,7 +33,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "cachelib"
-version = "0.7.0"
+version = "0.9.0"
 description = "A collection of cache libraries in the same API interface."
 category = "main"
 optional = false
@@ -178,15 +178,15 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-caching"
-version = "1.11.1"
+version = "2.0.0"
 description = "Adds caching support to Flask applications."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
-cachelib = "*"
-Flask = "*"
+cachelib = ">=0.9.0"
+Flask = "<=2.1.2"
 
 [[package]]
 name = "flask-sqlalchemy"
@@ -666,7 +666,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.0"
-content-hash = "ab848ba0ff80c2094b0d3e3d6ab4ad89befce5d8e590301ba69009a6c5372eae"
+content-hash = "80cfc4fae937be79f7f113302b4447e9dc442d8850a3c72a20b7d78e29f518b1"
 
 [metadata.files]
 argcomplete = [
@@ -682,8 +682,8 @@ attrs = [
     {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
 ]
 cachelib = [
-    {file = "cachelib-0.7.0-py3-none-any.whl", hash = "sha256:80fa73dda398672329dab6c8e9e9bad03fd36dc4da40d911d7de308c91e8481e"},
-    {file = "cachelib-0.7.0.tar.gz", hash = "sha256:df254f3b900dc8684d8ebdd146c731ddb45edc6233a6cf7e3e834c949f360726"},
+    {file = "cachelib-0.9.0-py3-none-any.whl", hash = "sha256:811ceeb1209d2fe51cd2b62810bd1eccf70feba5c52641532498be5c675493b3"},
+    {file = "cachelib-0.9.0.tar.gz", hash = "sha256:38222cc7c1b79a23606de5c2607f4925779e37cdcea1c2ad21b8bae94b5425a5"},
 ]
 cfgv = [
     {file = "cfgv-3.3.1-py2.py3-none-any.whl", hash = "sha256:c6a0883f3917a037485059700b9e75da2464e6c27051014ad85ba6aaa5884426"},
@@ -769,8 +769,8 @@ flask = [
     {file = "Flask-2.1.2.tar.gz", hash = "sha256:315ded2ddf8a6281567edb27393010fe3406188bafbfe65a3339d5787d89e477"},
 ]
 flask-caching = [
-    {file = "Flask-Caching-1.11.1.tar.gz", hash = "sha256:28af189e97defb9e39b43ebe197b54a58aaee81bdeb759f46d969c26d7aa7810"},
-    {file = "Flask_Caching-1.11.1-py3-none-any.whl", hash = "sha256:36592812eec6cba86eca48bcda74eff24bfd6c8eaf6056ca0184474bb78c0dc4"},
+    {file = "Flask-Caching-2.0.0.tar.gz", hash = "sha256:3300efccda359d69ce0e6824b90cb571ff895a3907c31266c0342cca4bc40340"},
+    {file = "Flask_Caching-2.0.0-py3-none-any.whl", hash = "sha256:e5ff99af4a0208bd93a24fe48b24e9b47a77236c38c5d6a6aa3d688334040027"},
 ]
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
