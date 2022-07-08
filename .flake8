@@ -1,12 +1,12 @@
 [flake8]
+docstring-convention = google
 max-complexity = 18
 max-line-length = 88
-docstring-convention=google
 
 ignore =
-    ANN101,  # Missing type annotation for self in method
     ANN003,  # Missing type annotation for **kwargs
+    ANN101,  # Missing type annotation for self in method
     D105,  # Missing docstring in magic method
     E203,  # Whitespace before ':'
-    S101,  # Use of assert detected (for pytest)
     F811,  # Redefinition of unused (caused by sqlalchemy hybrid_property)
+    S101,  # Use of assert detected (for pytest)
