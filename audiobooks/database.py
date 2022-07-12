@@ -1,10 +1,12 @@
 """Base database module."""
 
+
 from __future__ import annotations
 
+from collections.abc import Collection
 from datetime import date
 from decimal import Decimal
-from typing import Any, Collection, TypeVar, Union, get_args
+from typing import Any, TypeVar, Union, get_args
 
 import sqlalchemy.types
 
