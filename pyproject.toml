@@ -16,7 +16,7 @@ environs = "^9.5.0"
 flask = "^2.1.2"
 flask-caching = "^2.0.0"
 flask-sqlalchemy = "^2.5.1"
-rich = "^12.4.4"
+rich = "^12.5.1"
 sqlalchemy = "^1.4.39"
 titlecase = "^2.3"
 
