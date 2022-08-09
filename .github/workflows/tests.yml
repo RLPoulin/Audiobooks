@@ -1,17 +1,19 @@
-name: PyTest
+name: Tests
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  test-linux:
+  tests-linux:
     name: "Test Python ${{ matrix.python-version }} on Ubuntu"
+    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python-version: [ "3.9", "3.10" ]
+        python-version: ["3.9", "3.10"]
 
     steps:
       - name: Checkout repo
@@ -33,13 +35,15 @@ jobs:
 
       - name: Run tests
         run: poetry run pytest
-  test-windows:
+
+  tests-windows:
     name: "Test Python ${{ matrix.python-version }} on Windows"
+    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
     runs-on: windows-latest
 
     strategy:
       matrix:
-        python-version: [ "3.9", "3.10" ]
+        python-version: ["3.9", "3.10"]
 
     steps:
       - name: Checkout repo
