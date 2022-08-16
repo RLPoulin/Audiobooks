@@ -18,7 +18,7 @@ flask-caching = "^2.0.1"
 flask-sqlalchemy = "^2.5.1"
 rich = "^12.5.1"
 sqlalchemy = "^1.4.40"
-titlecase = "^2.3"
+titlecase = "^2.4"
 
 [tool.poetry.dev-dependencies]
 commitizen = "^2.31.0"
