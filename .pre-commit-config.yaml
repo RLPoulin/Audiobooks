@@ -56,6 +56,8 @@ repos:
       - id: fix-byte-order-marker
       - id: mixed-line-ending
         args: [--fix=auto]
+      - id: name-tests-test
+        args: [--pytest-test-first]
       - id: pretty-format-json
         args: [--autofix, --indent=2, --no-ensure-ascii]
       - id: trailing-whitespace
