@@ -66,4 +66,8 @@ repos:
     rev: v2.32.2
     hooks:
       - id: commitizen
+        name: check the commit message with Commitizen
         stages: [commit-msg]
+      - id: commitizen-branch
+        name: check the commit messages of the branch with Commitizen
+        stages: [push]
