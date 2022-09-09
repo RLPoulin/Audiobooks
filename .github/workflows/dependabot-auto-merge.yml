@@ -19,9 +19,22 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: Print dependabot metadata
+        id: print-dependabot-metadata
+        run: |
+          echo "user: ${{ github.event.pull_request.user.login }}"
+          echo "ecosystem: $ECOSYSTEM"
+          echo "type: $UPDATE_TYPE"
+        env:
+          UPDATE_TYPE: ${{ steps.dependabot-metadata.outputs.update-type }}
+          ECOSYSTEM: ${{ steps.dependabot-metadata.outputs.package-ecosystem }}
+
       - name: Enable auto-merge for Dependabot PRs
-        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        id: dependabot-enable-merge
+        if: $ECOSYSTEM == 'github-actions' || $UPDATE_TYPE == 'version-update:semver-minor' || $UPDATE_TYPE == 'version-update:semver-patch'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_TYPE: ${{ steps.dependabot-metadata.outputs.update-type }}
+          ECOSYSTEM: ${{ steps.dependabot-metadata.outputs.package-ecosystem }}
