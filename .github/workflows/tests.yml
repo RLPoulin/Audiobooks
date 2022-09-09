@@ -6,59 +6,31 @@ on: pull_request
 jobs:
   tests-linux:
     name: "Test Python ${{ matrix.python-version }} on Ubuntu"
-    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
-    runs-on: ubuntu-latest
+    if: github.actor != 'pre-commit-ci[bot]'
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: ["3.9", "3.10"]
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
 
       - name: Set Up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Python version
-        run: python --version
+          cache: poetry
 
       - name: Setup poetry
         run: |
-          pipx install poetry
-          poetry env use ${{ matrix.python-version }}
           poetry install
-
-      - name: Run tests
-        run: poetry run pytest
-
-  tests-windows:
-    name: "Test Python ${{ matrix.python-version }} on Windows"
-    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10"]
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Python version
-        run: python --version
-
-      - name: Setup poetry
-        run: |
-          pipx install poetry
-          poetry install
+          poetry env info
 
       - name: Run tests
         run: poetry run pytest
