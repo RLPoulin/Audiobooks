@@ -4,8 +4,8 @@ name: Tests
 on: pull_request
 
 jobs:
-  tests-linux:
-    name: "Tests Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+  tests:
+    name: "Tests with Python ${{ matrix.python-version }} on ${{ matrix.os }}"
     if: github.actor != 'pre-commit-ci[bot]'
     runs-on: ${{ matrix.os }}
 
