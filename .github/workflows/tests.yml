@@ -5,7 +5,7 @@ on: pull_request
 
 jobs:
   tests-linux:
-    name: "Test Python ${{ matrix.python-version }} on Ubuntu"
+    name: "Tests Python ${{ matrix.python-version }} on {{ matrix.os }}"
     if: github.actor != 'pre-commit-ci[bot]'
     runs-on: ${{ matrix.os }}
 
@@ -28,9 +28,10 @@ jobs:
           cache: poetry
 
       - name: Setup poetry
-        run: |
-          poetry install
-          poetry env info
+        run: poetry install --no-interaction
+
+      - name: Show poetry environment information
+        run: poetry env info
 
       - name: Run tests
         run: poetry run pytest
