@@ -4,61 +4,45 @@ name: Tests
 on: pull_request
 
 jobs:
-  tests-linux:
-    name: "Test Python ${{ matrix.python-version }} on Ubuntu"
-    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
-    runs-on: ubuntu-latest
+  tests:
+    name: "Tests with Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+    if: github.actor != 'pre-commit-ci[bot]'
+    runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: ["3.9", "3.10"]
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set Up Python ${{ matrix.python-version }}
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: false
+          installer-parallel: true
+
+      - name: Setup python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Python version
-        run: python --version
-
-      - name: Setup poetry
-        run: |
-          pipx install poetry
-          poetry env use ${{ matrix.python-version }}
-          poetry install
-
-      - name: Run tests
-        run: poetry run pytest
-
-  tests-windows:
-    name: "Test Python ${{ matrix.python-version }} on Windows"
-    if: ${{ github.actor != 'pre-commit-ci[bot]' }}
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10"]
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Python version
-        run: python --version
+          architecture: "x64"
+          cache: poetry
 
       - name: Setup poetry
-        run: |
-          pipx install poetry
-          poetry install
+        run: poetry install --no-interaction
+
+      - name: Show poetry environment information
+        run: poetry env info
 
       - name: Run tests
         run: poetry run pytest
