@@ -1,9 +1,7 @@
+# Run tests on supported python versions on Ubuntu and Windows.
+
 name: Tests
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
+on: pull_request
 
 jobs:
   tests-linux:
