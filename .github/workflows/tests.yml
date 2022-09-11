@@ -1,7 +1,7 @@
 # Run tests on supported python versions on Ubuntu and Windows.
 
 name: Tests
-on: pull_request
+on: push
 
 jobs:
   tests:
