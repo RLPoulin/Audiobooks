@@ -2,7 +2,7 @@
 # https://codeql.github.com/docs/codeql-overview/
 
 name: CodeQL
-on: [push, pull_request]
+on: push
 permissions:
   actions: read
   contents: read
