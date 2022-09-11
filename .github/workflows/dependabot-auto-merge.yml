@@ -19,13 +19,6 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Print dependabot metadata
-        id: print-dependabot-metadata
-        run: |
-          echo "user: ${{ github.event.pull_request.user.login }}"
-          echo "ecosystem: ${{ steps.dependabot-metadata.outputs.package-ecosystem }}"
-          echo "type: ${{ steps.dependabot-metadata.outputs.update-type }}"
-
       - name: Enable auto-merge for Dependabot PRs
         id: dependabot-enable-merge
         if: |
