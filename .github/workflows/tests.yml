@@ -1,12 +1,17 @@
 # Run tests on supported python versions on Ubuntu and Windows.
 
 name: Tests
-on: push
+on:
+  push:
+    paths:
+      - ".github/workflows/tests.yml"
+      - "audiobooks/**"
+      - "tests/**"
+      - "poetry.lock"
 
 jobs:
   tests:
     name: "Tests with Python ${{ matrix.python-version }} on ${{ matrix.os }}"
-    if: github.actor != 'pre-commit-ci[bot]'
     runs-on: ${{ matrix.os }}
 
     strategy:

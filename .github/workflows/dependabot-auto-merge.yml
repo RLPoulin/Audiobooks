@@ -10,7 +10,7 @@ permissions:
 jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    if: github.actor  == 'dependabot[bot]'
 
     steps:
       - name: Dependabot metadata
@@ -22,9 +22,9 @@ jobs:
       - name: Enable auto-merge for Dependabot PRs
         id: dependabot-enable-merge
         if: |
-          ${{ steps.dependabot-metadata.outputs.package-ecosystem }} == 'github-actions' ||
-          ${{ steps.dependabot-metadata.outputs.update-type }} == 'version-update:semver-minor' ||
-          ${{ steps.dependabot-metadata.outputs.update-type }} == 'version-update:semver-patch'
+          steps.dependabot-metadata.outputs.package-ecosystem }} == 'github-actions' ||
+          steps.dependabot-metadata.outputs.update-type }} == 'version-update:semver-minor' ||
+          steps.dependabot-metadata.outputs.update-type }} == 'version-update:semver-patch'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
