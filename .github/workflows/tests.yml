@@ -7,6 +7,11 @@ on:
       - "audiobooks/**"
       - "tests/**"
       - "poetry.lock"
+  pull_request:
+    paths:
+      - "audiobooks/**"
+      - "tests/**"
+      - "poetry.lock"
 
 jobs:
   tests:

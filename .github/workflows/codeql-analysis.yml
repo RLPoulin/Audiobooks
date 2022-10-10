@@ -8,6 +8,12 @@ on:
       - "audiobooks/**"
       - "tests/**"
       - "poetry.lock"
+  pull_request:
+    paths:
+      - "audiobooks/**"
+      - "tests/**"
+      - "poetry.lock"
+
 permissions:
   actions: read
   contents: read
