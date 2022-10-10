@@ -3,11 +3,12 @@
 
 name: CodeQL
 on:
-  push:
+  pull_request:
     paths:
       - "audiobooks/**"
       - "tests/**"
       - "poetry.lock"
+
 permissions:
   actions: read
   contents: read
@@ -20,7 +21,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ./.github/workflows/setup-poetry.yml
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup-poetry
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2

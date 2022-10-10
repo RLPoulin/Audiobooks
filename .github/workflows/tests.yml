@@ -2,7 +2,7 @@
 
 name: Tests
 on:
-  push:
+  pull_request:
     paths:
       - "audiobooks/**"
       - "tests/**"
@@ -25,10 +25,12 @@ jobs:
             os: macos-latest
 
     steps:
-      - uses: ./.github/workflows/setup-poetry.yml
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup-poetry
         with:
           python-version: ${{ matrix.python-version }}
-          os: ${{ matrix.os }}
 
       - name: Run tests
         run: poetry run pytest
