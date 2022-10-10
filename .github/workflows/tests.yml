@@ -24,34 +24,11 @@ jobs:
           - python-version: "3.10"
             os: macos-latest
 
-    defaults:
-      run:
-        shell: bash
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: latest
-          virtualenvs-create: true
-          virtualenvs-in-project: false
-          installer-parallel: true
-
-      - name: Setup python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - uses: ./.github/workflows/setup-poetry.yml
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: "x64"
-          cache: poetry
-
-      - name: Setup poetry
-        run: poetry install --no-interaction
-
-      - name: Show poetry environment information
-        run: poetry env info
+          os: ${{ matrix.os }}
 
       - name: Run tests
         run: poetry run pytest
