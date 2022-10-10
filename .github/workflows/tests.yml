@@ -4,7 +4,6 @@ name: Tests
 on:
   push:
     paths:
-      - ".github/workflows/tests.yml"
       - "audiobooks/**"
       - "tests/**"
       - "poetry.lock"

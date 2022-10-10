@@ -2,7 +2,12 @@
 # https://codeql.github.com/docs/codeql-overview/
 
 name: CodeQL
-on: push
+on:
+  push:
+    paths:
+      - "audiobooks/**"
+      - "tests/**"
+      - "poetry.lock"
 permissions:
   actions: read
   contents: read
@@ -10,8 +15,8 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze
-    if: github.actor != 'pre-commit-ci[bot]'
+    name: CodeQL Analysis
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
 
     strategy:
