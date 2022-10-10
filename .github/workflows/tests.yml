@@ -25,6 +25,9 @@ jobs:
             os: macos-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - uses: ./.github/workflows/setup-poetry.yml
         with:
           python-version: ${{ matrix.python-version }}

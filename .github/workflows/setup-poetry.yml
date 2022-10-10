@@ -22,9 +22,6 @@ jobs:
         shell: bash
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Install poetry
         uses: snok/install-poetry@v1
         with:
