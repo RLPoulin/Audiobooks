@@ -2,11 +2,6 @@
 
 name: Tests
 on:
-  push:
-    paths:
-      - "audiobooks/**"
-      - "tests/**"
-      - "poetry.lock"
   pull_request:
     paths:
       - "audiobooks/**"
