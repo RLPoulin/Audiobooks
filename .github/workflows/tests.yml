@@ -1,12 +1,7 @@
 # Run tests on supported python versions on Ubuntu and Windows.
 
 name: Tests
-on:
-  pull_request:
-    paths:
-      - "audiobooks/**"
-      - "tests/**"
-      - "poetry.lock"
+on: push
 
 jobs:
   tests:
