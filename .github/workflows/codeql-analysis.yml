@@ -4,10 +4,7 @@
 name: CodeQL
 on:
   push:
-    branches-ignore:
-      - "dependabot/**"
     paths:
-      - ".github/workflows/codeql-analysis.yml"
       - "audiobooks/**"
       - "tests/**"
       - "poetry.lock"
@@ -19,7 +16,7 @@ permissions:
 jobs:
   analyze:
     name: CodeQL Analysis
-    if: github.actor != 'pre-commit-ci[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
 
     strategy:
