@@ -2,12 +2,7 @@
 # https://codeql.github.com/docs/codeql-overview/
 
 name: CodeQL
-on:
-  pull_request:
-    paths:
-      - "audiobooks/**"
-      - "tests/**"
-      - "poetry.lock"
+on: push
 
 permissions:
   actions: read
