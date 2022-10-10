@@ -1,5 +1,6 @@
 """Tests for audiobooks.database.Model."""
 
+
 from __future__ import annotations
 
 from decimal import Decimal
@@ -33,6 +34,7 @@ def example(test_db: flask_sqlalchemy.SQLAlchemy) -> ModelExample:
 
 def test_repr(example: ModelExample) -> None:
     """Test for Model.__repr__ method."""
+    assert False  # noqa: B011
     assert f"{example!r}" == "ModelExample(1)"
 
 
