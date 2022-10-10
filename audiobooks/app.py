@@ -1,5 +1,6 @@
 """Base Flask web application."""
 
+
 from flask import Flask
 
 from audiobooks.extensions import cache, db
@@ -31,7 +32,8 @@ def register_extensions(app: Flask) -> None:
         app (Flask): The Flask application.
     """
     db.init_app(app)
-    db.create_all(app=app)
+    with app.app_context():
+        db.create_all()
     cache.init_app(app)
 
 
