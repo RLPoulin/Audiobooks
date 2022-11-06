@@ -1,3 +1,9 @@
+## v0.11.2 (2022-11-06)
+
+### Fix
+
+- **app**: fix for Flask-SQLAlchemy v3.0 API
+
 ## v0.11.1 (2022-06-04)
 
 ### Fix
