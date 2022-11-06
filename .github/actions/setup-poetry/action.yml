@@ -1,4 +1,5 @@
 # Setup python and poetry.
+# See https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages
 
 name: Setup Poetry
 description: Setup python and poetry environment.
@@ -12,18 +13,12 @@ runs:
   using: "composite"
   steps:
     - name: Install poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: latest
-        virtualenvs-create: true
-        virtualenvs-in-project: false
-        installer-parallel: true
-
-    - name: Add poetry to PATH
+      id: poetry_install
+      run: pipx install poetry
       shell: bash
-      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Setup python ${{ inputs.python-version }}
+      id: python_setup
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
@@ -31,9 +26,13 @@ runs:
         cache: poetry
 
     - name: Setup poetry
-      run: poetry install --no-interaction
-      shell: bash
-
-    - name: Show poetry environment information
-      run: poetry env info
+      id: poetry_setup
+      run: |
+        # Setup poetry
+        poetry install --no-interaction
+        echo "::group::Poetry environment information"
+        poetry env info
+        echo "::endgroup::"
+        echo "### Poetry Environment" >> $GITHUB_STEP_SUMMARY
+        poetry env info >> $GITHUB_STEP_SUMMARY
       shell: bash
