@@ -12,11 +12,18 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # Setup Poetry
     - name: Install poetry
       id: poetry_install
-      run: pipx install poetry
+      run: |
+        echo "::group::Install Poetry"
+        pipx install poetry
+        echo "::endgroup::"
       shell: bash
 
+    # Setup Python
+    - run: echo "::group::Setup Python"
+      shell: bash
     - name: Setup python ${{ inputs.python-version }}
       id: python_setup
       uses: actions/setup-python@v4
@@ -24,15 +31,24 @@ runs:
         python-version: ${{ inputs.python-version }}
         architecture: "x64"
         cache: poetry
+    - run: echo "::endgroup::"
+      shell: bash
 
+    # Setup Poetry
     - name: Setup poetry
       id: poetry_setup
       run: |
-        # Setup poetry
+        echo "::group::Setup Poetry Environment"
+        echo "::group::Update pip and setuptools"
+        poetry run python -m pip install -U pip setuptools
+        echo "::endgroup::"
+        echo "::group::Install poetry environment"
         poetry install --no-interaction
+        echo "::endgroup::"
         echo "::group::Poetry environment information"
         poetry env info
         echo "::endgroup::"
         echo "### Poetry Environment" >> $GITHUB_STEP_SUMMARY
         poetry env info >> $GITHUB_STEP_SUMMARY
+        echo "::endgroup::"
       shell: bash
