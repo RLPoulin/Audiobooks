@@ -13,7 +13,7 @@ audiobooks = "audiobooks.__main__:main"
 [tool.poetry.dependencies]
 python = "^3.10.0"
 environs = "^9.5.0"
-flask = "^2.3.1"
+flask = "^2.3.2"
 flask-caching = "^2.0.2"
 flask-sqlalchemy = "^3.0.3"
 rich = "^13.3.5"
