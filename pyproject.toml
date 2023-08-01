@@ -21,7 +21,7 @@ sqlalchemy = "^2.0.19"
 titlecase = "^2.4"
 
 [tool.poetry.dev-dependencies]
-commitizen = "^3.5.4"
+commitizen = "^3.6.0"
 pre-commit = "^3.3.3"
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
