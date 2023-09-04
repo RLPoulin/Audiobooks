@@ -23,7 +23,7 @@ titlecase = "^2.4"
 [tool.poetry.dev-dependencies]
 commitizen = "^3.7.0"
 pre-commit = "^3.3.3"
-pytest = "^7.4.0"
+pytest = "^7.4.1"
 pytest-cov = "^4.1.0"
 pytest-flask = "^1.2.0"
 pytest-flask-sqlalchemy = "^1.1.0"
