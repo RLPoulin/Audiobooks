@@ -23,7 +23,7 @@ class ModelExample(Model):
         self.number = number
 
 
-@pytest.fixture
+@pytest.fixture()
 def example(test_db: flask_sqlalchemy.SQLAlchemy) -> ModelExample:
     """Generate a test example."""
     new_example = ModelExample.create(name="name")
