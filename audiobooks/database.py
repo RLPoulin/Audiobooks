@@ -107,8 +107,7 @@ class Model(db.Model):
         record_dict: dict[str, SimpleType | list[SimpleType]] = {
             "model": type(self).__name__,
             "record_id": self.record_id,
-        }
-        record_dict |= {d: _simplify_description(getattr(self, d)) for d in descriptors}
+        } | {d: _simplify_description(getattr(self, d)) for d in descriptors}
         return record_dict
 
 
