@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date
 from decimal import Decimal
 from enum import Enum
-from typing import TypeVar
+from typing import Any, TypeVar
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -25,11 +25,12 @@ class LibraryModel(Model):
     _name = db.Column("name", db.String, unique=True, nullable=False)
     date_added = db.Column(db.Date, default=date.today)
 
-    def __init__(self, name: str, **kwargs) -> None:
+    def __init__(self, name: str, **kwargs: dict[str, Any]) -> None:
         """Initialize a model record for an item in the library.
 
         Args:
             name (str): The name of the item.
+            kwargs (Any): Additional arguments to be passed to the parent Model.
         """
         super().__init__(**kwargs)
         self.name = name

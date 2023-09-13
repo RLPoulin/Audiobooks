@@ -1,12 +1,11 @@
 """Base database module."""
 
-
 from __future__ import annotations
 
 from collections.abc import Collection
 from datetime import date
 from decimal import Decimal
-from typing import Any, TypeVar, Union, get_args
+from typing import Any, TypeVar, get_args
 
 import sqlalchemy.types
 
@@ -14,9 +13,9 @@ from audiobooks.extensions import db
 
 
 ModelType = TypeVar("ModelType", bound="Model")
-SimpleType = Union[int, str, None]
+SimpleType = int | str | None
 
-SupportDecimal = Union[Decimal, int, float, str]
+SupportDecimal = Decimal | int | float | str
 
 
 class Model(db.Model):
@@ -108,8 +107,7 @@ class Model(db.Model):
         record_dict: dict[str, SimpleType | list[SimpleType]] = {
             "model": type(self).__name__,
             "record_id": self.record_id,
-        }
-        record_dict |= {d: _simplify_description(getattr(self, d)) for d in descriptors}
+        } | {d: _simplify_description(getattr(self, d)) for d in descriptors}
         return record_dict
 
 

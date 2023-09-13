@@ -1,4 +1,5 @@
 """Tests for audiobooks.library.models."""
+
 from decimal import Decimal
 
 import flask_sqlalchemy
@@ -7,7 +8,7 @@ import pytest
 from audiobooks.library.models import Author, Book, date, get_library_item
 
 
-@pytest.fixture
+@pytest.fixture()
 def author(test_db: flask_sqlalchemy.SQLAlchemy) -> Author:
     """Generate an Author example."""
     new_author = Author.create(name="Alice Bob")
@@ -15,7 +16,7 @@ def author(test_db: flask_sqlalchemy.SQLAlchemy) -> Author:
     return new_author
 
 
-@pytest.fixture
+@pytest.fixture()
 def book(test_db: flask_sqlalchemy.SQLAlchemy) -> Book:
     """Generate an Author example."""
     new_book = Book.create(name="Example", author="Alice Bob")

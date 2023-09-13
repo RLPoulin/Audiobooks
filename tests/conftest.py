@@ -23,7 +23,7 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///:memory:"
 
 
-@pytest.fixture
+@pytest.fixture()
 def app() -> flask.Flask:
     """Create an application for the tests."""
     test_app: flask.Flask = create_app("tests.conftest.TestConfig")
@@ -35,7 +35,7 @@ def app() -> flask.Flask:
     test_context.pop()
 
 
-@pytest.fixture
+@pytest.fixture()
 def test_db(app: flask.Flask) -> flask_sqlalchemy.SQLAlchemy:
     """Create a database for the tests."""
     db.app = app

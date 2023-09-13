@@ -1,6 +1,5 @@
 """Base Flask web application."""
 
-
 from flask import Flask
 
 from audiobooks.extensions import cache, db

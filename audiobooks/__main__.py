@@ -10,7 +10,7 @@ from audiobooks.configuration import LOG_LEVEL
 
 logging.basicConfig(
     level=LOG_LEVEL,
-    format="%(name)s – %(message)s",
+    format="%(name)s - %(message)s",
     datefmt="%H:%M:%S",
     handlers=[rich.logging.RichHandler()],
 )
