@@ -29,7 +29,7 @@ repos:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.289
+    rev: v0.0.291
     hooks:
       - id: ruff
         args: [--fix]
@@ -39,7 +39,7 @@ repos:
       - id: black
         name: format python code with Black
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: 3.8.2
+    rev: 3.10.0
     hooks:
       - id: commitizen
         name: check the commit message with Commitizen
