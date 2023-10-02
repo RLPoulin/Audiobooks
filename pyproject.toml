@@ -21,9 +21,17 @@ rich = "^13.6.0"
 sqlalchemy = "^2.0.21"
 titlecase = "^2.4"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
 commitizen = "^3.10.0"
 pre-commit = "^3.4.0"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
 pytest-cov = "^4.1.0"
 pytest-flask = "^1.2.0"
