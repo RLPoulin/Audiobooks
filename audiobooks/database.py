@@ -148,6 +148,4 @@ def _simplify_description(
 def _simplify_value(value: Any) -> SimpleType:  # noqa: ANN401
     if isinstance(value, get_args(SimpleType)):
         return value
-    if isinstance(value, date):
-        return value.isoformat()
-    return str(value)
+    return value.isoformat() if isinstance(value, date) else str(value)
