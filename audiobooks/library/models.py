@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date
 from decimal import Decimal
 from enum import Enum
-from typing import Any, TypeVar
+from typing import Any, Self
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -13,9 +13,6 @@ from audiobooks.database import Model, SqliteDecimal
 from audiobooks.extensions import db
 
 from .utils import clean_name
-
-
-LibraryModelType = TypeVar("LibraryModelType", bound="LibraryModel")
 
 
 class LibraryModel(Model):
@@ -44,28 +41,26 @@ class LibraryModel(Model):
         return f"{type(self).__name__}('{self.name}')"
 
     @classmethod
-    def get_by_name(cls: type[LibraryModelType], name: str) -> LibraryModelType | None:
+    def get_by_name(cls: type[Self], name: str) -> Self | None:
         """Get a record by name.
 
         Args:
             name (str): The name of the record.
 
         Returns:
-            LibraryModelType | None: The record or None if not found.
+            LibraryModel | None: The record or None if not found.
         """
         return cls.query.filter_by(name=clean_name(name)).first()
 
     @classmethod
-    def get(
-        cls: type[LibraryModelType], record: LibraryModelType | str | int
-    ) -> LibraryModelType | None:
+    def get(cls: type[Self], record: Self | str | int) -> Self | None:
         """Get a record by itself, name, or id.
 
         Args:
-            record (LibraryModelType | str | int): The record, its name, or id.
+            record (LibraryModel | str | int): The record, its name, or id.
 
         Returns:
-            LibraryModelType | None: The record or None if not found.
+            LibraryModel | None: The record or None if not found.
         """
         return (
             cls.get_by_name(record) if isinstance(record, str) else super().get(record)
@@ -76,10 +71,10 @@ class LibraryModel(Model):
         """Return the name property."""
         return self._name
 
-    @name.setter
-    def name(self, new_name: str) -> None:
+    @name.inplace.setter
+    def _name_setter(self, value: str) -> None:
         """Set the name property."""
-        self._name = clean_name(new_name)
+        self._name = clean_name(value)
 
 
 class Author(LibraryModel):
@@ -136,14 +131,14 @@ class Book(LibraryModel):
 
         """
         super().__init__(name=name)
-        if isinstance(release_date, str):
-            release_date = date.fromisoformat(release_date)
+        self.author = Author.get(author) if author else None
+        self.genre = Genre.get(genre) if genre else None
+        self.series = Series.get(series) if series else None
         if isinstance(series_number, str):
             series_number = Decimal(series_number)
-        self.author = Author.get(author)
-        self.genre = Genre.get(genre)
-        self.series = Series.get(series)
         self.series_number = series_number
+        if isinstance(release_date, str):
+            release_date = date.fromisoformat(release_date)
         self.release_date = release_date
 
 
@@ -156,14 +151,14 @@ class LibraryItems(Enum):
     SERIES = Series
 
 
-def get_library_item(item: str) -> LibraryModel | None:
+def get_library_item(item: str) -> type[LibraryModel] | None:
     """Gets the model class corresponding to the requested item type.
 
     Args:
         item (str): The name of the item.
 
     Returns:
-        LibrayModel: The model class.
+        type[LibrayModel]: The model class.
     """
     try:
         return LibraryItems[item.upper()].value

@@ -2,19 +2,16 @@
 
 from __future__ import annotations
 
-from collections.abc import Collection
 from datetime import date
 from decimal import Decimal
-from typing import Any, TypeVar, get_args
+from typing import Any, Self, get_args
 
 import sqlalchemy.types
 
 from audiobooks.extensions import db
 
 
-ModelType = TypeVar("ModelType", bound="Model")
 SimpleType = int | str | None
-
 SupportDecimal = Decimal | int | float | str
 
 
@@ -28,49 +25,49 @@ class Model(db.Model):
         return f"{type(self).__name__}({self.record_id})"
 
     @classmethod
-    def get_by_id(cls: type[ModelType], record_id: int | None) -> ModelType | None:
+    def get_by_id(cls: type[Self], record_id: int | None) -> Self | None:
         """Get a record by id.
 
         Args:
             record_id (int): The id of the record.
 
         Returns:
-            ModelType | None: The record or None if not found.
+            Model | None: The record or None if not found.
         """
         return cls.query.get(record_id) if record_id is not None else None
 
     @classmethod
-    def get(cls: type[ModelType], record: ModelType | int | None) -> ModelType | None:
+    def get(cls: type[Self], record: Self | int | None) -> Self | None:
         """Get a record by itself or by id.
 
         Args:
-            record (ModelType | int): The record or its id.
+            record (Model | int): The record or its id.
 
         Returns:
-            ModelType | None: The record or None if not found.
+            Model | None: The record or None if not found.
         """
         return record if isinstance(record, Model) else cls.get_by_id(record)
 
     @classmethod
-    def create(cls: type[ModelType], **kwargs) -> ModelType:
+    def create(cls: type[Self], **kwargs) -> Self:
         """Create a new record and save it to the database.
 
         Args:
             kwargs: Keyword arguments to initialize the record.
 
         Returns:
-            ModelType: The record.
+            Model: The record.
         """
         return cls(**kwargs).save()
 
-    def update(self, **kwargs) -> ModelType:
+    def update(self, **kwargs) -> Self:
         """Update the columns of the record.
 
         Args:
             kwargs: {Column: value} pairs to update.
 
         Returns:
-            ModelType: The record.
+            Model: The record.
 
         Raises:
             KeyError: The column to be updated is not in the model.
@@ -81,11 +78,11 @@ class Model(db.Model):
             setattr(self, attribute, value)
         return self.save()
 
-    def save(self) -> ModelType:
+    def save(self) -> Self:
         """Save the record to the database.
 
         Returns:
-            ModelType: The record.
+            Model: The record.
         """
         db.session.add(self)
         return self
@@ -140,11 +137,15 @@ class SqliteDecimal(sqlalchemy.types.TypeDecorator):
         return Decimal(value) / self.multiplier if value is not None else None
 
 
-def _simplify_description(value: Any) -> SimpleType | list[SimpleType]:  # noqa: ANN401
+def _simplify_description(
+    value: Any | list[Any],  # noqa: ANN401
+) -> SimpleType | list[SimpleType]:
+    if isinstance(value, list):
+        return [_simplify_value(entry) for entry in value]
+    return _simplify_value(value)
+
+
+def _simplify_value(value: Any) -> SimpleType:  # noqa: ANN401
     if isinstance(value, get_args(SimpleType)):
         return value
-    if isinstance(value, date):
-        return value.isoformat()
-    if isinstance(value, Collection):
-        return [_simplify_description(entry) for entry in value]
-    return str(value)
+    return value.isoformat() if isinstance(value, date) else str(value)
