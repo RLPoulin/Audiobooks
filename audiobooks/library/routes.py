@@ -65,7 +65,7 @@ def find_by_name(item: str) -> Response:
     model: type[LibraryModel] = get_model(item)
     name: str = request.args.get("name", type=str) or abort(404)
     record: LibraryModel = model.get_by_name(name) or abort(404)
-    return redirect(f"./{record.record_id}")
+    return make_response(redirect(f"./{record.record_id}"))
 
 
 @library_blueprint.route("/<string:item>/create")
@@ -90,7 +90,7 @@ def create_record(item: str) -> Response:
         abort(400)
     try:
         db.session.commit()
-        return redirect(f"./{record.record_id}")
+        return make_response(redirect(f"./{record.record_id}"))
     except SQLAlchemyError as exception:
         db.session.rollback()
         log.warning(f"Can't add {record}: {exception}")
@@ -138,7 +138,7 @@ def update_record(item: str, record_id: int) -> Response:
         abort(400)
     try:
         db.session.commit()
-        return redirect(f"../{record.record_id}")
+        return make_response(redirect(f"../{record.record_id}"))
     except SQLAlchemyError as exception:
         db.session.rollback()
         log.warning(f"Can't update {record}: {exception}")
