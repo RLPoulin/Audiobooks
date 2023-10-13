@@ -18,7 +18,7 @@ flask-caching = "^2.1.0"
 flask-sqlalchemy = "^3.1.1"
 greenlet = { version = "^3.0.0", allow-prereleases = true } # Temporary since 2.0 has no wheels.
 rich = "^13.6.0"
-sqlalchemy = "^2.0.21"
+sqlalchemy = "^2.0.22"
 titlecase = "^2.4"
 
 [tool.poetry.group.dev]
