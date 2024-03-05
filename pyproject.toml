@@ -13,7 +13,7 @@ audiobooks = "audiobooks.__main__:main"
 [tool.poetry.dependencies]
 python = "^3.11.5"
 environs = "^9.5.0"
-flask = "^2.3.3"
+flask = "^3.0.2"
 flask-caching = "^2.1.0"
 flask-sqlalchemy = "^3.1.1"
 greenlet = { version = "^3.0.3", allow-prereleases = true } # Temporary since 2.0 has no wheels.
