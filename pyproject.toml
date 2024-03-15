@@ -25,7 +25,7 @@ titlecase = "^2.4"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-commitizen = "^3.18.3"
+commitizen = "^3.18.4"
 pre-commit = "^3.6.2"
 
 [tool.poetry.group.test]
