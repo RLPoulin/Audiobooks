@@ -30,7 +30,7 @@ repos:
       - id: check-yaml
       - id: sort-simple-yaml
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.3
+    rev: v0.5.0
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -40,7 +40,7 @@ repos:
       - id: black
         name: format python code with Black
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.25.0
+    rev: v3.27.0
     hooks:
       - id: commitizen
         name: check the commit message with Commitizen
