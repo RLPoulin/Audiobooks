@@ -16,7 +16,7 @@ environs = "^11.0.0"
 flask = "^2.3.3"
 flask-caching = "^2.3.0"
 flask-sqlalchemy = "^3.1.1"
-greenlet = { version = "^3.1.0", allow-prereleases = true } # Temporary since 2.0 has no wheels.
+greenlet = { version = "^3.1.1", allow-prereleases = true } # Temporary since 2.0 has no wheels.
 rich = "^13.8.1"
 sqlalchemy = "^2.0.35"
 titlecase = "^2.4"
