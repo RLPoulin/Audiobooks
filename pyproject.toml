@@ -17,7 +17,7 @@ flask = "^2.3.3"
 flask-caching = "^2.3.0"
 flask-sqlalchemy = "^3.1.1"
 greenlet = { version = "^3.1.1", allow-prereleases = true } # Temporary since 2.0 has no wheels.
-rich = "^13.9.3"
+rich = "^13.9.4"
 sqlalchemy = "^2.0.36"
 titlecase = "^2.4"
 
