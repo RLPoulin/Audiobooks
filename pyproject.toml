@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Audiobooks"
-version = "0.11.2"
+version = "0.12.0"
 description = "My audiobook library program."
 authors = ["Robert Poulin <poulin.robert@gmail.com>"]
 license = "MIT"
@@ -21,13 +21,6 @@ rich = "^13.9.4"
 sqlalchemy = "^2.0.36"
 titlecase = "^2.4"
 
-[tool.poetry.group.dev]
-optional = true
-
-[tool.poetry.group.dev.dependencies]
-commitizen = "^3.31.0"
-pre-commit = "^3.8.0"
-
 [tool.poetry.group.test]
 optional = true
 
@@ -36,21 +29,6 @@ pytest = "^8.3.4"
 pytest-cov = "^5.0.0"
 pytest-flask = "^1.3.0"
 pytest-flask-sqlalchemy = "^1.1.0"
-
-
-[tool.black]
-line-length = 88
-target-version = ["py311", "py312"]
-preview = true
-
-
-[tool.commitizen]
-name = "cz_conventional_commits"
-version = "0.11.2"
-version_files = ["pyproject.toml:version", "audiobooks/__init__.py"]
-tag_format = "v$version"
-update_changelog_on_bump = true
-changelog_incremental = false
 
 
 [tool.pytest.ini_options]
@@ -63,64 +41,93 @@ usefixtures = ["app", "test_db"]
 
 
 [tool.ruff]
+indent-width = 4
+line-length = 88
+output-format = "grouped"
+required-version = "~=0.8"
+target-version = "py311"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint]
 extend-select = [
     "A",   # flake8-builtins
     "ANN", # flake8-annotations
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "C90", # mccabe
-    "D",   # pydocstyle
-    "DTZ", # flake8-datetimez
-    "FBT", # flake8-boolean-trap
-    "I",   # isort
-    "ICN", # flake8-import-conventions
-    "INT", # flake8-gettext
-    "ISC", # flake8-implicit-str-concat
-    "N",   # pep8-naming
-    "PGH", # pygrep-hooks
-    "PIE", # flake8-pie
-    "PL",  # pytlint
-    "PT",  # flake8-pytest-style
-    "RET", # flake8-return
-    "RUF", # Ruff-specific rules
-    "S",   # flake8-bandit
-    "SIM", # flake8-simplify
+    # "ARG",   # flake8-unused-arguments
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "BLE",   # flake8-blind-except
+    "C4",    # flake8-comprehensions
+    "C90",   # mccabe
+    "D",     # pydocstyle
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle
+    "ERA",   # eradicate
+    "EXE",   # flake8-executable
+    "F",     # Pyflakes
+    "FA",    # flake8-future-annotations
+    "FBT",   # flake8-boolean-trap
+    "FIX",   # flake8-fixme
+    "FLY",   # flynt
+    "FURB",  # refurb
+    # "G",     # flake8-logging-format
+    "I",    # isort
+    "ICN",  # flake8-import-conventions
+    "INP",  # flake8-no-pep420
+    "INT",  # flake8-gettext
+    "ISC",  # flake8-implicit-str-concat
+    "LOG",  # flake8-logging
+    "N",    # pep8-naming
+    "PD",   # pandas-vet
+    "PERF", # Perflint
+    "PGH",  # pygrep-hooks
+    "PIE",  # flake8-pie
+    "PL",   # Pylint
+    # "PT",    # flake8-pytest-style
+    "PTH",  # flake8-use-pathlib
+    "PYI",  # flake8-pyi
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "RSE",  # flake8-raise
+    "RUF",  # Ruff-specific rules
+    "S",    # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLF",  # flake8-self
+    "SLOT", # flake8-slots
+    "T10",  # flake8-debugger
+    "T20",  # flake8-print
+    # "TC",    # flake8-type-checking
+    "TD",  # flake8-todos
     "TID", # flake8-tidy-imports
+    # "TRY",   # tryceratops
     "UP",  # pyupgrade
+    "W",   # pycodestyle
     "YTT", # flake8-2020
-    "W",   # pycodestyle warnings
 ]
-ignore = [
-    "ANN101", # Missing type annotation for self in method
+extend-ignore = [
     "ANN003", # Missing type annotation for **kwargs
     "D105",   # Missing docstring in magic method
+    "ISC001", # single-line-implicit-string-concatenation (for formatter)
 ]
 fixable = ["ALL"]
-line-length = 88
-output-format = "text"
-target-version = "py311"
+unfixable = []
 
-[tool.ruff.per-file-ignores]
-"tests/*" = ["S101", "F811", "PLR2004"]
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/**" = ["S101", "F811", "PLR2004"]
+"tests/conftest.py" = ["S105"]
 
-[tool.ruff.flake8-annotations]
-allow-star-arg-any = true
-suppress-dummy-args = true
-
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 lines-after-imports = 2
 relative-imports-order = "closest-to-furthest"
 
-[tool.ruff.mccabe]
-max-complexity = 10
-
-[tool.ruff.pycodestyle]
-ignore-overlong-task-comments = true
-
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.pylint]
+[tool.ruff.lint.pylint]
 max-args = 8
 
 
