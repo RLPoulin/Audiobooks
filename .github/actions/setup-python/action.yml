@@ -28,3 +28,4 @@ runs:
 
     - name: Sync uv environment
       run: uv sync --dev --no-editable --frozen
+      shell: bash
