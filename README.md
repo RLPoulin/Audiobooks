@@ -26,14 +26,13 @@ databases, and project management.
 
 #### frameworks
 
-- [Python 3.10](https://www.python.org/)
 - [SQLAlchemy](http://www.sqlalchemy.org)
 - [Flask](https://flask.palletsprojects.com/)
 - [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
 
 #### development tools
 
-- [Poetry](https://python-poetry.org/)
 - [GitHub](https://github.com/)
-- [Commitizen](https://github.com/commitizen-tools/commitizen)
+- [uv](https://github.com/astral-sh/uv)
+- [ruff](https://github.com/astral-sh/ruff)
 - [pre-commit](https://pre-commit.com/)
