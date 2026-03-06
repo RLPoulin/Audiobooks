@@ -50,7 +50,8 @@ class LibraryModel(Model):
         Returns:
             LibraryModel | None: The record or None if not found.
         """
-        return cls.query.filter_by(name=clean_name(name)).first()
+        query = db.select(cls).filter_by(name=clean_name(name))
+        return db.session.execute(query).scalar_one_or_none()
 
     @classmethod
     def get(cls: type[Self], record: Self | str | int) -> Self | None:
