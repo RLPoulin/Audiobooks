@@ -34,7 +34,7 @@ class Model(db.Model):
         Returns:
             Model | None: The record or None if not found.
         """
-        return cls.query.get(record_id) if record_id is not None else None
+        return db.session.get(cls, record_id) if record_id is not None else None
 
     @classmethod
     def get(cls: type[Self], record: Self | int | None) -> Self | None:

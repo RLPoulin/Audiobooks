@@ -23,7 +23,7 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///:memory:"
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def app() -> flask.Flask:  # type: ignore[reportGeneralTypeIssue]
     """Create an application for the tests."""
     test_app: flask.Flask = create_app("tests.conftest.TestConfig")
