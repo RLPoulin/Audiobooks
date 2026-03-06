@@ -1,0 +1,43 @@
+# Auto-merge dependabot updates.
+# See: https://github.com/dependabot/fetch-metadata#enabling-auto-merge
+
+name: CI Bot Auto-Merge
+on: pull_request_target
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot-auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login  == 'dependabot[bot]'
+
+    steps:
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2.5.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Enable auto-merge for Dependabot PRs
+        id: dependabot-enable-merge
+        if: |
+          ${{
+            steps.dependabot-metadata.outputs.package-ecosystem == 'github-actions' ||
+            steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' ||
+            steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'
+          }}
+        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pre-commit-auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login  == 'pre-commit-ci[bot]'
+
+    steps:
+      - name: Enable auto-merge for Pre-Commit PRs
+        id: pre-commit-enable-merge
+        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
