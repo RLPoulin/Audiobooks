@@ -12,7 +12,7 @@ supported-markers = [
 
 [[package]]
 name = "audiobooks"
-version = "0.13.0.dev1"
+version = "0.13.0"
 source = { editable = "." }
 dependencies = [
     { name = "environs", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },

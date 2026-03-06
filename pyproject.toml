@@ -1,6 +1,6 @@
 [project]
 name = "Audiobooks"
-version = "0.13.0.dev1"
+version = "0.13.0"
 description = "My audiobook library program."
 authors = [{ name = "Robert Poulin", email = "poulin.robert@gmail.com" }]
 license = { file = "LICENSE" }
