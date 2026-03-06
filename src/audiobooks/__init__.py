@@ -1,3 +1,6 @@
 """My audiobook library program."""
 
-__version__ = "v0.11.2"
+from importlib.metadata import version
+
+
+__version__ = version("audiobooks")
