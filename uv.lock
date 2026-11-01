@@ -153,15 +153,15 @@ wheels = [
 
 [[package]]
 name = "environs"
-version = "14.6.0"
+version = "15.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "marshmallow" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fb/c7/94f97e6e74482a50b5fc798856b6cc06e8d072ab05a0b74cb5d87bd0d065/environs-14.6.0.tar.gz", hash = "sha256:ed2767588deb503209ffe4dd9bb2b39311c2e4e7e27ce2c64bf62ca83328d068", size = 35563, upload-time = "2026-02-20T04:02:08.869Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/1d/eaf85ea68976560b74eb2449baf43b5ec020db4960e56b1143b83703524f/environs-15.2.0.tar.gz", hash = "sha256:1bfc0d32b43692f28a6e294ad2b69903d43a214672ebcf3124a66d66b52b2418", size = 36816, upload-time = "2026-08-29T19:38:57.49Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/a8/c070e1340636acb38d4e6a7e45c46d168a462b48b9b3257e14ca0e5af79b/environs-14.6.0-py3-none-any.whl", hash = "sha256:f8fb3d6c6a55872b0c6db077a28f5a8c7b8984b7c32029613d44cef95cfc0812", size = 17205, upload-time = "2026-02-20T04:02:07.299Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/0e/47b55c623e8062fc64c16306ed7fde823e992452953a395220d209b7a208/environs-15.2.0-py3-none-any.whl", hash = "sha256:3e460fda6b3c29ebf9add476f55f4977018d00071cac1a62f4399e35b8d28c7a", size = 17393, upload-time = "2026-08-29T19:38:56.39Z" },
 ]
 
 [[package]]
